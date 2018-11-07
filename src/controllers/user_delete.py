@@ -7,8 +7,7 @@ from sqlalchemy.exc import SQLAlchemyError
 def user_delete(id: str) -> str:
     """
     Deletes user
-    :param id: user id
-    :return: deleted user id
+    returns deleted user id
     """
     user_to_delete = db.session.query(models.User).filter(models.User.id == id)
     if user_to_delete.count():

@@ -7,9 +7,7 @@ from sqlalchemy.exc import SQLAlchemyError
 def user_create(name: str, email: str) -> int:
     """
     Creates user
-    :param name: user name
-    :param email: user email
-    :return: new user id
+    returns new user id
     """
     #todo: check uniq name, email?
     try:

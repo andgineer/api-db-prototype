@@ -8,9 +8,7 @@ import json
 
 def user_list() -> str:
     """
-    Deletes user
-    :param id: user id
-    :return: deleted user id
+    Users list
     """
     users = db.session.query(models.User)
     return json.dumps([(row.as_dict()) for row in users])
