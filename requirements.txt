@@ -1,0 +1,7 @@
+flask
+flask-transmute
+SQLAlchemy
+alembic
+hypothesis
+pytest
+catt>=0.9.1
