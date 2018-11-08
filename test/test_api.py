@@ -1,30 +1,59 @@
-import os
-import os.path
-import tempfile
-from flask import json
-import pytest
-from src.create_app import app
+from flask import json, url_for
+import models
 from db import db
 
 
-@pytest.fixture
-def api_client():
-    db_file_object, db_file_name = tempfile.mkstemp()
-    db.file_name = 'test.sqlite'  # db_file_name
-    db.open()
-
-    #app.config['TESTING'] = True
-    client = app.test_client()
-
-    yield client
-
-    os.close(db_file_object)
-    #os.unlink(app.config['DATABASE'])
-
-
-def test_api(api_client):
-    with api_client as c:
-        resp = c.get('/users')
+def test_empty_user_list(empty_db, api_client):
+    """
+    Empty db returns empty user list
+    """
+    with api_client as client:
+        resp = client.get('/users')
         data = json.loads(resp.data)
         assert data['success']
         assert data['result'] == []
+
+
+def test_user_list(empty_db, api_client, users):
+    """
+    Creates users and check API request user list
+    """
+    for user_dict in users:
+        user = models.User(**user_dict)
+        db.session.add(user)
+
+    with api_client as client:
+        resp = client.get('/users')
+        data = json.loads(resp.data)
+        assert data['success']
+        assert len(data['result']) == len(users)
+        user_dict = {user['name']: {'email': user['email']} for user in data['result']}
+        for user in users:
+            assert user['name'] in user_dict
+            assert user_dict[user['name']]['email'] == user['email']
+
+
+def test_user_crud(empty_db, api_client, user):
+    """
+    Create user, get user list, delete user.
+    """
+    with api_client as client:
+        resp = client.post('/users', data=json.dumps(user), content_type='application/json')
+        data = json.loads(resp.data)
+        assert data['success'], f'Create user request fail: {data["result"]}'
+        new_user_id = data['result']['id']
+
+        resp = client.get('/users')
+        data = json.loads(resp.data)
+        assert data['success'], f'Get user list request fail: {data["result"]}'
+        assert len(data['result']) == 1
+        assert data['result'][0]['name'] == user['name']
+
+        resp = client.delete(f'/users?id={new_user_id}')
+        data = json.loads(resp.data)
+        assert data['success'], f'Delete user request fail: {data["result"]}'
+
+        resp = client.get('/users')
+        data = json.loads(resp.data)
+        assert data['success'], f'Get user list request fail: {data["result"]}'
+        assert len(data['result']) == 0

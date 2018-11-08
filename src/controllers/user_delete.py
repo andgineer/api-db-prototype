@@ -17,11 +17,11 @@ def user_delete(id: str):
             db.session.delete(user_to_delete.first())
             db.session.commit()
             return {
-                'result': {'id': id},
+                'result': None,
                 'success': True
             }
         except SQLAlchemyError as e:
             db.session.rollback()
-            abort(400, f'{e}')
+            APIException(f'{e}', code=404)  # no pretty to send thru api internal exceptions.. just to speed up development
     else:
         raise APIException(f'No user with id={id}', code=404)

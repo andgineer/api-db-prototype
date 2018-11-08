@@ -2,6 +2,7 @@ from sqlalchemy import Column, DateTime, String, Integer, ForeignKey, func
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
+from db import db
 
 
 Base = declarative_base()
@@ -12,6 +13,11 @@ class Project(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(80), unique=True, nullable=False)
     created = Column(DateTime, default=func.now())
+    users = relationship(
+        'User',
+        secondary='project_user_link',
+        backref=backref('project_user_link_backref', lazy='dynamic')
+    )
 
     def __repr__(self):
         return f'name: {self.name}, id: {self.id}'
@@ -24,8 +30,9 @@ class User(Base):
     email = Column(String(120), unique=True, nullable=False)
     created = Column(DateTime, default=func.now())
     projects = relationship(
-        Project,
-        secondary='project_user_link'
+        'Project',
+        secondary='project_user_link',
+        backref=backref('project_user_link_backref', lazy='dynamic')
     )
 
     def as_dict(self):

@@ -1,5 +1,8 @@
-from create_app import app
+from api import app
 from db import db
+from config import ConfigDev
 
-db.open()
-app.run()
+
+config=ConfigDev()
+db.connect(config)
+app.run(port=config.port)
