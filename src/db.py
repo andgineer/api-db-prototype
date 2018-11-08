@@ -1,19 +1,28 @@
-import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 import models
 
 
-db_name = '../test.sqlite'
-engine_connection_string = 'sqlite:///' + db_name
+class DB():
+    file_name = '../test.sqlite'
+    driver_name = 'sqlite:///'
+    user = None
+    password = None
 
-engine = create_engine(engine_connection_string)
+    def open(self):
+        user_str = f'{user}:{password}@' if self.user else ''
+        self.uri = f'{self.driver_name}{user_str}{self.file_name}'
+        self.engine = create_engine(self.uri)
+        self.session = sessionmaker(bind=self.engine)()
+        models.Base.metadata.bind = self.engine
+        self.create_meta()
 
-session = sessionmaker(bind=engine)()
-#session.configure(bind=engine)
+    def create_meta(self):
+        models.Base.metadata.create_all(self.engine)
+        self.session.commit()
 
-models.Base.metadata.bind = engine
 
+db = DB()
 
 # app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////test.sqlite'

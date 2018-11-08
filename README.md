@@ -5,6 +5,7 @@
 * [alembic](https://pypi.org/project/alembic/) for DB metadata versioning
 * flask
 * [flask-login](https://flask-login.readthedocs.io/en/latest/)
+* [jwt](https://realpython.com/token-based-authentication-with-flask/)
 
 To create objects in empty DB use `create_db.sh`.
 The DB conect string is in `src/db.py`.
