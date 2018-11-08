@@ -5,29 +5,26 @@ from db import db
 def test_db(empty_db, users, projects):
     projects_objects = []
     for project_dict in projects:
-        projects_objects.append(models.Project(**project_dict))
-        db.session.add(projects_objects[-1])
+        project = models.Project(**project_dict)
+        projects_objects.append(project)
+        db.session.add(project)
 
-    cathy = models.User(name='Cathy', email='cathy@')
-    marry = models.User(name='Marry', email='marry@')
-    john = models.User(name='John', email='john@')
-    db.session.add(cathy)
-    db.session.add(marry)
-    db.session.add(john)
+    user_objects = []
+    for user_dict in users:
+        user = models.User(**user_dict)
+        user_objects.append(user)
+        db.session.add(user)
 
-    cathy.projects.append(projects_objects[0])
-    marry.projects.append(projects_objects[1])
-
-    john_projects_names = []
+    user0_projects_names = []
     for project in projects_objects[:-1]:
-        john.projects.append(project)
-        john_projects_names.append(project.name)
+        user_objects[0].projects.append(project)
+        user0_projects_names.append(project.name)
 
     assert db.session.query(models.User).count() == len(users)
 
-    john_projects = db.session.query(models.User).filter_by(name=john.name).first().projects
-    assert len(john_projects) == len(projects) - 1
-    assert john_projects[0].name in john_projects_names
+    user0_projects = db.session.query(models.User).filter_by(name=user_objects[0].name).first().projects
+    assert len(user0_projects) == len(projects) - 1
+    assert user0_projects[0].name in user0_projects_names
 
 
 
