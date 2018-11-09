@@ -1,7 +1,6 @@
-flask
-flask-transmute
+flask>=0.12.4
+connexion[swagger-ui]
 SQLAlchemy
 alembic
-hypothesis
-pytest
-catt>=0.9.1
+#flask-transmute
+#catt>=0.9.1

@@ -1,5 +1,5 @@
-import models
-from db import db
+from db import models
+from db.db import db
 
 
 def test_db(empty_db, users, projects):
@@ -25,6 +25,3 @@ def test_db(empty_db, users, projects):
     user0_projects = db.session.query(models.User).filter_by(name=user_objects[0].name).first().projects
     assert len(user0_projects) == len(projects) - 1
     assert user0_projects[0].name in user0_projects_names
-
-
-

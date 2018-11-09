@@ -1,8 +1,7 @@
-import models
-import db
+from db.db import db
+import db.models
 from flask import abort
 from sqlalchemy.exc import SQLAlchemyError
-from db import db
 
 
 def user_create(name: str, email: str):
@@ -13,7 +12,7 @@ def user_create(name: str, email: str):
     #todo: check uniq name, email?
 
     try:
-        new_user = models.User(name=name, email=email)
+        new_user = db.models.User(name=name, email=email)
         db.session.add(new_user)
         db.session.commit()
         return {

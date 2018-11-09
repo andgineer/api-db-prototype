@@ -1,6 +1,6 @@
 from flask import json, url_for
-import models
-from db import db
+from db import models
+from db.db import db
 
 
 def test_empty_user_list(empty_db, api_client):
@@ -40,20 +40,22 @@ def test_user_crud(empty_db, api_client, user):
     with api_client as client:
         resp = client.post('/users', data=json.dumps(user), content_type='application/json')
         data = json.loads(resp.data)
-        assert data['success'], f'Create user request fail: {data["result"]}'
+        assert isinstance(data, dict) and 'success' in data, f'Create user request fail: {data}'
+        assert data['success'], f'Create user request fail: {data}'
         new_user_id = data['result']['id']
 
         resp = client.get('/users')
         data = json.loads(resp.data)
-        assert data['success'], f'Get user list request fail: {data["result"]}'
+        assert data['success'], f'Get user list request fail: {data}'
         assert len(data['result']) == 1
         assert data['result'][0]['name'] == user['name']
 
-        resp = client.delete(f'/users?id={new_user_id}')
+        resp = client.delete(f'/users/{new_user_id}')
         data = json.loads(resp.data)
-        assert data['success'], f'Delete user request fail: {data["result"]}'
+        assert isinstance(data, dict) and 'success' in data, f'Delete user request fail: {data}'
+        assert data['success'], f'Delete user request fail: {data}'
 
         resp = client.get('/users')
         data = json.loads(resp.data)
-        assert data['success'], f'Get user list request fail: {data["result"]}'
+        assert data['success'], f'Get user list request fail: {data}'
         assert len(data['result']) == 0

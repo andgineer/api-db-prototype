@@ -1,8 +1,12 @@
+"""
+Transmute version of app
+API should be described in code and the app can auto-generate Open API (swagger) UI from the code.
+"""
 import flask_transmute
 from flask import Flask, Blueprint
-from controllers.user_create import user_create
-from controllers.user_delete import user_delete
-from controllers.user_list import user_list
+from transmute.controllers.user_create import user_create
+from transmute.controllers.user_delete import user_delete
+from transmute.controllers.user_list import user_list
 from transmute_core import describe
 from functools import partial
 

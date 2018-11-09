@@ -1,14 +1,17 @@
 import pytest
-from src.api import app
+import app
 from config import ConfigTest
-from db import db
+from db.db import db
+
+
+flask_app = app.app.app  # connexions hides flask app inside connexions app
 
 
 @pytest.fixture(scope='session')
 def api_client():
     #app.config['TESTING'] = True
-    client = app.test_client()
-    ctx = app.test_request_context()
+    client = flask_app.test_client()
+    ctx = flask_app.test_request_context()
     ctx.push()
 
     yield client
