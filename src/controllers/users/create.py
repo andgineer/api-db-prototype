@@ -1,4 +1,5 @@
-from controllers import db
+import db.conn
+import db.models
 from controllers.models import NewUser
 
 
@@ -10,12 +11,12 @@ def create_user(new_user: NewUser):
     try:
         # todo: check uniq name, email?
         db_user = db.models.User(**new_user.as_dict)
-        db.session.add(db_user)
-        db.session.commit()
+        db.conn.session.add(db_user)
+        db.conn.session.commit()
         return {
             'result': {'id': db_user.id},
             'success': True
         }
     except Exception as e:
-        db.session.rollback()
+        db.conn.session.rollback()
         return f'{e}', 400  #todo: internal exception only to log

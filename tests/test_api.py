@@ -1,5 +1,6 @@
 from flask import json
-import controllers
+import db.conn
+import db.models
 
 
 def get_result_data(reply: str) -> dict:
@@ -26,8 +27,8 @@ def test_user_list(api_client, users):
     Creates users and check API request user list
     """
     for user_dict in users:
-        user = controllers.db.models.User(**user_dict)
-        controllers.db.session.add(user)
+        user = db.models.User(**user_dict)
+        db.conn.session.add(user)
 
     with api_client as client:
         resp = client.get('/users')

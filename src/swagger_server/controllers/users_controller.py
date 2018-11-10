@@ -22,9 +22,7 @@ def create_user(NewUser: swaggerNewUser):  # noqa: E501
     """
     if connexion.request.is_json:
         NewUser = swaggerNewUser.from_dict(connexion.request.get_json())  # noqa: E501
-    PARAMS = ['type', 'name', 'email']
-    return controllers.users.create.create_user(controllers.models.NewUser(
-        **dict(zip(PARAMS, [getattr(NewUser, key) for key in PARAMS]))))
+    return controllers.users.create.create_user(controllers.models.NewUser.from_obj(NewUser))
 
 def get_user(userId):  # noqa: E501
     """Info for a specific user

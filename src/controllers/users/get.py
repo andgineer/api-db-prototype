@@ -1,9 +1,10 @@
-from controllers import db
+import db.conn
+import db.models
 
 
 def get_user(user_id):
     try:
-        users = db.session.query(db.models.User).filter(db.models.User.id == user_id)
+        users = db.conn.session.query(db.models.User).filter(db.models.User.id == user_id)
         if not users.count():
             db.session.close()
             return f'No user with id={user_id}', 400
@@ -19,5 +20,5 @@ def get_user(user_id):
             "result": result
         }
     except Exception as e:
-        db.session.rollback()
+        db.conn.session.rollback()
         return f'{e}', 400  # no pretty to send thru api internal exceptions.. just to speed up development

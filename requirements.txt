@@ -3,5 +3,6 @@ connexion[swagger-ui]
 connexion
 SQLAlchemy
 alembic
-#flask-transmute
-catt>=0.9.1
+flask-transmute
+transmute-core>=1.9.2
+schematics

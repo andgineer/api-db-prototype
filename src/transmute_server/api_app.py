@@ -11,20 +11,19 @@ app = Flask(__name__)
 blueprint = Blueprint("blueprint", __name__, url_prefix="/")
 route = partial(flask_transmute.route, app)
 
-user_delete = route(paths='/users', methods=['DELETE'])(
+user_delete = route(paths='/users/{user_id}', methods=['DELETE'])(
     describe(
-        paths='/users', methods=['DELETE'],  # we have to duplicate due to bug https://github.com/toumorokoshi/flask-transmute/issues/11
-        query_parameters=['id'],
-        parameter_descriptions={'id': 'ID of user to delete'}
+        paths='/users/{user_id}', methods=['DELETE'],  # we have to duplicate due to bug https://github.com/toumorokoshi/flask-transmute/issues/11
+        parameter_descriptions={'user_id': 'ID of user to delete'}
     )(delete_user)
 )
 
 user_create = route(paths='/users', methods=['POST'])(
     describe(
         paths='/users', methods=['POST'],
+        body_parameters=['new_user'],
         parameter_descriptions={
-            'name': 'Name of new user',
-            'email': 'Email of new user'
+            'new_user': 'Parameters of user to create'
         }
     )(create_user)
 )

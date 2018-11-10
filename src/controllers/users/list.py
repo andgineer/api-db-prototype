@@ -1,11 +1,12 @@
-from controllers import db
+import db.conn
+import db.models
 
 
 def users_list(type: str=None, per_page: int=10000, page: int=0):
     """
     Users list
     """
-    users = db.session.query(db.models.User).limit(per_page).offset(page * per_page)
+    users = db.conn.session.query(db.models.User).limit(per_page).offset(page * per_page)
     # db.session..query(db.models.User).from_statement(
     #     text("SELECT * FROM users where name=:name")).\
     #     params(name='john').all()

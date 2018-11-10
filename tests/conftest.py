@@ -3,11 +3,11 @@ import app
 from config import ConfigTest
 import db.conn
 import db.models
-import controllers.db
 import sqlalchemy.orm
+from flask import Flask
 
 
-flask_app = app.app.app  # connexions hides flask app inside connexions app
+flask_app = app.app if isinstance(app.app, Flask) else app.app.app # connexions hides flask app inside connexions app
 
 
 def pytest_make_parametrize_id(config, val):
@@ -18,9 +18,8 @@ def pytest_make_parametrize_id(config, val):
 
 @pytest.fixture(scope='function')
 def api_client():
-    controllers.db.session = db.conn.make_session(ConfigTest())
-    controllers.db.models = db.models
-    db.conn.refresh_metadata(controllers.db.session)
+    db.conn.make_session(ConfigTest())
+    db.conn.refresh_metadata()
     #app.config['TESTING'] = True
     client = flask_app.test_client()
     ctx = flask_app.test_request_context()
@@ -34,11 +33,10 @@ def api_client():
 
 @pytest.fixture(scope='function')
 def session():
-    controllers.db.session = db.conn.make_session(ConfigTest())
-    controllers.db.models = db.models
-    db.conn.refresh_metadata(controllers.db.session)
+    db.conn.make_session(ConfigTest())
+    db.conn.refresh_metadata()
 
-    yield controllers.db.session
+    yield db.conn.session
 
 
 @pytest.fixture(scope='session')
