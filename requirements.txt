@@ -1,6 +1,7 @@
-flask>=0.12.4
+flask
 connexion[swagger-ui]
+connexion
 SQLAlchemy
 alembic
 #flask-transmute
-#catt>=0.9.1
+catt>=0.9.1

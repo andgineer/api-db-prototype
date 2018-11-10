@@ -1,31 +1,37 @@
-from flask import json, url_for
-from db import models
-from db.db import db
+from flask import json
+import controllers
 
 
-def test_empty_user_list(empty_db, api_client):
+def get_result_data(reply: str) -> dict:
+    """
+    Parse reply body as json and checks ['success']
+    """
+    data = json.loads(reply)
+    assert isinstance(data, dict) and 'success' in data and data['success'], f'API request fail: {data}'
+    return data
+
+
+def test_empty_user_list(api_client):
     """
     Empty db returns empty user list
     """
     with api_client as client:
         resp = client.get('/users')
-        data = json.loads(resp.data)
-        assert data['success']
+        data = get_result_data(resp.data)
         assert data['result'] == []
 
 
-def test_user_list(empty_db, api_client, users):
+def test_user_list(api_client, users):
     """
     Creates users and check API request user list
     """
     for user_dict in users:
-        user = models.User(**user_dict)
-        db.session.add(user)
+        user = controllers.db.models.User(**user_dict)
+        controllers.db.session.add(user)
 
     with api_client as client:
         resp = client.get('/users')
-        data = json.loads(resp.data)
-        assert data['success']
+        data = get_result_data(resp.data)
         assert len(data['result']) == len(users)
         user_dict = {user['name']: {'email': user['email']} for user in data['result']}
         for user in users:
@@ -33,29 +39,24 @@ def test_user_list(empty_db, api_client, users):
             assert user_dict[user['name']]['email'] == user['email']
 
 
-def test_user_crud(empty_db, api_client, user):
+def test_user_crud(api_client, user):
     """
     Create user, get user list, delete user.
     """
     with api_client as client:
         resp = client.post('/users', data=json.dumps(user), content_type='application/json')
-        data = json.loads(resp.data)
-        assert isinstance(data, dict) and 'success' in data, f'Create user request fail: {data}'
-        assert data['success'], f'Create user request fail: {data}'
+        data = get_result_data(resp.data)
         new_user_id = data['result']['id']
 
         resp = client.get('/users')
-        data = json.loads(resp.data)
-        assert data['success'], f'Get user list request fail: {data}'
+        data = get_result_data(resp.data)
         assert len(data['result']) == 1
         assert data['result'][0]['name'] == user['name']
 
         resp = client.delete(f'/users/{new_user_id}')
-        data = json.loads(resp.data)
-        assert isinstance(data, dict) and 'success' in data, f'Delete user request fail: {data}'
+        data = get_result_data(resp.data)
         assert data['success'], f'Delete user request fail: {data}'
 
         resp = client.get('/users')
-        data = json.loads(resp.data)
-        assert data['success'], f'Get user list request fail: {data}'
+        data = get_result_data(resp.data)
         assert len(data['result']) == 0

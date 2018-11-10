@@ -26,7 +26,6 @@ class ConfigBase():
         user_str = f'{self.db_user}:{self.db_password}@' if self.db_user else ''
         if self.db_driver_name and self.db_file_name:
             uri = f'{self.db_driver_name}{user_str}{self.db_file_name}'
-            print(f'...Connecting to DB {uri}...')
             return uri
         else:
             raise Exception('No DB parameters specified.')

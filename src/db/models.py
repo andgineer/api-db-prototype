@@ -26,6 +26,7 @@ class User(Base):
     __tablename__ = 'project_users'
     id = Column(Integer, primary_key=True)
     name = Column(String(80), unique=True, nullable=False)
+    type = Column(String(32), unique=True, nullable=True)
     email = Column(String(120), unique=True, nullable=False)
     created = Column(DateTime, default=func.now())
     projects = relationship(

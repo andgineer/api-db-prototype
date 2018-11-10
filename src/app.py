@@ -1,26 +1,15 @@
-"""
-Transmute version of app
-API should be described in code and the app can auto-generate Open API (swagger) UI from the code.
-"""
-# import sys
-# import os
-# PACKAGE_PARENT = '..'
-# SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
-# sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
-
-from db.db import db
+from swagger_server.api_app import app
+#from transmute_server.api_app import app
 from config import ConfigDev
-import connexion
-from swagger_server import encoder
+import db.conn
+import db.models
+import controllers.db
 
-app = connexion.App(__name__, specification_dir='./swagger_server/swagger')
-app.json_encoder = encoder.JSONEncoder
-app.add_api('swagger.yaml', arguments={'title': 'compbiowebAPI'})
 
 def main():
-    config=ConfigDev()
-    db.connect(config)
-
+    config = ConfigDev()
+    controllers.db.session = db.conn.make_session(config)
+    controllers.db.models = db.models
     app.run(port=config.port)
 
 
