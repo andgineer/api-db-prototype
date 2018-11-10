@@ -6,9 +6,8 @@
   install:
     - pip install -r requirements.txt
     - pip install -r requirements_test.txt
-    - pip install python-coveralls codecov
+    - pip install python-coveralls
   script:
     - pytest -s
   after_success:
     - coveralls
-    - codecov
