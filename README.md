@@ -1,7 +1,5 @@
 [![Build Status](https://travis-ci.org/masterandrey/api-db-prototype.png)](https://travis-ci.org/masterandrey/api-db-prototype)
-.. image:: https://coveralls.io/repos/github/masterandrey/api-db-prototype/badge.svg?branch=master
-   :target: https://coveralls.io/github/masterandrey/api-db-prototype?branch=master 
-   :alt: Coverage
+[![Test coverage](https://coveralls.io/repos/github/masterandrey/api-db-prototype/badge.svg?branch=master)](https://coveralls.io/github/masterandrey/api-db-prototype?branch=master)
 # Prototype for API
 
 * swagger doc auto generation [transmute](https://github.com/toumorokoshi/flask-transmute)
