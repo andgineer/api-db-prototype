@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-py.test --disable-pytest-warnings
+python3.7 -m pytest -s -v -W ignore::DeprecationWarning

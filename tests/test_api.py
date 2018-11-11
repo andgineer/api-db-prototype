@@ -1,7 +1,8 @@
 from flask import json
 import db.conn
 import db.models
-
+from hypothesis import settings, strategies, given
+import hypothesis.strategies as st
 
 def get_result_data(reply: str) -> dict:
     """
@@ -40,6 +41,14 @@ def test_user_list(api_client, users):
             assert user_dict[user['name']]['email'] == user['email']
 
 
+UserStrategy = st.builds(
+  dict,
+  name=st.text(),
+  email=st.text()
+)
+
+
+@given(user=UserStrategy)
 def test_user_crud(api_client, user):
     """
     Create user, get user list, delete user.
@@ -61,3 +70,4 @@ def test_user_crud(api_client, user):
         resp = client.get('/users')
         data = get_result_data(resp.data)
         assert len(data['result']) == 0
+
