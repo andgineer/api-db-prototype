@@ -51,6 +51,14 @@ def users():
 
 
 @pytest.fixture(scope='session')
+def user():
+    """
+    A user's dict
+    """
+    return {'name': 'Cathy', 'email': 'cathy@'}
+
+
+@pytest.fixture(scope='session')
 def projects():
     """
     List of projects's names

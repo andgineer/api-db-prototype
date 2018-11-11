@@ -6,7 +6,7 @@ def get_user(user_id):
     try:
         users = db.conn.session.query(db.models.User).filter(db.models.User.id == user_id)
         if not users.count():
-            db.session.close()
+            db.conn.close()
             return f'No user with id={user_id}', 400
         result = []
         for user in users:

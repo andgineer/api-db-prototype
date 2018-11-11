@@ -4,6 +4,7 @@ import db.models
 from hypothesis import settings, strategies, given
 import hypothesis.strategies as st
 
+
 def get_result_data(reply: str) -> dict:
     """
     Parse reply body as json and checks ['success']
@@ -48,7 +49,7 @@ UserStrategy = st.builds(
 )
 
 
-@given(user=UserStrategy)
+#@given(user=UserStrategy)
 def test_user_crud(api_client, user):
     """
     Create user, get user list, delete user.
