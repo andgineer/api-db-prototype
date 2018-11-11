@@ -1,2 +1,5 @@
 hypothesis
 pytest
+pytest-cov
+python-coveralls
+

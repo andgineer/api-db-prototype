@@ -1,6 +1,6 @@
 import pytest
 import app
-from config import ConfigTest
+from config import ConfigTest, ConfigTestWrong
 import db.conn
 import db.models
 from flask import Flask
@@ -30,6 +30,12 @@ def session(request):
     db.conn.refresh_metadata()
 
     yield db.conn.session
+
+
+@pytest.fixture(scope='function', params=[ConfigTestWrong])
+def wrong_session(request):
+    with pytest.raises(ValueError) as e:
+        db.conn.make_session(request.param())
 
 
 @pytest.fixture(scope='session')

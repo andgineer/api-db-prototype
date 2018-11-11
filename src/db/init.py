@@ -10,5 +10,6 @@ from config import ConfigDev
 
 config = ConfigDev()
 print(f'Refreshing metadata in ({config.db_uri})...')
-db.conn.refresh_metadata(db.conn.make_session(config))
+db.conn.make_session(config)
+db.conn.refresh_metadata()
 print(f'Done!')

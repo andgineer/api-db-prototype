@@ -1,6 +1,10 @@
 import db.models
 
 
+def test_wrong_config(wrong_session):
+    pass
+
+
 def test_db(session, users, projects):
     projects_objects = []
     for project_dict in projects:

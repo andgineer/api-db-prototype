@@ -9,7 +9,7 @@ class ConfigBase():
     db_user = None
     db_password = None
 
-    _port=5000
+    _port = 5000
 
     @abstractmethod
     def __init__(self):
@@ -28,7 +28,7 @@ class ConfigBase():
             uri = f'{self.db_driver_name}{user_str}{self.db_file_name}'
             return uri
         else:
-            raise Exception('No DB parameters specified.')
+            raise ValueError(f'No DB parameters specified: driver="{self.db_driver_name}", file="{self.db_file_name}"')
 
     @property
     def port(self):
@@ -68,3 +68,11 @@ class ConfigProd(ConfigBase):
         super().__init__()
         #self.db_file_name = ''
         #self.db_driver_name = ':////'
+
+
+class ConfigTestWrong(ConfigBase):
+    """
+    To test wrong config
+    """
+    def __init__(self):
+        pass
