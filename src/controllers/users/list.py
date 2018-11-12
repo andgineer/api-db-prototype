@@ -1,7 +1,10 @@
 import db.conn
 import db.models
+from controllers.helper import transaction, api_result
 
 
+@api_result
+@transaction
 def users_list(type: str=None, per_page: int=10000, page: int=0):
     """
     Users list
@@ -17,7 +20,4 @@ def users_list(type: str=None, per_page: int=10000, page: int=0):
             'name': user.name,
             'email': user.email,
         })
-    return {
-      "success": True,
-      "result": result
-    }
+    return result
