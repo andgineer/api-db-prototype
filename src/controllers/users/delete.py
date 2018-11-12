@@ -16,6 +16,5 @@ def delete_user(user_id: str):
             db.conn.session.commit()
             return None
     else:
-        db.conn.session.close()
         return f'No user with id={user_id}', 400
 

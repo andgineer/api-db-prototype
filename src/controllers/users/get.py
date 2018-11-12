@@ -8,7 +8,6 @@ from controllers.helper import transaction, api_result
 def get_user(user_id):
     users = db.conn.session.query(db.models.User).filter(db.models.User.id == user_id)
     if not users.count():
-        db.conn.close()
         return f'No user with id={user_id}', 400
     result = []
     for user in users:

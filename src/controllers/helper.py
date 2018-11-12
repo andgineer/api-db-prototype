@@ -14,6 +14,8 @@ def transaction(handler):
         except Exception as e:
             db.conn.session.rollback()
             return f'{e}', 400  # todo: internal exception only to log
+        finally:
+            db.conn.session.close()
     return wrapper
 
 
