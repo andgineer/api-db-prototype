@@ -33,7 +33,7 @@ def api_result(handler):
         else:
             code = SUCCESS_CODE
         return {
-            'result': result,
+            'data': result,
             'success': code == SUCCESS_CODE
         }, code
     return wrapper

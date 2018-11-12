@@ -11,7 +11,7 @@ def get_result_data(reply: str) -> dict:
     """
     data = json.loads(reply)
     assert isinstance(data, dict) and 'success' in data and data['success'], f'API request fail: {data}'
-    return data
+    return data['data']
 
 
 def test_empty_user_list(api_client):
@@ -21,7 +21,7 @@ def test_empty_user_list(api_client):
     with api_client as client:
         resp = client.get('/users')
         data = get_result_data(resp.data)
-        assert data['result'] == []
+        assert data == []
 
 
 def test_user_list(api_client, users):
@@ -35,8 +35,8 @@ def test_user_list(api_client, users):
     with api_client as client:
         resp = client.get('/users')
         data = get_result_data(resp.data)
-        assert len(data['result']) == len(users)
-        user_dict = {user['name']: {'email': user['email']} for user in data['result']}
+        assert len(data) == len(users)
+        user_dict = {user['name']: {'email': user['email']} for user in data}
         for user in users:
             assert user['name'] in user_dict
             assert user_dict[user['name']]['email'] == user['email']
@@ -57,18 +57,17 @@ def test_user_crud(api_client, user):
     with api_client as client:
         resp = client.post('/users', data=json.dumps(user), content_type='application/json')
         data = get_result_data(resp.data)
-        new_user_id = data['result']['id']
+        new_user_id = data['id']
 
         resp = client.get('/users')
         data = get_result_data(resp.data)
-        assert len(data['result']) == 1
-        assert data['result'][0]['name'] == user['name']
+        assert len(data) == 1
+        assert data[0]['name'] == user['name']
 
         resp = client.delete(f'/users/{new_user_id}')
-        data = get_result_data(resp.data)
-        assert data['success'], f'Delete user request fail: {data}'
+        get_result_data(resp.data)  # checks for success
 
         resp = client.get('/users')
         data = get_result_data(resp.data)
-        assert len(data['result']) == 0
+        assert len(data) == 0
 

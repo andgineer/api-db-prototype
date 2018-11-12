@@ -8,7 +8,7 @@ app = Flask(__name__)
 blueprint = Blueprint("blueprint", __name__, url_prefix="/")
 
 
-def api(handler, body: list=None):
+def api(handler, bparams: list=None):
     """
     Jsonifies returned by handler object.
     Add body parameters before call handler, if body parameters names are specified in `body`
@@ -16,13 +16,13 @@ def api(handler, body: list=None):
     the only parameter)
     """
     def api_wrapper(*args, **kwargs):
-        if body:
+        if bparams:
             body_obj = request.get_json()
-            for param in body:
+            for param in bparams:
                 if isinstance(body_obj, dict) and param in body_obj:
                     val = body_obj[param]
                 else:
-                    if len(body) == 1:
+                    if len(bparams) == 1:
                         val = body_obj
                     else:
                         return f'No parameter {param} in request:\n{request.data}', 400
@@ -37,7 +37,7 @@ def api(handler, body: list=None):
     return api_wrapper
 
 app.add_url_rule('/users/<string:user_id>', 'delete_user', api(delete_user), methods=['DELETE'])
-app.add_url_rule('/users', 'create_user', api(create_user, body=['new_user']), methods=['POST'])
+app.add_url_rule('/users', 'create_user', api(create_user, bparams=['new_user']), methods=['POST'])
 app.add_url_rule('/users', 'users_list', api(users_list), methods=['GET'])
 
 
