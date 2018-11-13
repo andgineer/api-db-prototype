@@ -6,59 +6,6 @@ info:
 schemes:
   - https
 paths:
-  /:
-    get:
-      tags:
-        - compbioweb
-      operationId: ShowDescription
-      description: HTML web page containing API usage information
-      consumes:
-        - application/json
-      produces:
-        - text/html
-      responses:
-        '200':
-          description: Successful operation
-          headers:
-            Content-Type:
-              type: string
-              description: Media type of request
-      x-amazon-apigateway-integration:
-        responses:
-          default:
-            statusCode: '200'
-            responseParameters:
-              method.response.header.Content-Type: '''text/html'''
-            responseTemplates:
-              text/html: |-
-                <html>
-                    <head>
-                        <style>
-                        body {
-                            color: #333;
-                            font-family: Sans-serif;
-                            max-width: 800px;
-                            margin: auto;
-                        }
-                        </style>
-                    </head>
-                    <body>
-                        <h1>compbioweb API</h1>
-                        <p>
-                          <code>compbio</code>'s API for web-application.
-                        </p>
-                        <pre>
-                {
-                    "user" : "John",
-                    "email" : "john@"
-                }
-                        </pre>
-                    </body>
-                </html>
-        passthroughBehavior: when_no_match
-        requestTemplates:
-          application/json: '{"statusCode": 200}'
-        type: mock
   /users:
     get:
       tags:
@@ -116,7 +63,7 @@ paths:
         - application/json
       parameters:
         - in: body
-          name: NewUser
+          name: newUser
           required: true
           schema:
             $ref: '#/definitions/NewUser'
@@ -237,12 +184,15 @@ definitions:
   NewUser:
     type: object
     properties:
-      type:
-        $ref: '#/definitions/UserType'
-      email:
-        type: string
-      name:
-        type: string
+      newUser:
+        type: object
+        properties:
+          type:
+            $ref: '#/definitions/UserType'
+          email:
+            type: string
+          name:
+            type: string
   UserType:
     type: string
     enum:

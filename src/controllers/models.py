@@ -2,7 +2,7 @@ from schematics.models import Model
 from schematics.types import StringType
 
 
-NEW_USER_PARAMS = ['type', 'name', 'email']
+NEW_USER_PARAMS = ['name', 'email']
 
 
 class NewUser(Model):

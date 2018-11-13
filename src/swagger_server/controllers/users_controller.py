@@ -10,19 +10,17 @@ import controllers.users.list
 import controllers.models
 
 
-def create_user(NewUser: swaggerNewUser):  # noqa: E501
+def create_user(NewUser):  # noqa: E501
     """Create a user
 
      # noqa: E501
 
-    :param NewUser:
-    :type NewUser: dict | bytes
+    :param newUser:
+    :type newUser: dict | bytes
 
     :rtype: NewUserResponse
     """
-    if connexion.request.is_json:
-        NewUser = swaggerNewUser.from_dict(connexion.request.get_json())  # noqa: E501
-    return controllers.users.create.create_user(controllers.models.NewUser.from_obj(NewUser))
+    return controllers.users.create.create_user(controllers.models.NewUser(NewUser['new_user']))
 
 def get_user(userId):  # noqa: E501
     """Info for a specific user

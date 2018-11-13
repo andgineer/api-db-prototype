@@ -1,18 +1,17 @@
 import pytest
-import app
-from config import ConfigTest, ConfigTestWrong
+from config import ConfigTestFlask, ConfigTestSwagger, ConfigTestTransmute, ConfigTestWrong
 import db.conn
 import db.models
 from flask import Flask
 
 
-flask_app = app.app if isinstance(app.app, Flask) else app.app.app # connexions hides flask app inside connexions app
-
-
-@pytest.fixture(scope='function', params=[ConfigTest])
+@pytest.fixture(scope='function', params=[ConfigTestFlask, ConfigTestTransmute, ConfigTestSwagger])
 def api_client(request):
-    db.conn.make_session(request.param())
+    config = request.param()
+    db.conn.make_session(config)
     db.conn.refresh_metadata()
+    app = config.app
+    flask_app = app if isinstance(app, Flask) else app.app  # connexions hides flask app inside connexions app
     #app.config['TESTING'] = True
     client = flask_app.test_client()
     ctx = flask_app.test_request_context()
@@ -24,7 +23,7 @@ def api_client(request):
     #os.unlink(app.config['DATABASE'])
 
 
-@pytest.fixture(scope='function', params=[ConfigTest])
+@pytest.fixture(scope='function', params=[ConfigTestFlask])
 def session(request):
     db.conn.make_session(request.param())
     db.conn.refresh_metadata()

@@ -55,7 +55,7 @@ def test_user_crud(api_client, user):
     Create user, get user list, delete user.
     """
     with api_client as client:
-        resp = client.post('/users', data=json.dumps(user), content_type='application/json')
+        resp = client.post('/users', data=json.dumps({'new_user': user}), content_type='application/json')
         data = get_result_data(resp.data)
         new_user_id = data['id']
 
