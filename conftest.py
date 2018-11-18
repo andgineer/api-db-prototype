@@ -1,8 +1,8 @@
 """
 Tests run from the project root folder.
-But the code expects to run inside src folder.
+But the python code expects to run inside server folder.
 
-So for tests we add src folder to sys.path.
+So for tests we add server folder to sys.path.
 
 This file is loaded first by py.test therefore we change sys.path for all other python files.
 """

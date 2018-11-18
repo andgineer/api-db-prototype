@@ -1,9 +1,3 @@
-import connexion
-import six
-
-from swagger_server import util
-
-
 def show_description():  # noqa: E501
     """
 

@@ -1,7 +1,9 @@
 from sqlalchemy import Column, DateTime, String, Integer, ForeignKey, func
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.declarative import declarative_base
-from datetime import datetime
+import passwords
+from datetime import datetime, timezone
+import settings
 
 
 Base = declarative_base()
@@ -24,20 +26,28 @@ class Project(Base):
 
 class User(Base):
     __tablename__ = 'project_users'
+    name = Column(String(120))
     id = Column(Integer, primary_key=True)
-    name = Column(String(80), unique=True, nullable=False)
-    type = Column(String(32), unique=True, nullable=True)
+    group = Column(String(32))
     email = Column(String(120), unique=True, nullable=False)
-    created = Column(DateTime, default=func.now())
+    password_hash = Column(String(300))
     projects = relationship(
         'Project',
         secondary='project_user_link',
         backref=backref('project_user_link_backref', lazy='dynamic')
     )
 
+    @property
+    def password(self):
+        raise Exception('Password getter')
+
+    @password.setter
+    def password(self, value):
+        self.password_hash = passwords.hash(value)
+
+    @property
     def as_dict(self):
-        return {c.name: getattr(self, c.name) for c in self.__table__.columns if
-                not isinstance(getattr(self, c.name), datetime)}
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
     def __repr__(self):
         return f'name: {self.name}, email: {self.email}, id: {self.id}'

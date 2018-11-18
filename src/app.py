@@ -1,15 +1,30 @@
-from config import ConfigDev
+import settings
 import db.conn
 import db.models
+import os
+from journaling import log
+
+
+FLASK_ENV = 'FLASK_ENV'  # flask's env var so we set tes/product/dev environment simultaniously for our server and for flask
+TESTING_ENV = 'testing'
+DEV_ENV = 'development'
+
+
+app_env = os.environ.get(FLASK_ENV, '')
+if app_env == TESTING_ENV:
+    settings.config = settings.ConfigTest()
+elif app_env == DEV_ENV:
+    settings.config = settings.ConfigDev()
+else:
+    settings.config = settings.ConfigProd()
+
+app = settings.config.app
+db.conn.make_session()  # Connect to DB
 
 
 def main():
-    config = ConfigDev()
-
-    db.conn.make_session(config)
-
     # Starting http server
-    config.app.run(port=config.port)
+    settings.config.app.run(port=settings.config.port)
 
 
 if __name__ == '__main__':

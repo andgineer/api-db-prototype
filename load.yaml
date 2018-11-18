@@ -1,0 +1,20 @@
+overload:
+  enabled: true
+  package: yandextank.plugins.DataUploader
+  token_file: "overload_token.txt"
+phantom:
+  enabled: false
+bfg:
+  pip: requests
+  ammofile: tank.ammo
+  enabled: true
+  instances: 4
+  gun_config:
+    class_name: LoadTest
+    module_path: ./
+    module_name: load
+    base_address: http://host.docker.internal:5000
+  gun_type: ultimate
+  load_profile:
+    load_type: rps
+    schedule: line(5, 25, 30s)

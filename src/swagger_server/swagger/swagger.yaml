@@ -1,50 +1,50 @@
 ---
 swagger: "2.0"
 info:
-  description: "compbiowebAPI"
+  description: "API-prototype"
   version: "1.0"
-  title: "compbiowebAPI"
+  title: "API-prototype"
 schemes:
 - "https"
 paths:
-  /:
-    get:
+  /auth:
+    post:
       tags:
-      - "compbioweb"
-      description: "HTML web page containing API usage information"
-      operationId: "show_description"
+      - "users"
+      summary: "Get access token for the user"
+      operationId: "get_token"
       consumes:
       - "application/json"
       produces:
-      - "text/html"
-      parameters: []
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "userCredentials"
+        required: true
+        schema:
+          $ref: "#/definitions/UserCredentials"
       responses:
         200:
           description: "Successful operation"
-          headers:
-            Content-Type:
-              type: "string"
-              description: "Media type of request"
-      x-amazon-apigateway-integration:
-        responses:
-          default:
-            statusCode: "200"
-            responseParameters:
-              method.response.header.Content-Type: "'text/html'"
-            responseTemplates:
-              text/html: "<html>\n    <head>\n        <style>\n        body {\n  \
-                \          color: #333;\n            font-family: Sans-serif;\n  \
-                \          max-width: 800px;\n            margin: auto;\n        }\n\
-                \        </style>\n    </head>\n    <body>\n        <h1>compbioweb\
-                \ API</h1>\n        <p>\n          <code>compbio</code>'s API for\
-                \ web-application.\n        </p>\n        <pre>\n{\n    \"user\" :\
-                \ \"John\",\n    \"email\" : \"john@\"\n}\n        </pre>\n    </body>\n\
-                </html>"
-        passthroughBehavior: "when_no_match"
-        requestTemplates:
-          application/json: "{\"statusCode\": 200}"
-        type: "mock"
-      x-swagger-router-controller: "swagger_server.controllers.compbioweb_controller"
+          schema:
+            $ref: "#/definitions/Token"
+        400:
+          description: "No user with such email"
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Invalid email/password"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/Error"
+        501:
+          description: "Wrong request"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "swagger_server.controllers.users_controller"
   /users:
     get:
       tags:
@@ -54,19 +54,14 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: "type"
-        in: "query"
-        description: "The type of user to retrieve"
-        required: false
-        type: "string"
       - name: "page"
         in: "query"
-        description: "Page number of results to return."
+        description: "Page number of results to return. Starting from 1. Default 1."
         required: false
         type: "string"
       - name: "per_page"
         in: "query"
-        description: "Number of items on page."
+        description: "Number of items on page. Default 30."
         required: false
         type: "string"
       responses:
@@ -74,23 +69,24 @@ paths:
           description: "Successful operation"
           schema:
             $ref: "#/definitions/Users"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-              description: "URI that may access the resource"
-      x-amazon-apigateway-integration:
-        responses:
-          default:
-            statusCode: "200"
-            responseParameters:
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-        requestParameters:
-          integration.request.querystring.page: "method.request.querystring.page"
-          integration.request.querystring.type: "method.request.querystring.type"
-        uri: "http://compbiowebapi.com/webapi/users"
-        passthroughBehavior: "when_no_match"
-        httpMethod: "GET"
-        type: "http"
+        401:
+          description: "No user token"
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Operation is not permitted for the user"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/Error"
+        501:
+          description: "Wrong request"
+          schema:
+            $ref: "#/definitions/Error"
+      security:
+      - Bearer: []
       x-swagger-router-controller: "swagger_server.controllers.users_controller"
     post:
       tags:
@@ -103,7 +99,7 @@ paths:
       - "application/json"
       parameters:
       - in: "body"
-        name: "NewUser"
+        name: "newUser"
         required: true
         schema:
           $ref: "#/definitions/NewUser"
@@ -112,20 +108,63 @@ paths:
           description: "Successful operation"
           schema:
             $ref: "#/definitions/NewUserResponse"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-              description: "URI that may access the resource"
-      x-amazon-apigateway-integration:
-        responses:
-          default:
-            statusCode: "200"
-            responseParameters:
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-        uri: "http://compbiowebapi.com/webapi/users"
-        passthroughBehavior: "when_no_match"
-        httpMethod: "POST"
-        type: "http"
+        401:
+          description: "No user token"
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Operation is not permitted for the user"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/Error"
+        501:
+          description: "Wrong request"
+          schema:
+            $ref: "#/definitions/Error"
+      security:
+      - Bearer: []
+      x-swagger-router-controller: "swagger_server.controllers.users_controller"
+    put:
+      tags:
+      - "users"
+      summary: "Update details of particular user"
+      operationId: "update_user"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "newUser"
+        required: true
+        schema:
+          $ref: "#/definitions/UpdateUser"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Empty"
+        401:
+          description: "No user token"
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Operation is not permitted for the user"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/Error"
+        501:
+          description: "Wrong request"
+          schema:
+            $ref: "#/definitions/Error"
+      security:
+      - Bearer: []
       x-swagger-router-controller: "swagger_server.controllers.users_controller"
   /users/{userId}:
     get:
@@ -146,22 +185,24 @@ paths:
           description: "Successful operation"
           schema:
             $ref: "#/definitions/User"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-              description: "URI that may access the resource"
-      x-amazon-apigateway-integration:
-        responses:
-          default:
-            statusCode: "200"
-            responseParameters:
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-        requestParameters:
-          integration.request.path.userId: "method.request.path.userId"
-        uri: "http://compbiowebapi.com/webapi/users/{userId}"
-        passthroughBehavior: "when_no_match"
-        httpMethod: "GET"
-        type: "http"
+        401:
+          description: "No user token"
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Operation is not permitted for the user"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/Error"
+        501:
+          description: "Wrong request"
+          schema:
+            $ref: "#/definitions/Error"
+      security:
+      - Bearer: []
       x-swagger-router-controller: "swagger_server.controllers.users_controller"
     delete:
       tags:
@@ -181,178 +222,323 @@ paths:
           description: "Successful operation"
           schema:
             $ref: "#/definitions/Empty"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-              description: "URI that may access the resource"
-      x-amazon-apigateway-integration:
-        responses:
-          default:
-            statusCode: "200"
-            responseParameters:
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-        requestParameters:
-          integration.request.path.userId: "method.request.path.userId"
-        uri: "http://compbiowebapi.com/webapi/users/{userId}"
-        passthroughBehavior: "when_no_match"
-        httpMethod: "DELETE"
-        type: "http"
+        401:
+          description: "No user token"
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Operation is not permitted for the user"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/Error"
+        501:
+          description: "Wrong request"
+          schema:
+            $ref: "#/definitions/Error"
+      security:
+      - Bearer: []
       x-swagger-router-controller: "swagger_server.controllers.users_controller"
+  /projects:
+    get:
+      tags:
+      - "projects"
+      summary: "List of all projects for user (own & shared))"
+      operationId: "list_projects"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "page"
+        in: "query"
+        description: "Page number of results to return. Starting from 1. Default 1."
+        required: false
+        type: "string"
+      - name: "per_page"
+        in: "query"
+        description: "Number of items on page. Default 30."
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Projects"
+        401:
+          description: "No user token"
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Operation is not permitted for the user"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/Error"
+        501:
+          description: "Wrong request"
+          schema:
+            $ref: "#/definitions/Error"
+      security:
+      - Bearer: []
+      x-swagger-router-controller: "swagger_server.controllers.projects_controller"
+    post:
+      tags:
+      - "projects"
+      summary: "Create a project"
+      operationId: "create_project"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "newProject"
+        required: true
+        schema:
+          $ref: "#/definitions/NewProject"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/NewProjectResponse"
+        401:
+          description: "No user token"
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Operation is not permitted for the user"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/Error"
+        501:
+          description: "Wrong request"
+          schema:
+            $ref: "#/definitions/Error"
+      security:
+      - Bearer: []
+      x-swagger-router-controller: "swagger_server.controllers.projects_controller"
+  /projects/{projectId}:
+    get:
+      tags:
+      - "projects"
+      summary: "Info for a specific project"
+      operationId: "get_project"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "projectId"
+        in: "path"
+        description: "The id of the project to retrieve"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Project"
+        401:
+          description: "No user token"
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Operation is not permitted for the user"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/Error"
+        501:
+          description: "Wrong request"
+          schema:
+            $ref: "#/definitions/Error"
+      security:
+      - Bearer: []
+      x-swagger-router-controller: "swagger_server.controllers.projects_controller"
+    delete:
+      tags:
+      - "projects"
+      summary: "Delete project"
+      operationId: "delete_project"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "projectId"
+        in: "path"
+        description: "The id of the project to delete"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Empty"
+        401:
+          description: "No user token"
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Operation is not permitted for the user"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/Error"
+        501:
+          description: "Wrong request"
+          schema:
+            $ref: "#/definitions/Error"
+      security:
+      - Bearer: []
+      x-swagger-router-controller: "swagger_server.controllers.projects_controller"
+securityDefinitions:
+  Bearer:
+    description: "JWT from /auth request"
+    type: "apiKey"
+    name: "Authorization"
+    in: "header"
 definitions:
+  UserCredentials:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+      password:
+        type: "string"
+    example:
+      password: "password"
+      email: "email"
+  Token:
+    type: "object"
+    properties:
+      token:
+        type: "string"
+        description: "User jwt token"
+    example:
+      token: "token"
   Users:
     type: "array"
     items:
-      $ref: "#/definitions/User"
-  Empty:
-    type: "object"
-  NewUserResponse:
+      $ref: "#/definitions/UserShort"
+  UserShort:
     type: "object"
     properties:
-      user:
-        $ref: "#/definitions/User"
-      message:
+      group:
+        $ref: "#/definitions/UserGroup"
+      email:
+        type: "string"
+      name:
+        type: "string"
+  UpdateUser:
+    type: "object"
+    properties:
+      group:
+        $ref: "#/definitions/UserGroup"
+      email:
+        type: "string"
+      name:
         type: "string"
     example:
-      message: "message"
-      user:
-        name: "name"
-        id: "id"
-        type: "type"
-        email: "email"
+      name: "name"
+      email: "email"
+      group: {}
+  NewUser:
+    $ref: "#/definitions/UpdateUser"
   User:
+    allOf:
+    - $ref: "#/definitions/UpdateUser"
+    - type: "object"
+      properties:
+        id:
+          type: "string"
+  UserGroup:
+    type: "string"
+    enum:
+    - "admin"
+    - "full"
+    - "guest"
+  Projects:
+    type: "array"
+    items:
+      $ref: "#/definitions/ProjectShort"
+  ProjectShort:
     type: "object"
     properties:
       id:
         type: "string"
-      type:
+      name:
         type: "string"
-      email:
-        type: "string"
+  NewProject:
+    type: "object"
+    required:
+    - "name"
+    properties:
       name:
         type: "string"
     example:
       name: "name"
+  Project:
+    allOf:
+    - $ref: "#/definitions/NewProject"
+    - type: "object"
+      properties:
+        id:
+          type: "string"
+  NewUserResponse:
+    type: "object"
+    required:
+    - "id"
+    properties:
+      id:
+        type: "string"
+        description: "ID of the created user"
+    example:
       id: "id"
-      type: "type"
-      email: "email"
-  NewUser:
+  NewProjectResponse:
+    type: "object"
+    required:
+    - "id"
+    properties:
+      id:
+        type: "string"
+        description: "ID of the created project"
+    example:
+      id: "id"
+  UserToShareWith:
     type: "object"
     properties:
-      type:
-        $ref: "#/definitions/UserType"
       email:
         type: "string"
-      name:
+        description: "email of user to share with"
+  Empty:
+    type: "object"
+  Error:
+    type: "object"
+    properties:
+      status:
         type: "string"
-    example:
-      name: "name"
-      type: {}
-      email: "email"
-  UserType:
-    type: "string"
-    enum:
-    - "admin"
-    - "user"
-    - "collaborator"
-x-amazon-apigateway-documentation:
-  version: "v2.1"
-  createdDate: "2018-11-09T07:03:59Z"
-  documentationParts:
-  - location:
-      type: "API"
-    properties:
-      info:
-        description: "compbioweb API"
-  - location:
-      type: "METHOD"
-      method: "GET"
-    properties:
-      tags:
-      - "compbioweb"
-      description: "compbioweb HTML web page containing API usage information"
-  - location:
-      type: "METHOD"
-      path: "/users/{userId}"
-      method: "GET"
-    properties:
-      tags:
-      - "compbioweb"
-      summary: "Info for a specific user"
-  - location:
-      type: "METHOD"
-      path: "/users"
-      method: "GET"
-    properties:
-      tags:
-      - "compbioweb"
-      summary: "List all users"
-  - location:
-      type: "METHOD"
-      path: "/users"
-      method: "POST"
-    properties:
-      tags:
-      - "compbioweb"
-      summary: "Create a user"
-  - location:
-      type: "PATH_PARAMETER"
-      path: "/users/{userId}"
-      method: "*"
-      name: "userId"
-    properties:
-      description: "The id of the user to retrieve"
-  - location:
-      type: "QUERY_PARAMETER"
-      path: "/users"
-      method: "GET"
-      name: "page"
-    properties:
-      description: "Page number of results to return."
-  - location:
-      type: "QUERY_PARAMETER"
-      path: "/users"
-      method: "GET"
-      name: "type"
-    properties:
-      description: "The type of user to retrieve"
-  - location:
-      type: "REQUEST_BODY"
-      path: "/users"
-      method: "POST"
-    properties:
-      description: "User object that needs to be added"
-  - location:
-      type: "RESPONSE"
-      method: "*"
-      statusCode: "200"
-    properties:
-      description: "Successful operation"
-  - location:
-      type: "RESPONSE_HEADER"
-      method: "OPTIONS"
-      statusCode: "200"
-      name: "Access-Control-Allow-Headers"
-    properties:
-      description: "Used in response to a preflight request to indicate which HTTP\
-        \ headers can be used when making the request."
-  - location:
-      type: "RESPONSE_HEADER"
-      method: "OPTIONS"
-      statusCode: "200"
-      name: "Access-Control-Allow-Methods"
-    properties:
-      description: "Method or methods allowed when accessing the resource"
-  - location:
-      type: "RESPONSE_HEADER"
-      method: "*"
-      statusCode: "200"
-      name: "Access-Control-Allow-Origin"
-    properties:
-      description: "URI that may access the resource"
-  - location:
-      type: "RESPONSE_HEADER"
-      method: "GET"
-      statusCode: "200"
-      name: "Content-Type"
-    properties:
-      description: "Media type of request"
+        description: "error message"
+responses:
+  401:
+    description: "No user token"
+    schema:
+      $ref: "#/definitions/Error"
+  403:
+    description: "Operation is not permitted for the user"
+    schema:
+      $ref: "#/definitions/Error"
+  500:
+    description: "Internal server error"
+    schema:
+      $ref: "#/definitions/Error"
+  501:
+    description: "Wrong request"
+    schema:
+      $ref: "#/definitions/Error"

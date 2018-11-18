@@ -1,6 +1,11 @@
+flask
+SQLAlchemy
+schematics
+pyjwt
+passlib
+cryptography
 hypothesis
 pytest
 pytest-cov
 python-coveralls
 coverage>=4.4
-

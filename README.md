@@ -1,8 +1,8 @@
 [![Build Status](https://travis-ci.org/masterandrey/api-db-prototype.png)](https://travis-ci.org/masterandrey/api-db-prototype)
 [![Test coverage](https://coveralls.io/repos/github/masterandrey/api-db-prototype/badge.svg?branch=master)](https://coveralls.io/github/masterandrey/api-db-prototype?branch=master)
-# Prototype for API
+# Prototype for API server
 
-Implements API server with different frameworks (uncomment appropriate in `app.py`):
+Implements API server with different frameworks
 * Transmute
 * Swagger codegen (connexion)
 * Pure flask
@@ -20,3 +20,43 @@ The DB connect string is in `src/config.py`.
 
 For `transmute_server` flavor of the app, API description generated as 
 `localhost:5000/swagger` (see `api_doc.sh`).
+
+### Open API (swagger)
+You can convert the swagger file `api/swagger.yaml` into document at 
+`editor.swagger.io` or `Amazon AWS API Gateway`.
+
+
+### Configs
+
+See `settings.py`.
+
+For `Prod` config you should specify DB in `settings.py`.
+This config would be used by default (if no `FLASK_ENV` specified).
+
+### Deployment
+
+To run dev version `server$ FLASK_ENV=development python3.7 app.py`.
+
+In production you should use something like 
+[Gunicorn or uWsgi](http://flask.pocoo.org/docs/1.0/deploying/).
+
+See example in `prod.sh` and `Dockerfile`.
+
+## Security
+In developer version automatically created user with email `admin@` 
+and password `admin`.
+
+### JWT keys
+
+For web token crypto server uses keys from files configured in the config 
+object.
+Default is `sever/security` folder.
+
+Example how to recreate keys see in `create_keys.sh`.
+Private key is for token issuing. 
+
+If the web application would get tockens from external service
+like Amazon Cognito, you should provide only public key from that 
+external service, so our server could check this external service's tokens.
+
+Public key is expected in `pem` certificate format. 

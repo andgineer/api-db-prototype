@@ -5,7 +5,7 @@ from controllers.users.delete import delete_user
 from controllers.users.list import users_list
 from transmute_core import describe
 from transmute_core.exceptions import APIException
-from functools import partial
+from functools import partial, WRAPPER_ASSIGNMENTS, wraps
 import functools
 
 
@@ -15,7 +15,7 @@ route = partial(flask_transmute.route, app)
 
 
 def api(handler):
-    @functools.wraps(handler)
+    @wraps(handler, assigned=WRAPPER_ASSIGNMENTS+('__signature__', ))
     def wrapper(*args, **kwargs):
         result = handler(*args, **kwargs)
         if result[1] != 200:

@@ -4,3 +4,4 @@ schematics
 pyjwt
 passlib
 cryptography
+uwsgi

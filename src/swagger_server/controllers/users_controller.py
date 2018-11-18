@@ -1,8 +1,4 @@
-import connexion
-from swagger_server.models.new_user import NewUser as swaggerNewUser  # noqa: E501
-from swagger_server.models.new_user_response import NewUserResponse  # noqa: E501
-from swagger_server.models.user import User  # noqa: E501
-from swagger_server.models.users import Users  # noqa: E501
+from src.swagger_server.models.user import User  # noqa: E501
 import controllers.users.create
 import controllers.users.delete
 import controllers.users.get
