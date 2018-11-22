@@ -5,6 +5,7 @@ import datetime
 from flask_server.api_app import app as flask_app
 #from transmute_server.api_app import app as transmute_app
 #from swagger_server.api_app import app as connexion_app
+from datetime import timezone
 
 
 # environment vars
@@ -75,7 +76,7 @@ class ConfigBase:
         To have one place to decide whether we use utc or server timezone.
         And for ease of mocking in expiration tests.
         """
-        return datetime.datetime.utcnow()
+        return datetime.datetime.now(timezone.utc)
 
     def from_date_str(self, date_str: str) -> datetime:
         """
@@ -95,7 +96,7 @@ class ConfigBase:
         """
         'yyyy-mm-dd' (UTC) to datetime
         """
-        return datetime.datetime.strptime(date_str, '%Y-%m-%d')
+        return datetime.datetime.strptime(date_str, '%Y-%m-%d').replace(tzinfo=timezone.utc)
 
 
 class ConfigTest(ConfigBase):

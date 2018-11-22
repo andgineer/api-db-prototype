@@ -19,6 +19,7 @@ def test_user_crud(api_client, random_user, admin_token):
     Create user, get user list, delete user.
     """
     with api_client as client:
+        random_user['group'] = 'full'
         resp = client.post('/users', data=json.dumps(random_user), headers=headers(admin_token))
         data = get_result_data(resp)
         new_user_id = data['id']

@@ -13,7 +13,7 @@ class Project(Base):
     __tablename__ = 'projects'
     id = Column(Integer, primary_key=True)
     name = Column(String(80), unique=True, nullable=False)
-    created = Column(DateTime, default=func.now())
+    created = Column(DateTime(timezone=True), default=func.now())
     users = relationship(
         'User',
         secondary='project_user_link',

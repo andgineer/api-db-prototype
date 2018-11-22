@@ -50,7 +50,16 @@ class APIModel(Model):
         Export for ORM (SQLAlchemy).
         Dictionary without convertion of dates
         """
-        return self.to_native()
+        result = self.to_native()
+
+        # remove None fields
+        empty_fields = set()
+        for field in result:
+            if result[field] is None:
+                empty_fields.add(field)
+        for field in empty_fields:
+            del result[field]
+        return result
 
     def from_dict(self, data):
         super().__init__({param: data[param] for param in self.keys()})
@@ -68,24 +77,24 @@ class UserShort(APIModel):
     id = StringType()
     group = StringType()
     email = StringType()
-    name = StringType(default='')
+    name = StringType()
 
 
 class UpdateUser(APIModel):
     group = StringType()
-    email = StringType()
+    email = StringType(required=True)
     password = StringType()
-    name = StringType(default='')
+    name = StringType()
 
 
 class NewUser(APIModel):
     """
     To extend validation https://schematics.readthedocs.io/en/latest/usage/validation.html#extending-validation
     """
-    group = StringType()
-    email = StringType()
+    group = StringType(required=True)
+    email = StringType(required=True)
     password = StringType(required=True)
-    name = StringType(default='')
+    name = StringType()
 
 
 class User(APIModel):

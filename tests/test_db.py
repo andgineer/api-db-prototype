@@ -1,6 +1,7 @@
 import db.models
 from conftest import DEFAULT_USERS
 import datetime
+from datetime import timezone
 import pytest
 import settings
 
@@ -45,7 +46,7 @@ def test_wrong_config(wrong_session):
 
 
 def test_rfc3339():
-    time = datetime.datetime.utcnow()
+    time = datetime.datetime.now(timezone.utc)
     date = time.replace(hour=0, minute=0, second=0, microsecond=0)
     assert settings.config.rfc3339_to_date(settings.config.date_to_rfc3339(time)) == date
 

@@ -5,6 +5,7 @@ from string import ascii_letters, digits
 import passwords
 from journaling import log
 import datetime
+from datetime import timezone
 
 
 @settings(max_examples=10)  # encryption is time consuming and we are not in business to check crypto anyway
@@ -24,5 +25,5 @@ def test_password_hash(password):
 
 
 def test_jwt_time():
-    t = datetime.datetime.utcnow().replace(microsecond=0)
+    t = datetime.datetime.now(timezone.utc).replace(microsecond=0)
     assert token.jwt2datetime(token.datetime2jwt(t)) == t

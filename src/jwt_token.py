@@ -10,6 +10,7 @@ import settings
 from journaling import log
 from jwt.exceptions import PyJWTError
 import datetime
+from datetime import timezone
 
 
 JWT_EXPIRATION = 'exp'
@@ -73,7 +74,7 @@ class JwtCrypto:
         """
         Converts POSIX time into utc datetime
         """
-        return datetime.datetime.fromtimestamp(int(jwt_time))
+        return datetime.datetime.fromtimestamp(int(jwt_time), tz=timezone.utc)
 
 
 token = JwtCrypto()

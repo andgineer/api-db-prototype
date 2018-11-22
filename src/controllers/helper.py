@@ -17,7 +17,7 @@ def transaction(handler):
     """
     Decorator to wrap api handler into try-except to handle DB transaction.
     """
-    @functools.wraps(handler)  # preserve initial function signature
+    @functools.wraps(handler)
     def wrapper(*args, **kwargs):
         try:
             return handler(*args, **kwargs)
@@ -55,7 +55,7 @@ def api_result(handler):
     Expects from handler tuple with result object and optional code (default 200).
     Formats result as tuple (<result object>, <http result code>)
     """
-    @functools.wraps(handler)  # preserve initial function signature
+    @functools.wraps(handler)
     def wrapper(*args, **kwargs):
         result = handler(*args, **kwargs)
         if isinstance(result, tuple):

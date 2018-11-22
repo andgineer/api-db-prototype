@@ -3,6 +3,7 @@ from conftest import get_result_data, headers, DEFAULT_USERS
 from hypothesis import settings
 from unittest.mock import patch
 import datetime
+from datetime import timezone
 import settings
 
 
@@ -36,6 +37,6 @@ def test_expired_token(mock_now, api_client, admin_token):
     Mock time so jwt should be expired.
     """
     with api_client as client:
-        mock_now.return_value = datetime.datetime.now() + settings.config.token_expiration_delta
+        mock_now.return_value = datetime.datetime.now(timezone.utc) + settings.config.token_expiration_delta
         resp = client.get('/users', headers=headers(admin_token))
         get_result_data(resp, expected_statuses=[501])

@@ -6,7 +6,7 @@ import settings
 import pytest
 from controllers.models import SUCCESS_CODES
 import controllers.models
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from unittest.mock import patch
 import json
 
@@ -36,7 +36,6 @@ def get_result_data(resp, expected_statuses=SUCCESS_CODES) -> dict:
 
 @pytest.fixture(scope='function', params=[ConfigTestPureFlask])  # , ConfigTestConnexion, ConfigTestTransmute])
 def config(request):
-    print('#'*20, 'config set')
     settings.config = request.param()
 
 
@@ -209,7 +208,7 @@ def admin_token_for_life(mock_now, api_client):
     """
     JWT for admin valid for long time
     """
-    mock_now.return_value = datetime.now() + timedelta(days=7)
+    mock_now.return_value = datetime.now(timezone.utc) + timedelta(days=7)
     with api_client as client:
         resp = client.post(
             '/auth',
