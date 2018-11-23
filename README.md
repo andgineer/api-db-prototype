@@ -7,6 +7,33 @@ Implements API server with different frameworks
 * Swagger codegen (connexion)
 * Pure flask
 
+## Folder overview
+* `create_keys.sh` - to create key and sertificate in `secret/`
+* `db_migration.sh` - creates migration script in `alembic/versions/`
+* `db_show_migration_sql.sh` - shows migration script as SQL
+* `db_upgrade.sh` - runs migrations from `alembic/versions/`
+* `dev.sh` - to run backend on local Python in Linux
+* `load.sh` - to run load tests (URL in `load.yaml`)
+* `markup.sh` - converts swagger API into confluence wiki compatible markdown
+* `prod.sh` - to run backend on AWS
+* `psql.sh` - to run postgres CLI
+* `test.sh` - run tests (you can use `-k` or `-m` to filter them by name or by mark respectively)
+* `smoke_test.sh` - quick curl test (request JWT and after that user list with it)
+* `api` - swagger (Open API) description of the API served by the backend
+* `alembic` - DB metadata versioning
+* `src/controllers` - application logic
+* `src/db` - SQLAlchemy models
+* `src/flask_server` - HTTP server (request routing to application logic)
+* `src/transmute_server` - Transmute version
+* `src/swagger_server` - Connexion version (swagger codegen)
+* `src/secret` - key and sertificate for signing and verification of secutiry tokens (`jwt_token.py`)
+* `src/tests` - py.test tests, call test.sh to run them
+* `src/app.py` - WSGI app (for Flask, uWsgi, Unicorn etc)
+* `src/journaling.py` - Central journaling settings
+* `src/jwt_token.py` - Security tokens crypto
+* `src/passwords.py` - Password hashing crypto
+* `src/settings.py` - Configs for test/dev/prod
+
 Libraries:
 * swagger doc auto generation [transmute](https://github.com/toumorokoshi/flask-transmute)
 * DB [SQLAlchemy](http://wiki.python.su/%D0%94%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%86%D0%B8%D0%B8/SQLAlchemy)
