@@ -1,3 +1,7 @@
 #!/usr/bin/env bash
-docker build -t=back-prototype .
-docker run -it -p 5000:5000 back-prototype
+#
+# Builds docker image and run it with uWSGI
+#
+docker build -t=backend .
+docker stop backend
+docker run --name backend -it -p 5000:5000 backend

@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+#
+# Postgres CLI
+#
 echo
 echo "To save password place into file ~/.pgpass line '<DB server host>:5432:<DB file>:root:<password>'"
 echo "And press <ENTER> at password prompt of psql."

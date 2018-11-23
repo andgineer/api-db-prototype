@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+#
+# Quick curl test
+# Requests JWT and after that requests user list with it
+#
 case $1 in
      local)
           URL=http://localhost:5000
