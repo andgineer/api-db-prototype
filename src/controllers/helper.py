@@ -38,11 +38,11 @@ def transaction(handler):
             missing_args = re.match(r"(.+)missing \d+ required positional argument(s)?: (.+)", str(e))
             if missing_args:
                 return f'Missing arguments: {missing_args.group(3)}', API_ERROR_CODE
-            log.error(f'{e}, {repr(traceback.format_exc())}')
+            log.error(f'{e}', exc_info=True)
             return 'Server internal error', UNHANDLED_EXC_CODE
         except Exception as e:
             db.conn.session.rollback()
-            log.error(f'{e}, {repr(traceback.format_exc())}')
+            log.error(f'{e}', exc_info=True)
             return 'Server internal error', UNHANDLED_EXC_CODE
         finally:
             db.conn.session.close()

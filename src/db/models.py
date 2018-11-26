@@ -83,6 +83,6 @@ class User(Base):
 @event.listens_for(Project.author, 'set')
 def project_author_set_listener(project: Project, author: User, old_author: User, initiator: attributes.Event):
     author.projects.append(project)
-    # old_author.projects.remove(project)  # we do not remove the project from visible projects
-    # because there are no user story for changing project author so we do not think about that at the moment
+    if old_author:
+        old_author.projects.remove(project)
     log.debug(f'{author.email}\'s own project "{project.name}" added also to her full list of projects')
