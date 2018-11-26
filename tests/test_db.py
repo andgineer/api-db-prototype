@@ -52,26 +52,24 @@ def test_rfc3339():
 
 
 def test_db(session, db_users, db_projects):
-    projects_objects = []
-    for project_dict in db_projects:
-        project = db.models.Project(**project_dict)
-        projects_objects.append(project)
-        session.add(project)
-
     user_objects = []
     for user_dict in db_users:
         user = db.models.User(**user_dict)
-        user_objects.append(user)
         session.add(user)
+        user_objects.append(user)
 
+    projects_objects = []
     user0_projects_names = []
-    for project in projects_objects[:-1]:
-        user_objects[0].projects.append(project)
+    for project_dict in db_projects:
+        project = db.models.Project(**project_dict)
+        session.add(project)
+        project.author = user_objects[0]
+        projects_objects.append(project)
         user0_projects_names.append(project.name)
 
     assert session.query(db.models.User).count() == len(db_users) + DEFAULT_USERS
 
     user0_projects = session.query(db.models.User).filter_by(email=user_objects[0].email).first().projects
-    assert len(user0_projects) == len(db_projects) - 1
+    assert len(user0_projects.all()) == len(db_projects)  # first user uwns all the projects
     assert user0_projects[0].name in user0_projects_names
 
