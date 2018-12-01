@@ -4,13 +4,14 @@ from schematics.types import StringType, DecimalType, DateTimeType, DateType
 from jwt_token import token, JWT_CREATED, JWT_EXPIRATION
 
 
-SUCCESS_CODE = 200  # Default HTTP result code
-SUCCESS_CODES = [SUCCESS_CODE]
-UNHANDLED_EXC_CODE = 500  # Unhandled exception
-UNAUTH_OPER_CODE = 403
-API_ERROR_CODE = 501  # Wrong request format etc
-APP_ERROR_CODE = 400  # Application level error like user already exists and so on
-NO_TOKEN_CODE = 401  # Request without token for operation that requires one
+class HttpCode:
+    success = 200  # Default HTTP result code
+    successes = [success]
+    unhandled_exception = 500  # Unhandled exception
+    unauthorized = 403
+    wrong_request = 501  # Wrong request format etc
+    logic_error = 400  # Application level error like user already exists and so on
+    no_token = 401  # Request without token for operation that requires one
 
 FULL_ACCESS_GROUP = 'full'
 ADMIN_ACCESS_GROUP = 'admin'

@@ -4,7 +4,7 @@ import db.conn
 import db.models
 import settings
 import pytest
-from controllers.models import SUCCESS_CODES
+from controllers.models import HttpCode
 import controllers.models
 from datetime import datetime, timedelta, timezone
 from unittest.mock import patch
@@ -21,7 +21,7 @@ def headers(token):
     }
 
 
-def get_result_data(resp, expected_statuses=SUCCESS_CODES) -> dict:
+def get_result_data(resp, expected_statuses=HttpCode.successes) -> dict:
     """
     Parse reply body as json and checks ['success']
     """

@@ -10,7 +10,7 @@ import functools
 import traceback
 from controllers.models import AuthUser
 import schematics.exceptions
-from controllers.models import API_ERROR_CODE, UNHANDLED_EXC_CODE, SUCCESS_CODE, NO_TOKEN_CODE
+from controllers.models import HttpCode
 
 
 def transaction(handler):
@@ -24,7 +24,7 @@ def transaction(handler):
         except APIError as e:
             db.conn.session.rollback()
             log.error(f'{e}')
-            return f'API error {e}', API_ERROR_CODE
+            return f'API error {e}', HttpCode.wrong_request
         except schematics.exceptions.BaseError as e:
             db.conn.session.rollback()
             messages = []
@@ -32,18 +32,18 @@ def transaction(handler):
                 error_messsage = str(e.errors[field]).replace('Rogue', 'Unknown')
                 messages.append(f'{field} - {error_messsage}')
             log.error(f'Model validation error: {e}')
-            return f'Wrong request parameters: {", ".join(messages)}', API_ERROR_CODE
+            return f'Wrong request parameters: {", ".join(messages)}', HttpCode.wrong_request
         except TypeError as e:
             db.conn.session.rollback()
             missing_args = re.match(r"(.+)missing \d+ required positional argument(s)?: (.+)", str(e))
             if missing_args:
-                return f'Missing arguments: {missing_args.group(3)}', API_ERROR_CODE
+                return f'Missing arguments: {missing_args.group(3)}', HttpCode.wrong_request
             log.error(f'{e}', exc_info=True)
-            return 'Server internal error', UNHANDLED_EXC_CODE
+            return 'Server internal error', HttpCode.unhandled_exception
         except Exception as e:
             db.conn.session.rollback()
             log.error(f'{e}', exc_info=True)
-            return 'Server internal error', UNHANDLED_EXC_CODE
+            return 'Server internal error', HttpCode.unhandled_exception
         finally:
             db.conn.session.close()
     return wrapper
@@ -62,7 +62,7 @@ def api_result(handler):
             code = result[1]
             result = result[0]
         else:
-            code = SUCCESS_CODE
+            code = HttpCode.success
         return result, code
     wrapper.__signature__ = inspect.signature(handler)  # preserve initial function signature
     return wrapper
@@ -76,7 +76,7 @@ def token_to_auth_user(handler):
     def wrapper(*args, **kwargs):
         if not kwargs['auth_token']:
             log.debug('No or wrong user token in request')
-            return 'No or wrong user token in request', NO_TOKEN_CODE
+            return 'No or wrong user token in request', HttpCode.no_token
         kwargs.update({'auth_user': AuthUser(kwargs['auth_token'])})
         del kwargs['auth_token']
         return handler(*args, **kwargs)

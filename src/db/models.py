@@ -3,6 +3,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 import passwords
 from sqlalchemy.orm import attributes
+from sqlalchemy.orm.base import NEVER_SET, NO_VALUE
 from journaling import log
 
 
@@ -83,6 +84,6 @@ class User(Base):
 @event.listens_for(Project.author, 'set')
 def project_author_set_listener(project: Project, author: User, old_author: User, initiator: attributes.Event):
     author.projects.append(project)
-    if old_author:
+    if old_author not in [NEVER_SET, NO_VALUE]:
         old_author.projects.remove(project)
     log.debug(f'{author.email}\'s own project "{project.name}" added also to her full list of projects')

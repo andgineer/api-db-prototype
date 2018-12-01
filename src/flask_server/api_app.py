@@ -10,7 +10,7 @@ from controllers.users.delete import delete_user
 from controllers.users.list import users_list
 from controllers.users.get import get_user
 from controllers.users.auth import get_token
-from controllers.models import SUCCESS_CODES, SUCCESS_CODE, API_ERROR_CODE
+from controllers.models import HttpCode
 from journaling import log
 from jwt_token import token
 import inspect
@@ -55,7 +55,7 @@ def api(handler, bparams: list=None):
                         val = body_obj
                     else:
                         log.debug(f'No parameter {param} in request:\n{request.data} ({body_obj})')
-                        return f'No parameter {param} in request:\n{request.data}', API_ERROR_CODE
+                        return f'No parameter {param} in request:\n{request.data}', HttpCode.wrong_request
                 kwargs.update({param: val})
         if request.args:
             for param in request.args:
@@ -76,8 +76,8 @@ def api(handler, bparams: list=None):
             code = result[1]
             result = result[0]
         else:
-            code = SUCCESS_CODE
-        if code not in SUCCESS_CODES and isinstance(result, str):
+            code = HttpCode.success
+        if code not in HttpCode.successes and isinstance(result, str):
             result = {'status': result}
         return jsonify(result), code
     return api_wrapper

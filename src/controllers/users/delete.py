@@ -2,7 +2,7 @@ import db.conn
 import db.models
 from controllers.helper import transaction, api_result, token_to_auth_user
 from journaling import log
-from controllers.models import AuthUser, UNAUTH_OPER_CODE, APP_ERROR_CODE
+from controllers.models import AuthUser, HttpCode
 
 
 @api_result
@@ -14,7 +14,7 @@ def delete_user(auth_user: AuthUser, user_id: str):
     Returns deleted user id.
     """
     if not auth_user.is_admin:
-        return 'Only admin can delete users', UNAUTH_OPER_CODE
+        return 'Only admin can delete users', HttpCode.unauthorized
     user_to_delete = db.conn.session.query(db.models.User).filter(db.models.User.id == user_id)
     if user_to_delete.count():
             log.debug(f'Deletion of user with id={user_id}')
@@ -23,4 +23,4 @@ def delete_user(auth_user: AuthUser, user_id: str):
             return None
     else:
         log.debug(f'No user with id={user_id}')
-        return f'No user with id={user_id}', APP_ERROR_CODE
+        return f'No user with id={user_id}', HttpCode.logic_error
