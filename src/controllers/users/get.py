@@ -14,7 +14,7 @@ def get_user(auth_user: AuthUser, user_id):
     """
     if not auth_user.is_admin:
         return 'Only admin can get info about user', HttpCode.unauthorized
-    users = db.conn.session.query(db.models.User).filter(db.models.User.id == user_id)
-    if not users.count():
+    user = db.models.User.by_id(user_id)
+    if not user:
         return f'No user with id={user_id}', HttpCode.logic_error
-    return controllers.models.User().from_orm(users[0]).as_dict
+    return controllers.models.User().from_orm(user).as_dict

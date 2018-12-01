@@ -14,11 +14,10 @@ def get_token(email: str, password: str):
     """
     Returns JWT for the email/password.
     """
-    users = db.conn.session.query(db.models.User).filter(db.models.User.email == email)
-    if not users.count():
+    user = db.models.User.by_email(email)
+    if not user:
         log.debug(f'No user with email={email}')
         return f'No user with email={email}', HttpCode.logic_error
-    user = users.first()
     if not passwords.verify(password, user.password_hash):
         log.debug(f'Invalid email/password for user {email}')
         return f'Invalid email/password for user {email}', HttpCode.unauthorized

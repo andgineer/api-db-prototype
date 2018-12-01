@@ -35,13 +35,14 @@ class ConfigBase:
     _port = DEFAULT_PORT
     _db_uri = None
 
-    auto_db_meta = True  # refresh DB metadata at start
+    db_autometa = True  # refresh DB metadata at start
+    db_sqltrace = False
 
     @property
     @abstractmethod
     def app(self):
         """
-        Flas-compatible App server to run.
+        Flask-compatible App server to run.
         """
         pass
 

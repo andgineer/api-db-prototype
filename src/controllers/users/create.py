@@ -18,8 +18,8 @@ def create_user(auth_user: AuthUser, new_user: dict):
         return 'Only admin can create users', HttpCode.unauthorized
     new_user = NewUser(new_user)
     new_user.validate()
-    users = db.conn.session.query(db.models.User).filter(db.models.User.email == new_user.email)
-    if users.count():
+    user = db.models.User.by_email(new_user.email, check=False)
+    if user:
         return f'User with email="{new_user["email"]}" already exists', HttpCode.logic_error
     db_user = db.models.User(**new_user.to_orm)
     db.conn.session.add(db_user)

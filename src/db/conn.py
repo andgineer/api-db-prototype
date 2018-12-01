@@ -4,25 +4,15 @@ Encapsulates SQLAlchemy engine, session and db management logic
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from db.models import Base
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, scoped_session
 from journaling import log
 import settings
 import db.models
 import controllers.models
-import datetime
 import settings
-#from sqlalchemy import event
 
 
 session: Session = None
-
-
-# @event.listens_for(Session, "after_flush")
-# def log_transaction(session, flush_context):
-#     """
-#     We want to know if metadata was created so we have to create default admin
-#     """
-#     session.info['has_flushed'] = True
 
 
 def create_admin_user():
@@ -30,7 +20,7 @@ def create_admin_user():
     Creates default admin if no users with admin right are in DB
     """
     # if session.info.get('has_flushed', False):
-    users = session.query(db.models.User).filter(db.models.User.group == controllers.models.ADMIN_ACCESS_GROUP)
+    users = db.models.User.query().filter(db.models.User.group == controllers.models.ADMIN_ACCESS_GROUP)
     if not users.count():
         log.debug('!' * 25 + f"""
 Creating default admin user <{settings.config.default_admin_email}> with
@@ -50,10 +40,14 @@ password '{settings.config.default_admin_password}' - please change her password
 def make_session():
     global session
     log.debug(f'...Connecting to DB {settings.config.db_uri}...')
-    engine = create_engine(settings.config.db_uri)
-    session = sessionmaker(bind=engine)()
+    engine = create_engine(
+        settings.config.db_uri,
+        echo=settings.config.db_sqltrace
+    )
+
+    session = scoped_session(sessionmaker(bind=engine))  # ()
     Base.metadata.bind = engine
-    if settings.config.auto_db_meta:
+    if settings.config.db_autometa:
         refresh_metadata()
     create_admin_user()
     return session

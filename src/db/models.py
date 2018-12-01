@@ -5,9 +5,31 @@ import passwords
 from sqlalchemy.orm import attributes
 from sqlalchemy.orm.base import NEVER_SET, NO_VALUE
 from journaling import log
+import db.conn
+from controllers.models import APIError
 
 
-Base = declarative_base()
+class ORMClass(object):
+    @classmethod
+    def query(cls):
+        return db.conn.session.query(cls)
+
+    @classmethod
+    def by_id(cls, id, check=True):
+        """
+        Find object by ID.
+        If `check` then raise exception if not found.
+        """
+        result = cls.query().filter(cls.id == id).first()
+        if not result:
+            if check:
+                raise APIError(f'There is no {cls.__name__} with id="{id}"')
+            else:
+                log.debug(f'{cls.__name__} with id="{id}" was not found')
+        return result
+
+
+Base = declarative_base(cls=ORMClass)
 
 
 # Many-to-many relationship
@@ -64,7 +86,6 @@ class User(Base):
         lazy='dynamic'
     )
 
-
     @property
     def password(self):
         raise Exception('Password getter')
@@ -72,6 +93,20 @@ class User(Base):
     @password.setter
     def password(self, value):
         self.password_hash = passwords.hash(value)
+
+    @staticmethod
+    def by_email(email, check=True):
+        """
+        Find user by email.
+        If `check` then raise exception if not found.
+        """
+        user = User.query().filter(func.lower(db.models.User.email) == email.lower()).first()
+        if not user:
+            if check:
+                raise APIError(f'There is no user with email "{email}"')
+            else:
+                log.debug(f'User with email "{email}" was not found')
+        return user
 
     @property
     def as_dict(self):
