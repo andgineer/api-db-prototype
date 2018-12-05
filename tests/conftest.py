@@ -9,6 +9,7 @@ import controllers.models
 from datetime import datetime, timedelta, timezone
 from unittest.mock import patch
 import json
+import api
 
 
 DEFAULT_USERS = 1  # pre-created admin@
@@ -37,11 +38,15 @@ def get_result_data(resp, expected_statuses=HttpCode.successes) -> dict:
 @pytest.fixture(scope='function', params=[ConfigTestPureFlask])  # , ConfigTestConnexion, ConfigTestTransmute])
 def config(request):
     settings.config = request.param()
+    api.api_url = settings.config.api_url
+    return settings.config
 
 
 @pytest.fixture(scope='function', params=[ConfigTestWrong])
 def config_wrong(request):
     settings.config = request.param()
+    api.api_url = settings.config.api_url
+    return settings.config
 
 
 @pytest.fixture(scope='function')
@@ -51,6 +56,7 @@ def api_client(config):
     ctx = settings.config.app.test_request_context()
     ctx.push()
 
+    api.client = client  # inject test client
     yield client
 
     ctx.pop()

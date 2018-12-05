@@ -6,6 +6,7 @@ from flask_server.api_app import app as flask_app
 #from transmute_server.api_app import app as transmute_app
 #from swagger_server.api_app import app as connexion_app
 from datetime import timezone
+import urllib
 
 
 # environment vars
@@ -37,6 +38,13 @@ class ConfigBase:
 
     db_autometa = True  # refresh DB metadata at start
     db_sqltrace = False
+
+    api_host = None
+    api_root = ''
+
+    @property
+    def api_url(self):
+        return urllib.parse.urljoin(self.api_host, self.api_root)
 
     @property
     @abstractmethod
@@ -110,6 +118,7 @@ class ConfigTest(ConfigBase):
         self.db_uri = 'sqlite:///' + self.db_file_name
         self.jwt_public_key_file = 'src/secret/jwt_certificate.pem'
         self.jwt_secret_key_file = 'src/secret/jwt_private.key'
+        self.api_host = 'http://localhost:5000'
 
     def __del__(self):
         os.close(self.db_file_object)
@@ -170,6 +179,7 @@ class ConfigProd(ConfigBase):
         self.auto_db_meta = int(os.environ.get(AUTO_DB_META_ENV, 0))
         self.jwt_public_key_file = PUBLIC_JWT_KEY_FILE
         self.jwt_secret_key_file = PRIVATE_JWT_KEY_FILE
+        self.api_host = 'https://example.com'
 
     @property
     def app(self):
