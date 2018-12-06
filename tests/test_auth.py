@@ -8,14 +8,14 @@ import settings
 import api
 
 
-def test_admin_auth_fail(api_client):
+def test_admin_auth_fail():
     """
     Get jwt for admin default user with wrong password.
     """
     api.get_token('admin@', 'admi', expected_statuses=[403])
 
 
-def test_admin_auth_success(api_client, admin_token):
+def test_admin_auth_success(admin_token):
     """
     Get jwt for admin default user and use it.
     """
@@ -24,7 +24,7 @@ def test_admin_auth_success(api_client, admin_token):
 
 
 @patch('settings.config.now')
-def test_expired_token(mock_now, api_client, admin_token):
+def test_expired_token(mock_now, admin_token):
     """
     Mock time so jwt should be expired.
     """

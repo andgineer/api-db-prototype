@@ -1,6 +1,7 @@
 from flask import json
 import hypothesis.strategies as st
-from conftest import get_result_data, DEFAULT_USERS, headers
+from conftest import DEFAULT_USERS
+import api
 from hypothesis import given, settings
 
 
@@ -14,28 +15,19 @@ UserStrategy = st.builds(
 
 @given(random_user=UserStrategy)
 @settings(max_examples=10)
-def test_user_crud(api_client, random_user, admin_token):
+def test_user_crud(random_user, admin_token):
     """
     Create user, get user list, delete user.
     """
-    with api_client as client:
-        random_user['group'] = 'full'
-        resp = client.post('/users', data=json.dumps(random_user), headers=headers(admin_token))
-        data = get_result_data(resp)
-        new_user_id = data['id']
+    random_user['group'] = 'full'
+    new_user_id = api.create_user(admin_token, random_user)['id']
 
-        resp = client.get('/users', headers=headers(admin_token))
-        data = get_result_data(resp)
-        assert len(data) == 1 + DEFAULT_USERS
-        for resp_user in data:
-            if resp_user['email'] == random_user['email']:
-                break
-        else:
-            assert False, f'Created user [{random_user}] not found in the list [{data}]'
-
-        resp = client.delete(f'/users/{new_user_id}', headers=headers(admin_token))
-        get_result_data(resp)  # checks for success
-
-        resp = client.get('/users', headers=headers(admin_token))
-        data = get_result_data(resp)
-        assert len(data) == DEFAULT_USERS
+    data = api.users_list(admin_token)
+    assert len(data) == 1 + DEFAULT_USERS
+    for resp_user in data:
+        if resp_user['email'] == random_user['email']:
+            break
+    else:
+        assert False, f'Created user [{random_user}] not found in the list [{data}]'
+    api.delete_user(admin_token, new_user_id)
+    assert len(api.users_list(admin_token)) == DEFAULT_USERS

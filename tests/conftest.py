@@ -49,7 +49,7 @@ def config_wrong(request):
     return settings.config
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope='function', autouse=True)
 def api_client(config):
     db.conn.make_session()
     client = settings.config.app.test_client()

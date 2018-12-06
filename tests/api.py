@@ -54,7 +54,6 @@ def get_token(email, password, expected_statuses=HttpCode.successes):
     )
     data = parse_api_reply(resp, expected_statuses=expected_statuses)
     if expected_statuses == HttpCode.successes:
-        assert 'user' in data
         return data['token']
     else:
         return None

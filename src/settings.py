@@ -42,6 +42,8 @@ class ConfigBase:
     api_host = None
     api_root = ''
 
+    aws_region = 'us-east-1'
+
     @property
     def api_url(self):
         return urllib.parse.urljoin(self.api_host, self.api_root)
