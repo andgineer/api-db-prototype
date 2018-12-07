@@ -9,5 +9,4 @@ echo "$1" >> "$FILE"
 echo
 echo "$1"
 echo
-echo
 git add src/build_timestamp
