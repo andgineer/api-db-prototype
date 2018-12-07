@@ -6,4 +6,8 @@
 FILE=src/build_timestamp
 date "+%F %T" > $FILE
 echo "$1" >> $FILE
+echo
+echo "$1"
+echo
+echo
 git add src/build_timestamp
