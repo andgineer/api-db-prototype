@@ -5,5 +5,5 @@
 #
 FILE=src/build_timestamp
 date "+%F %T" > $FILE
-cat $1 >> $FILE
+cat "$1" >> $FILE
 git add src/build_timestamp
