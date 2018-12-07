@@ -4,8 +4,8 @@
 # Use hook_install.sh to install
 #
 FILE=src/build_timestamp
-date "+%F %T" > $FILE
-echo "$1" >> $FILE
+date "+%F %T" > "$FILE"
+echo "$1" >> "$FILE"
 echo
 echo "$1"
 echo
