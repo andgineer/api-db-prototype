@@ -11,9 +11,13 @@ from controllers.users.list import users_list
 from controllers.users.get import get_user
 from controllers.users.auth import get_token
 from controllers.models import HttpCode
+from controllers.version import get_version
 from journaling import log
 from jwt_token import token
 import inspect
+
+
+API_ROOT_URL = ''  # if we need to shift our api from root to deeper path
 
 
 app = Flask(__name__)
@@ -83,11 +87,43 @@ def api(handler, bparams: list=None):
     return api_wrapper
 
 
-app.add_url_rule('/auth', 'get_token', api(get_token, bparams=['email', 'password']), methods=['POST'])
-app.add_url_rule('/users/<string:user_id>', 'delete_user', api(delete_user), methods=['DELETE'])
-app.add_url_rule('/users', 'create_user', api(create_user, bparams=['new_user']), methods=['POST'])
-app.add_url_rule('/users', 'users_list', api(users_list), methods=['GET'])
-app.add_url_rule('/users/<string:user_id>', 'get_user', api(get_user), methods=['GET'])
-
+app.add_url_rule(
+    f'{API_ROOT_URL}/auth',
+    'get_token',
+    api(get_token,
+        bparams=['email', 'password']),
+    methods=['POST']
+)
+app.add_url_rule(
+    f'{API_ROOT_URL}/users/<string:user_id>',
+    'delete_user',
+    api(delete_user),
+    methods=['DELETE']
+)
+app.add_url_rule(
+    f'{API_ROOT_URL}/users',
+    'create_user',
+    api(create_user,
+        bparams=['new_user']),
+    methods=['POST']
+)
+app.add_url_rule(
+    f'{API_ROOT_URL}/users',
+    'users_list',
+    api(users_list),
+    methods=['GET']
+)
+app.add_url_rule(
+    f'{API_ROOT_URL}/users/<string:user_id>',
+    'get_user',
+    api(get_user),
+    methods=['GET']
+)
+app.add_url_rule(
+    f'{API_ROOT_URL}/version',
+    'get_version',
+    get_version,
+    methods=['GET']
+)
 
 app.register_blueprint(blueprint)
