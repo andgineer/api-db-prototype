@@ -19,7 +19,7 @@ Implements API server with different frameworks
 * `psql.sh` - to run postgres CLI
 * `test.sh` - run tests (you can use `-k` or `-m` to filter them by name or by mark respectively)
 * `smoke_test.sh` - quick curl test (request JWT and after that user list with it)
-* `hook_install.sh` - Installs git hook to add 'build' date to application
+* `git_hook_install.sh` - Installs git hook to add 'build' date to application
 * `api` - swagger (Open API) description of the API served by the backend
 * `alembic` - DB metadata versioning
 * `src/controllers` - application logic

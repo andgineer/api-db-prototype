@@ -9,3 +9,4 @@ pytest
 pytest-cov
 python-coveralls
 coverage>=4.4
+boto3
