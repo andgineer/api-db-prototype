@@ -71,6 +71,7 @@ class Project(Base):
 
 class User(Base):
     __tablename__ = 'users'
+    createdDatetime = Column('created_datetime', DateTime(timezone=True), default=func.now())
     name = Column(String(120))
     id = Column(Integer, primary_key=True)
     group = Column(String(32))

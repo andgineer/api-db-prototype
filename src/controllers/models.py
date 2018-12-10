@@ -1,7 +1,11 @@
 import settings
 from schematics.models import Model
-from schematics.types import StringType, DecimalType, DateTimeType, DateType
+from schematics.types import StringType, IntType, DateTimeType, DateType
 from jwt_token import token, JWT_CREATED, JWT_EXPIRATION
+
+
+PAGE_DEFAULT = 1
+PER_PAGE_DEFAULT = 30
 
 
 class HttpCode:
@@ -33,8 +37,15 @@ class Paging(Model):
     """
     Validation of list's requests page/per_page parameters
     """
-    page = DecimalType(min_value=1)
-    per_page = DecimalType(min_value=1)
+    page = IntType(min_value=1, default=PAGE_DEFAULT)
+    per_page = IntType(min_value=1, default=PER_PAGE_DEFAULT)
+
+    def __init__(self, raw_data, **kwargs):
+        if 'page' in raw_data and str(raw_data['page']).strip() == '':
+            del raw_data['page']
+        if 'per_page' in raw_data and str(raw_data['per_page']).strip() == '':
+            del raw_data['per_page']
+        super().__init__(raw_data, **kwargs)
 
 
 class APIModel(Model):

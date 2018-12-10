@@ -81,7 +81,11 @@ def users_list(token, expected_statuses=HttpCode.successes, **kwargs):
     if kwargs:
         url += f'?{urllib.parse.urlencode(kwargs)}'
     resp = client.get(url, headers=headers(token))
-    return parse_api_reply(resp, expected_statuses=expected_statuses)
+    data = parse_api_reply(resp, expected_statuses=expected_statuses)
+    if expected_statuses == HttpCode.successes:
+        return data['data']
+    else:
+        return None
 
 
 def delete_user(token, id, expected_statuses=HttpCode.successes):

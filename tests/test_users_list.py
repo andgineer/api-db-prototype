@@ -62,4 +62,10 @@ def test_users_list_columns(users, admin_token):
         assert 'password_hash' not in list_user
 
 
-
+def test_users_list_empty_params(user, admin_token):
+    """
+    Test empty list params list
+    """
+    api.create_user(admin_token, user)
+    assert len(api.users_list(admin_token, page='', per_page='', order_by='')) == 1 + DEFAULT_USERS
+    api.users_list(admin_token, page='-1', expected_statuses=[501])
