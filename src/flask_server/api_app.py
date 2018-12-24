@@ -24,15 +24,13 @@ app = Flask(__name__)
 blueprint = Blueprint("blueprint", __name__, url_prefix="/")
 
 
-def auth_token():
+def set_auth_token(kwargs):
     """
     Gets auth token from headers and pass it to handler
     """
     auth_header = request.headers.get('Authorization')
     if auth_header:
-        return token.decode(auth_header.split(" ")[1])
-    else:
-        return None
+        kwargs.update({'auth_token': token.decode(auth_header.split(" ")[1])})
 
 
 def api(handler, bparams: list=None):
@@ -66,14 +64,13 @@ def api(handler, bparams: list=None):
                 kwargs.update({param: request.args[param]})
 
         # should be last so nothing could inject decoded token
-        if 'auth_user' in inspect.getfullargspec(handler).args:
-            """
-            If the handler expects authenticated user (has 'auth_user' param), we pass token to it. 
-            Controller's wrapper (@auth_user) will convert token into auth_user param for the handler.
-            
-            Here is transport layer so we just pass decoded token data to controller's logic.
-            """
-            kwargs.update({'auth_token': auth_token()})
+        """
+        If the handler expects authenticated user (has 'auth_user' param), we pass token to it. 
+        Controller's wrapper (@auth_user) will convert token into auth_user param for the handler.
+        
+        Here is transport layer so we just pass decoded token data to controller's logic.
+        """
+        set_auth_token(kwargs)
 
         result = handler(*args, **kwargs)
         if isinstance(result, tuple):

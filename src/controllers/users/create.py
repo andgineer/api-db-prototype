@@ -9,7 +9,7 @@ from controllers.models import AuthUser
 @api_result
 @transaction
 @token_to_auth_user
-def create_user(auth_user: AuthUser, new_user: dict):
+def create_user(auth_user: AuthUser, new_user: NewUser):
     """
     Creates user.
     Returns new user id.

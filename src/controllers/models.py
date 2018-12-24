@@ -1,6 +1,6 @@
 import settings
 from schematics.models import Model
-from schematics.types import StringType, IntType, DateTimeType, DateType
+from schematics.types import StringType, IntType, DateTimeType, DateType, ListType
 from jwt_token import token, JWT_CREATED, JWT_EXPIRATION
 
 
@@ -82,6 +82,13 @@ class APIModel(Model):
         return self
 
 
+class TokenReply(APIModel):
+    """
+    get_token reply
+    """
+    token = StringType(required=True)
+
+
 class UserShort(APIModel):
     """
     User in list
@@ -108,6 +115,12 @@ class NewUser(APIModel):
     password = StringType(required=True)
     name = StringType()
 
+class NewUserReply(APIModel):
+    """
+    create rtesult
+    """
+    id = IntType(required=True)
+
 
 class User(APIModel):
     id = StringType()
@@ -119,6 +132,11 @@ class User(APIModel):
 class UserCredentials(APIModel):
   email = StringType()
   password = StringType()
+
+
+class UsersList(APIModel):
+    data = ListType(StringType, required=True)
+    total = IntType(required=True)
 
 
 class AuthUser:

@@ -64,7 +64,13 @@ def api_result(handler):
         else:
             code = HttpCode.success
         return result, code
-    wrapper.__signature__ = inspect.signature(handler)  # preserve initial function signature
+    # Removing our calculated argument auth_user from decorated function
+    signature = inspect.signature(handler)
+    params = []
+    for param in signature.parameters.values():
+        if param.name != 'auth_user':
+            params.append(param)
+    wrapper.__signature__ = signature.replace(parameters=params)
     return wrapper
 
 
@@ -74,11 +80,13 @@ def token_to_auth_user(handler):
     """
     @functools.wraps(handler)  # preserve initial function signature
     def wrapper(*args, **kwargs):
-        if not kwargs['auth_token']:
-            log.debug('No or wrong user token in request')
-            return 'No or wrong user token in request', HttpCode.no_token
-        kwargs.update({'auth_user': AuthUser(kwargs['auth_token'])})
-        del kwargs['auth_token']
+        if 'auth_token' in kwargs:
+            if kwargs['auth_token'] is not None:
+                args = (AuthUser(kwargs['auth_token']), ) + args
+            else:
+                log.warning('No or wrong user token in request')
+                return 'No or wrong user token in request', HttpCode.no_token
+            del kwargs['auth_token']
         return handler(*args, **kwargs)
     return wrapper
 

@@ -3,10 +3,16 @@ from flask import Flask, Blueprint
 from controllers.users.create import create_user
 from controllers.users.delete import delete_user
 from controllers.users.list import users_list
+from controllers.users.auth import get_token
 from transmute_core import describe
 from transmute_core.exceptions import APIException
 from functools import partial, WRAPPER_ASSIGNMENTS, wraps
 import functools
+import inspect
+from jwt_token import token
+from transmute_core import Response, ResponseShape
+from controllers import models
+
 
 
 app = Flask(__name__)
@@ -14,43 +20,102 @@ blueprint = Blueprint("blueprint", __name__, url_prefix="/")
 route = partial(flask_transmute.route, app)
 
 
-def api(handler):
-    @wraps(handler, assigned=WRAPPER_ASSIGNMENTS+('__signature__', ))
+def api(handler, add_auth=True):
     def wrapper(*args, **kwargs):
+        if kwargs['Authorization'] is not None:
+            kwargs.update({'auth_token': token.decode(kwargs['Authorization'].split(" ")[1])})
+        del kwargs['Authorization']
         result = handler(*args, **kwargs)
         if result[1] != 200:
-            raise APIException('')
+            return Response(result[0], result[1])
         return result[0]
+    # Add Authorization argument to decorated function
+    signature = inspect.signature(handler)
+    params = []
+    for param in signature.parameters.values():
+        params.append(param)
+    if add_auth:
+        params.append(inspect.Parameter(
+            'Authorization',
+            inspect.Parameter.POSITIONAL_OR_KEYWORD,
+            default=None,
+            annotation=str
+        ))
+    wrapper.__signature__ = signature.replace(parameters=params)
+    wrapper.__name__ = handler.__name__
     return wrapper
 
 
+error_responces = {
+    401: {'type': str, 'description': 'No or wrong user token in request'},
+    500: {'type': str, 'description': 'Unhandled exception'},
+    403: {'type': str, 'description': 'unauthorized'},
+    501: {'type': str, 'description': 'Wrong request format etc'},
+    400: {'type': str, 'description': 'Application level error like user already exists and so on'},
+}
+
 user_delete = route(paths='/users/{user_id}', methods=['DELETE'])(
-    describe(
-        paths='/users/{user_id}', methods=['DELETE'],  # we have to duplicate due to bug https://github.com/toumorokoshi/flask-transmute/issues/11
-        parameter_descriptions={'user_id': 'ID of user to delete'}
+    describe( # we have to duplicate due to bug https://github.com/toumorokoshi/flask-transmute/issues/11
+        paths='/users/{user_id}',
+        methods=['DELETE'],
+        header_parameters=['Authorization'],
+        parameter_descriptions={'user_id': 'ID of user to delete'},
+        response_types=error_responces.update({200: {
+            'type': str,
+            'description': 'Success'
+        }}),
     )(api(delete_user))
 )
 
 user_create = route(paths='/users', methods=['POST'])(
     describe(
-        paths='/users', methods=['POST'],
+        paths='/users',
+        methods=['POST'],
         body_parameters=['new_user'],
+        header_parameters=['Authorization'],
         parameter_descriptions={
             'new_user': 'Parameters of user to create'
-        }
+        },
+        response_types=error_responces.update({200: {
+            'type': models.NewUserReply,
+            'description': 'Success'
+        }})
     )(api(create_user))
+)
+
+
+auth = route(paths='/auth', methods=['POST'])(
+    describe(
+        paths='/auth',
+        methods=['POST'],
+        body_parameters=['email', 'password'],
+        parameter_descriptions={
+            'email': 'login'
+        },
+        response_types=error_responces.update({200: {
+            'type': models.TokenReply,
+            'description': 'Success'
+        }})
+    )(api(get_token))
 )
 
 #user_update = flask_transmute.route(app, paths='/users/<id>', methods=['PUT'])(user_update)
 #user_by_id = flask_transmute.route(app, paths='/users/<id>', methods=['GET'])(user_by_id)
 user_list = route(paths='/users', methods=['GET'])(
     describe(
-        paths='/users', methods=['GET'],
+        paths='/users',
+        methods=['GET'],
+        header_parameters=['Authorization'],
         parameter_descriptions={ # all params are query by default only for GET
             'page': 'Page number, starting from 0. By default 0.',
             'per_page': 'Items on page. By default 10 000.',
             'return': 'A list of pets.',
-        }
+            'Authorization': 'Security token',
+        },
+        response_types=error_responces.update({200: {
+            'type': models.UsersList,
+            'description': 'Success'
+        }})
     )(api(users_list))
 )
 

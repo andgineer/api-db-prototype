@@ -3,7 +3,7 @@ from abc import abstractmethod
 import tempfile
 import datetime
 from flask_server.api_app import app as flask_app
-#from transmute_server.api_app import app as transmute_app
+from transmute_server.api_app import app as transmute_app
 #from swagger_server.api_app import app as connexion_app
 from datetime import timezone
 import urllib
@@ -136,15 +136,15 @@ class ConfigTestPureFlask(ConfigTest):
         return flask_app
 
 
-# class ConfigTestTransmute(ConfigTest):
-#     """
-#     Creates temp sqlite db.
-#     """
-#     @property
-#     def app(self):
-#         return transmute_app
-#
-#
+class ConfigTestTransmute(ConfigTest):
+    """
+    Creates temp sqlite db.
+    """
+    @property
+    def app(self):
+        return transmute_app
+
+
 # class ConfigTestConnexion(ConfigTest):
 #     """
 #     Creates temp sqlite db.
@@ -167,7 +167,7 @@ class ConfigDev(ConfigBase):
 
     @property
     def app(self):
-        return flask_app
+        return transmute_app
 
 
 class ConfigProd(ConfigBase):

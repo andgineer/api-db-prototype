@@ -61,7 +61,7 @@ def get_token(email, password, expected_statuses=HttpCode.successes):
 
 def create_user(token, user, expected_statuses=HttpCode.successes, patch_email=True):
     with patch('cloud_services.send_email', return_value=None) if patch_email else contextlib.nullcontext():
-        resp = client.post(f'{api_url}/users', data=json.dumps(user), headers=headers(token))
+        resp = client.post(f'{api_url}/users', data=json.dumps({'new_user': user}), headers=headers(token))
     return parse_api_reply(resp, expected_statuses=expected_statuses)
 
 
