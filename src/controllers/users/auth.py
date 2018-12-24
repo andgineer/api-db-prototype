@@ -2,7 +2,7 @@ import db.conn
 import db.models
 from jwt_token import token, JWT_CREATED, JWT_EXPIRATION
 from controllers.helper import transaction, api_result
-from controllers.models import JWT_EMAIL, JWT_GROUP, HttpCode
+from controllers.models import JWT_EMAIL, JWT_GROUP, HttpCode, APILogicError, APIUnauthError
 from journaling import log
 import passwords
 import settings
@@ -17,10 +17,10 @@ def get_token(email: str, password: str):
     user = db.models.User.by_email(email)
     if not user:
         log.debug(f'No user with email={email}')
-        return f'No user with email={email}', HttpCode.logic_error
+        raise APILogicError(f'No user with email={email}')
     if not passwords.verify(password, user.password_hash):
         log.debug(f'Invalid email/password for user {email}')
-        return f'Invalid email/password for user {email}', HttpCode.unauthorized
+        raise APIUnauthError(f'Invalid email/password for user {email}')
     log.debug(f'Issuing JWT for {email}')
     payload = {
         JWT_EXPIRATION: token.datetime2jwt(settings.config.now() + settings.config.token_expiration_delta),

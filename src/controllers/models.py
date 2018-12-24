@@ -29,6 +29,14 @@ class APIError(Exception):
     pass
 
 
+class APIUnauthError(Exception):
+    pass
+
+
+class APILogicError(Exception):
+    pass
+
+
 class APIValueError(APIError):
     pass
 

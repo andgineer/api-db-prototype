@@ -12,6 +12,8 @@ import inspect
 from jwt_token import token
 from transmute_core import Response, ResponseShape
 from controllers import models
+from journaling import log
+from itertools import chain
 
 
 
@@ -23,10 +25,13 @@ route = partial(flask_transmute.route, app)
 def api(handler, add_auth=True):
     def wrapper(*args, **kwargs):
         if kwargs['Authorization'] is not None:
-            kwargs.update({'auth_token': token.decode(kwargs['Authorization'].split(" ")[1])})
+            token_tokens = kwargs['Authorization'].split(" ")
+            if len(token_tokens) > 1:
+                kwargs.update({'auth_token': token.decode(token_tokens[1])})
         del kwargs['Authorization']
         result = handler(*args, **kwargs)
         if result[1] != 200:
+            log.debug(f'Error response: {result}')
             return Response(result[0], result[1])
         return result[0]
     # Add Authorization argument to decorated function
@@ -49,7 +54,7 @@ def api(handler, add_auth=True):
 error_responces = {
     401: {'type': str, 'description': 'No or wrong user token in request'},
     500: {'type': str, 'description': 'Unhandled exception'},
-    403: {'type': str, 'description': 'unauthorized'},
+    403: {'type': str, 'description': 'Unauthorized'},
     501: {'type': str, 'description': 'Wrong request format etc'},
     400: {'type': str, 'description': 'Application level error like user already exists and so on'},
 }
@@ -60,10 +65,13 @@ user_delete = route(paths='/users/{user_id}', methods=['DELETE'])(
         methods=['DELETE'],
         header_parameters=['Authorization'],
         parameter_descriptions={'user_id': 'ID of user to delete'},
-        response_types=error_responces.update({200: {
-            'type': str,
-            'description': 'Success'
-        }}),
+        response_types=dict(chain(
+            error_responces.items(),
+            {200: {
+                'type': str,
+                'description': 'Success'
+            }}.items()
+        ))
     )(api(delete_user))
 )
 
@@ -76,10 +84,13 @@ user_create = route(paths='/users', methods=['POST'])(
         parameter_descriptions={
             'new_user': 'Parameters of user to create'
         },
-        response_types=error_responces.update({200: {
-            'type': models.NewUserReply,
-            'description': 'Success'
-        }})
+        response_types = dict(chain(
+            error_responces.items(),
+            {200: {
+                'type': models.NewUserReply,
+                'description': 'Success'
+            }}.items()
+        ))
     )(api(create_user))
 )
 
@@ -92,10 +103,13 @@ auth = route(paths='/auth', methods=['POST'])(
         parameter_descriptions={
             'email': 'login'
         },
-        response_types=error_responces.update({200: {
-            'type': models.TokenReply,
-            'description': 'Success'
-        }})
+        response_types=dict(chain(
+            error_responces.items(),
+            {200: {
+                    'type': models.TokenReply,
+                    'description': 'Success'
+            }}.items()
+        ))
     )(api(get_token))
 )
 
@@ -112,10 +126,13 @@ user_list = route(paths='/users', methods=['GET'])(
             'return': 'A list of pets.',
             'Authorization': 'Security token',
         },
-        response_types=error_responces.update({200: {
-            'type': models.UsersList,
-            'description': 'Success'
-        }})
+        response_types = dict(chain(
+            error_responces.items(),
+            {200: {
+                'type': models.UsersList,
+                'description': 'Success'
+            }}.items()
+        ))
     )(api(users_list))
 )
 

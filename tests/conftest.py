@@ -35,7 +35,7 @@ def get_result_data(resp, expected_statuses=HttpCode.successes) -> dict:
     return result
 
 
-@pytest.fixture(scope='function', params=[ConfigTestTransmute])  # ConfigTestPureFlask, ConfigTestConnexion, ])
+@pytest.fixture(scope='function', params=[ConfigTestPureFlask, ConfigTestTransmute])  #ConfigTestConnexion, ])
 def config(request):
     settings.config = request.param()
     api.api_url = settings.config.api_url
@@ -197,15 +197,7 @@ def admin_token(api_client):
     """
     JWT for admin
     """
-    with api_client as client:
-        resp = client.post(
-            '/auth',
-            data=json.dumps({'email': 'admin@', 'password': 'admin'}),
-            content_type='application/json'
-        )
-        data = get_result_data(resp)
-        return data['token']
-
+    return api.get_token(email='admin@', password='admin')
 
 
 @pytest.fixture(scope='function')
@@ -215,14 +207,7 @@ def admin_token_for_life(mock_now, api_client):
     JWT for admin valid for long time
     """
     mock_now.return_value = datetime.now(timezone.utc) + timedelta(days=7)
-    with api_client as client:
-        resp = client.post(
-            '/auth',
-            data=json.dumps({'email': 'admin@', 'password': 'admin'}),
-            content_type='application/json'
-        )
-        data = get_result_data(resp)
-        return data['token']
+    return api.get_token(email='admin@', password='admin')
 
 
 @pytest.fixture(scope='function')
@@ -230,18 +215,8 @@ def full_token(api_client, full_user, admin_token):
     """
     JWT for full user (non-admin)
     """
-    with api_client as client:
-        resp = client.post(
-            '/users',
-            data=json.dumps(full_user),
-            headers=headers(admin_token))
-        get_result_data(resp)
-        resp = client.post(
-            '/auth',
-            data=json.dumps({'email': full_user['email'], 'password': full_user['password']}),
-            content_type='application/json')
-        data = get_result_data(resp)
-        return data['token']
+    api.create_user(admin_token, full_user)
+    return api.get_token(email=full_user['email'], password=full_user['password'])
 
 
 @pytest.fixture(scope='function')
@@ -249,16 +224,6 @@ def demo_token(api_client, demo_user, admin_token):
     """
     JWT for demo user (non-admin)
     """
-    with api_client as client:
-        resp = client.post(
-            '/users', data=json.dumps(demo_user), headers=headers(admin_token)
-        )
-        get_result_data(resp)
-        resp = client.post(
-            '/auth',
-            data=json.dumps({'email': demo_user['email'], 'password': demo_user['password']}),
-            content_type='application/json'
-        )
-        data = get_result_data(resp)
-        return data['token']
+    api.create_user(admin_token, demo_user)
+    return api.get_token(email=demo_user['email'], password=demo_user['password'])
 

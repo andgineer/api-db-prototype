@@ -3,7 +3,7 @@ Common code to keep api handler DRY
 """
 import db.conn
 from journaling import log
-from controllers.models import APIError
+from controllers.models import APIError, APILogicError, APIUnauthError
 import re
 import inspect
 import functools
@@ -25,6 +25,14 @@ def transaction(handler):
             db.conn.session.rollback()
             log.error(f'{e}')
             return f'API error {e}', HttpCode.wrong_request
+        except APILogicError as e:
+            db.conn.session.rollback()
+            log.error(f'{e}')
+            return f'API error {e}', HttpCode.logic_error
+        except APIUnauthError as e:
+            db.conn.session.rollback()
+            log.error(f'{e}')
+            return f'API error {e}', HttpCode.unauthorized
         except schematics.exceptions.BaseError as e:
             db.conn.session.rollback()
             messages = []
