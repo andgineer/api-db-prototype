@@ -37,6 +37,8 @@ def load(config:dict, obj: object=None, _prefix=None):
         obj = Config()
     assert hasattr(obj, '__dict__') or isinstance(obj, object), \
         'obj should be Python3-style object subclass without __slots__ and not internal types like dict.'
+    if not isinstance(config, collections.Mapping):
+        raise ValueError(f'Bad config:\n{str(config)[:100]}\n')
     for param in config:
         if _prefix is None:
             param_path = param
