@@ -25,16 +25,22 @@ import os.path
 import yaml
 
 
+last_loaded = None  # contains dict with last loaded params
+
+
 def load(config:dict, obj: object=None, _prefix=None):
     """
     Loads config from dict.
 
     :param _prefix: internal usage for recursion
     """
+    global last_loaded
     if obj is None:
         class Config:
             pass
         obj = Config()
+    if _prefix is None:
+        last_loaded = {}
     assert hasattr(obj, '__dict__') or isinstance(obj, object), \
         'obj should be Python3-style object subclass without __slots__ and not internal types like dict.'
     if not isinstance(config, collections.Mapping):
@@ -47,7 +53,11 @@ def load(config:dict, obj: object=None, _prefix=None):
         if isinstance(config[param], collections.Mapping):
             load(config[param], obj, param_path)
         else:
-            setattr(obj, param_path, os.path.expandvars(config[param]))
+            if isinstance(config[param], str):
+                var = os.path.expandvars(config[param])
+            else: var = config[param]
+            last_loaded[param_path] = var
+            setattr(obj, param_path, var)
     return obj
 
 
