@@ -10,10 +10,10 @@ from controllers.users.delete import delete_user
 from controllers.users.list import users_list
 from controllers.users.get import get_user
 from controllers.users.auth import get_token
-from controllers.models import HttpCode
+from controllers.models import HttpCode, APPNoTokenError
 from controllers.version import get_version
 from journaling import log
-from jwt_token import token
+from jwt_token import token, JWT_MIN_LENGTH
 import inspect
 
 
@@ -24,16 +24,24 @@ app = Flask(__name__)
 blueprint = Blueprint("blueprint", __name__, url_prefix="/")
 
 
-def set_auth_token(kwargs):
+def auth_token():
     """
     Gets auth token from headers and pass it to handler
     """
     auth_header = request.headers.get('Authorization')
     if auth_header:
-        kwargs.update({'auth_token': token.decode(auth_header.split(" ")[1])})
+        if len(auth_header.split()) < 2:
+            # Try to use it without 'Bearer' prefix - such as from Swagger UI tools
+            if len(auth_header) < JWT_MIN_LENGTH:
+                raise APPNoTokenError(f'Expected in Authorization HTTP header: "Bearer <token>", but got\n{auth_header}')
+        else:
+            auth_header = auth_header.split()[1]
+        return token.decode(auth_header)
+    else:
+        return None
 
 
-def api(handler, bparams: list=None):
+def api(handler, bparams: list=None, raw=False):
     """
     If bparams, then add body parameters into the handler parameters, if body parameters names are
     specified in `body` (if no such parameters in request body then returns whole body as
@@ -47,32 +55,45 @@ def api(handler, bparams: list=None):
     If this is not success then expected error message as a result and wraps it into {'status': messsage}
     """
     def api_wrapper(*args, **kwargs):
-        if bparams:
-            body_obj = request.get_json()
-            for param in bparams:
-                if isinstance(body_obj, dict) and param in body_obj:
-                    val = body_obj[param]
-                else:
-                    if len(bparams) == 1:
-                        val = body_obj
+        try:
+            if bparams:
+                body_obj = request.get_json()
+                for param in bparams:
+                    if isinstance(body_obj, dict) and param in body_obj:
+                        val = body_obj[param]
                     else:
-                        log.debug(f'No parameter {param} in request:\n{request.data} ({body_obj})')
-                        return f'No parameter {param} in request:\n{request.data}', HttpCode.wrong_request
-                kwargs.update({param: val})
-        if request.args:
-            for param in request.args:
-                kwargs.update({param: request.args[param]})
+                        if len(bparams) == 1:
+                            val = body_obj
+                        else:
+                            log.debug(f'No parameter {param} in request:\n{request.data} ({body_obj})')
+                            return f'No parameter {param} in request:\n{request.data}', HttpCode.wrong_request
+                    kwargs.update({param: val})
+            if request.args:
+                for param in request.args:
+                    kwargs.update({param: request.args[param]})
 
-        # should be last so nothing could inject decoded token
-        """
-        If the handler expects authenticated user (has 'auth_user' param), we pass token to it. 
-        Controller's wrapper (@auth_user) will convert token into auth_user param for the handler.
-        
-        Here is transport layer so we just pass decoded token data to controller's logic.
-        """
-        set_auth_token(kwargs)
+            # should be last so nothing could inject decoded token
+            log.debug(f'API wraps handler with args: {inspect.getfullargspec(handler).args}')
+            # if 'auth_user' in inspect.getfullargspec(handler).args:
+            """
+            If the handler expects authenticated user (has 'auth_user' param), we pass token to it. 
+            Controller's wrapper (@auth_user) will convert token into auth_user param for the handler.
 
-        result = handler(*args, **kwargs)
+            Here is transport layer so we just pass decoded token data to controller's logic.
+            """
+            kwargs.update({'auth_token': auth_token()})
+
+            result = handler(*args, **kwargs)
+
+        except APPNoTokenError as e:
+            log.debug(f'Wrong token format: {e}', exc_info=True)
+            result = {'status': str(e)}, HttpCode.no_token
+        except Exception as e:
+            log.debug(f'Transport exception: {e}', exc_info=True)
+            result = {'status': str(e)}, HttpCode.wrong_request
+        else:
+            if raw:  # Only if success, if exception we return API error
+                return result
         if isinstance(result, tuple):
             code = result[1]
             result = result[0]

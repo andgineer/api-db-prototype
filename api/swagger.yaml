@@ -1,16 +1,8 @@
-swagger: '2.0'
+openapi: 3.0.0
 info:
-  version: '1.0'
+  version: "1.0-oas3"
   description: API-prototype
   title: API-prototype
-schemes:
-  - https
-securityDefinitions:
-  Bearer:
-    type: apiKey
-    name: Authorization
-    in: header
-    description: JWT from /auth request
 paths:
   /auth:
     post:
@@ -18,446 +10,284 @@ paths:
         - users
       operationId: GetToken
       summary: Get access token for the user
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: userCredentials
-          required: true
-          schema:
-            $ref: '#/definitions/UserCredentials'
       responses:
         '200':
           description: Successful operation
-          schema:
-            $ref: '#/definitions/Token'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
         '400':
           description: No user with such email
-          schema:
-            $ref: '#/definitions/Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         '403':
           description: Invalid email/password
-          schema:
-            $ref: '#/definitions/Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         '500':
-          $ref: '#/responses/500'
+          $ref: '#/components/responses/500'
         '501':
-          $ref: '#/responses/501'
+          $ref: '#/components/responses/501'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCredentials'
+        required: true
   /users:
     get:
       tags:
         - users
       operationId: ListUsers
       summary: List all users
-      produces:
-        - application/json
-      security:
-        - Bearer: []
       parameters:
+        - name: authorization
+          in: header
+          required: true
+          schema:
+            type: string
         - name: page
           in: query
           description: Page number of results to return. Starting from 1. Default 1.
           required: false
-          type: string
+          schema:
+            type: string
         - name: per_page
           in: query
           description: Number of items on page. Default 30.
           required: false
-          type: string
+          schema:
+            type: string
       responses:
         '200':
           description: Successful operation
-          schema:
-            $ref: '#/definitions/Users'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users'
         '401':
-          $ref: '#/responses/401'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/responses/403'
+          $ref: '#/components/responses/403'
         '500':
-          $ref: '#/responses/500'
+          $ref: '#/components/responses/500'
         '501':
-          $ref: '#/responses/501'
+          $ref: '#/components/responses/501'
     post:
       tags:
         - users
       operationId: CreateUser
       summary: Create a user
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      security:
-        - Bearer: []
-      parameters:
-        - in: body
-          name: newUser
-          required: true
-          schema:
-            $ref: '#/definitions/NewUser'
       responses:
         '200':
           description: Successful operation
-          schema:
-            $ref: '#/definitions/NewUserResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewUserResponse'
         '401':
-          $ref: '#/responses/401'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/responses/403'
+          $ref: '#/components/responses/403'
         '500':
-          $ref: '#/responses/500'
+          $ref: '#/components/responses/500'
         '501':
-          $ref: '#/responses/501'
-    put:
-      tags:
-        - users
-      operationId: UpdateUser
-      summary: Update details of particular user
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      security:
-        - Bearer: []
-      parameters:
-        - in: body
-          name: newUser
-          required: true
-          schema:
-            $ref: '#/definitions/UpdateUser'
-      responses:
-        '200':
-          description: Successful operation
-          schema:
-            $ref: '#/definitions/Empty'
-        '401':
-          $ref: '#/responses/401'
-        '403':
-          $ref: '#/responses/403'
-        '500':
-          $ref: '#/responses/500'
-        '501':
-          $ref: '#/responses/501'
+          $ref: '#/components/responses/501'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewUser'
+        required: true
   '/users/{userId}':
     get:
       tags:
         - users
       summary: Info for a specific user
       operationId: GetUser
-      produces:
-        - application/json
-      security:
-        - Bearer: []
       parameters:
         - name: userId
           in: path
           description: The id of the user to retrieve
           required: true
-          type: string
+          schema:
+            type: string
       responses:
         '200':
           description: Successful operation
-          schema:
-            $ref: '#/definitions/User'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
         '401':
-          $ref: '#/responses/401'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/responses/403'
+          $ref: '#/components/responses/403'
         '500':
-          $ref: '#/responses/500'
+          $ref: '#/components/responses/500'
         '501':
-          $ref: '#/responses/501'
+          $ref: '#/components/responses/501'
+    put:
+      tags:
+        - users
+      operationId: UpdateUser
+      summary: Update details of particular user
+      parameters:
+        - name: userId
+          in: path
+          description: The id of the user to update
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Empty'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+        '501':
+          $ref: '#/components/responses/501'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUser'
+        required: true
     delete:
       tags:
         - users
       operationId: DeleteUser
       summary: Delete the user
-      produces:
-        - application/json
-      security:
-        - Bearer: []
       parameters:
         - name: userId
           in: path
           description: The id of the user to delete
           required: true
-          type: string
+          schema:
+            type: string
       responses:
         '200':
           description: Successful operation
-          schema:
-            $ref: '#/definitions/Empty'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Empty'
         '401':
-          $ref: '#/responses/401'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/responses/403'
+          $ref: '#/components/responses/403'
         '500':
-          $ref: '#/responses/500'
+          $ref: '#/components/responses/500'
         '501':
-          $ref: '#/responses/501'
-  /projects:
-    get:
-      tags:
-        - projects
-      operationId: ListProjects
-      summary: List of all projects for user (own & shared))
-      produces:
-        - application/json
-      security:
-        - Bearer: []
-      parameters:
-        - name: page
-          in: query
-          description: Page number of results to return. Starting from 1. Default 1.
-          required: false
+          $ref: '#/components/responses/501'
+components:
+  responses:
+    '401':
+      description: No user token
+      content:
+        '*/*':
+          schema:
+            $ref: '#/components/schemas/Error'
+    '403':
+      description: Operation is not permitted for the user
+      content:
+        '*/*':
+          schema:
+            $ref: '#/components/schemas/Error'
+    '500':
+      description: Internal server error
+      content:
+        '*/*':
+          schema:
+            $ref: '#/components/schemas/Error'
+    '501':
+      description: Wrong request
+      content:
+        '*/*':
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
+      description: JWT from /auth request
+  schemas:
+    UserCredentials:
+      type: object
+      properties:
+        email:
           type: string
-        - name: per_page
-          in: query
-          description: Number of items on page. Default 30.
-          required: false
+        password:
           type: string
-      responses:
-        '200':
-          description: Successful operation
-          schema:
-            $ref: '#/definitions/Projects'
-        '401':
-          $ref: '#/responses/401'
-        '403':
-          $ref: '#/responses/403'
-        '500':
-          $ref: '#/responses/500'
-        '501':
-          $ref: '#/responses/501'
-    post:
-      tags:
-        - projects
-      operationId: CreateProject
-      summary: Create a project
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      security:
-        - Bearer: []
-      parameters:
-        - in: body
-          name: newProject
-          required: true
-          schema:
-            $ref: '#/definitions/NewProject'
-      responses:
-        '200':
-          description: Successful operation
-          schema:
-            $ref: '#/definitions/NewProjectResponse'
-        '401':
-          $ref: '#/responses/401'
-        '403':
-          $ref: '#/responses/403'
-        '500':
-          $ref: '#/responses/500'
-        '501':
-          $ref: '#/responses/501'
-  '/projects/{projectId}':
-    get:
-      tags:
-        - projects
-      summary: Info for a specific project
-      operationId: GetProject
-      produces:
-        - application/json
-      security:
-        - Bearer: []
-      parameters:
-        - name: projectId
-          in: path
-          description: The id of the project to retrieve
-          required: true
+    Token:
+      type: object
+      properties:
+        token:
           type: string
-      responses:
-        '200':
-          description: Successful operation
-          schema:
-            $ref: '#/definitions/Project'
-        '401':
-          $ref: '#/responses/401'
-        '403':
-          $ref: '#/responses/403'
-        '500':
-          $ref: '#/responses/500'
-        '501':
-          $ref: '#/responses/501'
-    delete:
-      tags:
-        - projects
-      summary: Delete project
-      operationId: DeleteProject
-      produces:
-        - application/json
-      security:
-        - Bearer: []
-      parameters:
-        - name: projectId
-          in: path
-          description: The id of the project to delete
-          required: true
+          description: User jwt token
+    Users:
+      type: array
+      items:
+        $ref: '#/components/schemas/UserShort'
+    UserShort:
+      type: object
+      properties:
+        group:
+          $ref: '#/components/schemas/UserGroup'
+        email:
           type: string
-      responses:
-        '200':
-          description: Successful operation
-          schema:
-            $ref: '#/definitions/Empty'
-        '401':
-          $ref: '#/responses/401'
-        '403':
-          $ref: '#/responses/403'
-        '500':
-          $ref: '#/responses/500'
-        '501':
-          $ref: '#/responses/501'
-
-
-definitions:
-  UserCredentials:
-    type: object
-    properties:
-      email:
-        type: string
-      password:
-        type: string
-
-  Token:
-    type: object
-    properties:
-      token:
-        type: string
-        description: User jwt token
-
-  Users:
-    type: array
-    items:
-      $ref: '#/definitions/UserShort'
-
-  UserShort:
-    type: object
-    properties:
-      group:
-        $ref: '#/definitions/UserGroup'
-      email:
-        type: string
-      name:
-        type: string
-
-  UpdateUser:
-    type: object
-    properties:
-      group:
-        $ref: '#/definitions/UserGroup'
-      email:
-        type: string
-      name:
-        type: string
-
-
-  NewUser:
-    $ref: '#/definitions/UpdateUser'
-
-  User:
-    allOf:
-    - $ref: '#/definitions/UpdateUser'
-    - type: object
+        name:
+          type: string
+    UpdateUser:
+      type: object
+      properties:
+        group:
+          $ref: '#/components/schemas/UserGroup'
+        email:
+          type: string
+        name:
+          type: string
+    NewUser:
+      $ref: '#/components/schemas/UpdateUser'
+    User:
+      allOf:
+        - $ref: '#/components/schemas/UpdateUser'
+        - type: object
+          properties:
+            id:
+              type: string
+    UserGroup:
+      type: string
+      enum:
+        - admin
+        - full
+        - guest
+    NewUserResponse:
+      type: object
+      required:
+        - id
       properties:
         id:
+          description: ID of the created user
           type: string
-
-  UserGroup:
-    type: string
-    enum:
-      - admin
-      - full
-      - guest
-
-  Projects:
-    type: array
-    items:
-      $ref: '#/definitions/ProjectShort'
-
-  ProjectShort:
-    type: object
-    properties:
-      id:
-        type: string
-      name:
-        type: string
-
-  NewProject:
-    type: object
-    required:
-      - name
-      - entities
-    properties:
-      name:
-        type: string
-
-  Project:
-    allOf:
-    - $ref: '#/definitions/NewProject'
-    - type: object
+    Empty:
+      type: object
+    Error:
+      type: object
       properties:
-        id:
+        status:
           type: string
-
-  NewUserResponse:
-    type: object
-    required:
-      - id
-    properties:
-      id:
-        description: ID of the created user
-        type: string
-
-  NewProjectResponse:
-    type: object
-    required:
-      - id
-    properties:
-      id:
-        description: ID of the created project
-        type: string
-
-  UserToShareWith:
-    type: object
-    properties:
-      email:
-        type: string
-        description: email of user to share with
-
-  Empty:
-    type: object
-
-  Error:
-    type: object
-    properties:
-      status:
-        type: string
-        description: error message
-
-responses:
-  500:
-    description: Internal server error
-    schema:
-      $ref: '#/definitions/Error'
-  501:
-    description: Wrong request
-    schema:
-      $ref: '#/definitions/Error'
-  401:
-    description: No user token
-    schema:
-      $ref: '#/definitions/Error'
-  403:
-    description: Operation is not permitted for the user
-    schema:
-      $ref: '#/definitions/Error'
+          description: error message

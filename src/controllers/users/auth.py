@@ -10,7 +10,7 @@ import settings
 
 @api_result
 @transaction
-def get_token(email: str, password: str):
+def get_token(email: str, password: str, auth_token=None):  #todo: remove auth_token
     """
     Returns JWT for the email/password.
     """

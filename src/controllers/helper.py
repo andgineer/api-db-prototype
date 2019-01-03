@@ -18,7 +18,7 @@ def transaction(handler):
     Decorator to wrap api handler into try-except to handle DB transaction.
     """
     @functools.wraps(handler)
-    def wrapper(*args, **kwargs):
+    def transaction_wrapper(*args, **kwargs):
         try:
             return handler(*args, **kwargs)
         except APIError as e:
@@ -54,7 +54,7 @@ def transaction(handler):
             return 'Server internal error', HttpCode.unhandled_exception
         finally:
             db.conn.session.close()
-    return wrapper
+    return transaction_wrapper
 
 
 def api_result(handler):
@@ -64,7 +64,7 @@ def api_result(handler):
     Formats result as tuple (<result object>, <http result code>)
     """
     @functools.wraps(handler)
-    def wrapper(*args, **kwargs):
+    def api_result_wrapper(*args, **kwargs):
         result = handler(*args, **kwargs)
         if isinstance(result, tuple):
             code = result[1]
@@ -78,8 +78,8 @@ def api_result(handler):
     for param in signature.parameters.values():
         if param.name != 'auth_user':
             params.append(param)
-    wrapper.__signature__ = signature.replace(parameters=params)
-    return wrapper
+    api_result_wrapper.__signature__ = signature.replace(parameters=params)
+    return api_result_wrapper
 
 
 def token_to_auth_user(handler):
@@ -87,14 +87,16 @@ def token_to_auth_user(handler):
     Creates auth_user parameter from token
     """
     @functools.wraps(handler)  # preserve initial function signature
-    def wrapper(*args, **kwargs):
+    def token_to_auth_user_wrapper(*args, **kwargs):
         if 'auth_token' in kwargs:
             if kwargs['auth_token'] is not None:
+                log.debug(f'Add auth_user to {handler.__name__}\n{kwargs["auth_token"]}')
                 args = (AuthUser(kwargs['auth_token']), ) + args
             else:
                 log.warning('No or wrong user token in request')
                 return 'No or wrong user token in request', HttpCode.no_token
             del kwargs['auth_token']
         return handler(*args, **kwargs)
-    return wrapper
+    token_to_auth_user_wrapper.__signature__ = inspect.signature(handler)
+    return token_to_auth_user_wrapper
 

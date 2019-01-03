@@ -1,5 +1,5 @@
 import os; os.environ['FLASK_ENV'] = 'testing'  # set testing env before importing app
-from settings import ConfigTestWrong, ConfigTestPureFlask, ConfigTestTransmute  #, ConfigTestConnexion
+from settings import ConfigTestWrong, ConfigTestPureFlask, ConfigTestTransmute, ConfigTestConnexion
 import db.conn
 import db.models
 import settings
@@ -18,7 +18,7 @@ DEFAULT_USERS = 1  # pre-created admin@
 def headers(token):
     return {
         'Content-Type': "application/json",
-        'Authorization': f"Bearer {token}"
+        'Authorization': f"Bearer {token}",
     }
 
 
@@ -35,7 +35,7 @@ def get_result_data(resp, expected_statuses=HttpCode.successes) -> dict:
     return result
 
 
-@pytest.fixture(scope='function', params=[ConfigTestPureFlask, ConfigTestTransmute])  #ConfigTestConnexion, ])
+@pytest.fixture(scope='function', params=[ConfigTestPureFlask, ConfigTestTransmute, ConfigTestConnexion])  #ConfigTestConnexion, ])
 def config(request):
     settings.config = request.param()
     api.api_url = settings.config.api_url

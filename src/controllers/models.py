@@ -41,6 +41,10 @@ class APIValueError(APIError):
     pass
 
 
+class APPNoTokenError(Exception):
+    pass
+
+
 class Paging(Model):
     """
     Validation of list's requests page/per_page parameters

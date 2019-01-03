@@ -15,6 +15,7 @@ from datetime import timezone
 
 JWT_EXPIRATION = 'exp'
 JWT_CREATED = 'iat'
+JWT_MIN_LENGTH = 50
 
 
 class JwtCrypto:

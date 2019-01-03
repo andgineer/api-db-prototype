@@ -4,7 +4,7 @@ import tempfile
 import datetime
 from flask_server.api_app import app as flask_app
 from transmute_server.api_app import app as transmute_app
-#from swagger_server.api_app import app as connexion_app
+from openapi_server.api_app import app as connexion_app
 from datetime import timezone
 import urllib
 
@@ -145,13 +145,13 @@ class ConfigTestTransmute(ConfigTest):
         return transmute_app
 
 
-# class ConfigTestConnexion(ConfigTest):
-#     """
-#     Creates temp sqlite db.
-#     """
-#     @property
-#     def app(self):
-#         return connexion_app
+class ConfigTestConnexion(ConfigTest):
+    """
+    Creates temp sqlite db.
+    """
+    @property
+    def app(self):
+        return connexion_app.app
 
 
 class ConfigDev(ConfigBase):
