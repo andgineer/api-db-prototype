@@ -1,5 +1,6 @@
 flask
 flask-transmute
+connexion
 SQLAlchemy
 schematics
 pyjwt
