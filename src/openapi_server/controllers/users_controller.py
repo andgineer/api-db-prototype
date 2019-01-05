@@ -51,7 +51,7 @@ def create_user(body):  # noqa: E501
 
     return controllers.users.create.create_user(
         auth_token=extract_token(authorization),
-        new_user=controllers.models.NewUser(new_user)
+        new_user=new_user
     )
 
 def get_user(user_id):  # noqa: E501
