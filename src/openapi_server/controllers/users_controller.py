@@ -1,3 +1,7 @@
+"""
+Controllers from swagger code-gen modified by hand.
+They proxy to our application logic handlers in controllers folder.
+"""
 from openapi_server.models.user import User  # noqa: E501
 import controllers.users.create
 import controllers.users.delete
@@ -19,19 +23,12 @@ from controllers.models import PAGE_DEFAULT, PER_PAGE_DEFAULT
 
 def extract_token(authorization):
     authorization = authorization if len(authorization.split()) < 2 else authorization.split()[1]
-    #log.debug(f'Auth header: {authorization}')
     return token.decode(authorization)
 
 
 def get_token(user_credentials=None):  # noqa: E501
-    """Get access token for the user
-
-     # noqa: E501
-
-    :param userCredentials:
-    :type userCredentials: dict | bytes
-
-    :rtype: Token
+    """
+    Get access token for the user
     """
     if connexion.request.is_json:
         user_credentials = UserCredentials.from_dict(connexion.request.get_json())  # noqa: E501
@@ -42,9 +39,8 @@ def get_token(user_credentials=None):  # noqa: E501
 
 
 def create_user(body):  # noqa: E501
-    """Create a user
-
-    :rtype: NewUserResponse
+    """
+    Create a user
     """
     authorization = connexion.request.headers['Authorization']
     new_user = body['new_user'] if 'new_user' in body else body
@@ -55,14 +51,8 @@ def create_user(body):  # noqa: E501
     )
 
 def get_user(user_id):  # noqa: E501
-    """Info for a specific user
-
-     # noqa: E501
-
-    :param userId: The id of the user to retrieve
-    :type userId: str
-
-    :rtype: User
+    """
+    Get info for a specific user
     """
     authorization = connexion.request.headers['Authorization']
     return controllers.users.get.get_user(
@@ -90,9 +80,8 @@ def list_users(per_page: int=PER_PAGE_DEFAULT, page: int=PAGE_DEFAULT):  # noqa:
 
 
 def update_user(user_id, update_user):  # noqa: E501
-    """Update details of particular user
-
-     # noqa: E501
+    """
+    Update details of particular user
 
     :param user_id: The id of the user to update
     :type user_id: str
@@ -111,14 +100,11 @@ def update_user(user_id, update_user):  # noqa: E501
 
 
 def delete_user(userId):  # noqa: E501
-    """Delete the user
-
-     # noqa: E501
+    """
+    Delete the user
 
     :param userId: The id of the user to delete
     :type userId: str
-
-    :rtype: Empty
     """
     authorization = connexion.request.headers['Authorization']
     return controllers.users.delete.delete_user(

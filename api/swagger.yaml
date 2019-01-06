@@ -45,12 +45,9 @@ paths:
         - users
       operationId: ListUsers
       summary: List all users
+      security:
+        - JWTBearer: []
       parameters:
-        - name: authorization
-          in: header
-          required: true
-          schema:
-            type: string
         - name: page
           in: query
           description: Page number of results to return. Starting from 1. Default 1.
@@ -83,6 +80,8 @@ paths:
         - users
       operationId: CreateUser
       summary: Create a user
+      security:
+        - JWTBearer: []
       responses:
         '200':
           description: Successful operation
@@ -108,7 +107,9 @@ paths:
     get:
       tags:
         - users
-      summary: Info for a specific user
+      summary: Get info for a specific user
+      security:
+        - JWTBearer: []
       operationId: GetUser
       parameters:
         - name: userId
@@ -137,6 +138,8 @@ paths:
         - users
       operationId: UpdateUser
       summary: Update details of particular user
+      security:
+        - JWTBearer: []
       parameters:
         - name: userId
           in: path
@@ -170,6 +173,8 @@ paths:
         - users
       operationId: DeleteUser
       summary: Delete the user
+      security:
+        - JWTBearer: []
       parameters:
         - name: userId
           in: path
@@ -219,10 +224,11 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
   securitySchemes:
-    Bearer:
+    JWTBearer:
       type: apiKey
-      name: Authorization
       in: header
+      name: Authorization
+      x-apikeyInfoFunc: openapi_server.apikey_fake.check_token
       description: JWT from /auth request
   schemas:
     UserCredentials:

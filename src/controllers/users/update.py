@@ -16,7 +16,13 @@ def update_user(auth_user: AuthUser, user_id, update_user: UpdateUser):
     """
     updateUser = controllers.models.UpdateUser(update_user)
     updateUser.validate()
-    log.debug(f'Going to apply updates {updateUser.as_dict}')
     user = db.models.User.by_id(user_id)
-    log.debug(f'found user {user.email}')
-
+    if user.email.lower() != auth_user.email.lower():
+        return f'Only user himself update user <{user.email}> properties, not <{auth_user.email}>.', HttpCode.unauthorized
+    if updateUser.email.lower() != user.email.lower():
+        return f'You cannot change user email (current <{user.email}>, new <{updateUser.email}>)', HttpCode.logic_error
+    updateUser = updateUser.to_orm
+    for field in updateUser:
+        setattr(user, field, updateUser[field])
+    db.conn.session.commit()
+    log.info(f'Updated user [{user}]')

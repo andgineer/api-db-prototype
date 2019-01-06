@@ -11,7 +11,7 @@ import contextlib
 
 
 client = None  # Injection for client to send HTTP requests. It can be flask test client or requests
-api_url = None # Injection for api url. It's relational for flask test client, and this is full path for requests. 
+api_url = None  # Injection for api url. It's relational for flask test client, and this is full path for requests.
 
 
 def headers(token=None):
