@@ -3,6 +3,10 @@ Logger with custom fields like hostname.
 Convenient way of use:
     from journaling import log
     log.debug('hey!')
+
+Before first use you have to initialize it:
+    import journaling
+    journaling.setup('my_log_config.yaml')
 """
 import logging
 import os
