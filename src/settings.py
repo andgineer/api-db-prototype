@@ -7,6 +7,7 @@ from transmute_server.api_app import app as transmute_app
 from openapi_server.api_app import app as connexion_app
 from datetime import timezone
 import urllib
+import journaling
 
 
 # environment vars
@@ -43,6 +44,9 @@ class ConfigBase:
     api_root = ''
 
     aws_region = 'us-east-1'
+
+    def __init__(self):
+        journaling.setup()
 
     @property
     def api_url(self):
