@@ -15,6 +15,8 @@ from controllers.version import get_version
 from journaling import log
 from jwt_token import token, JWT_MIN_LENGTH
 import inspect
+import settings
+from flask import Response
 
 
 API_ROOT_URL = ''  # if we need to shift our api from root to deeper path
@@ -22,6 +24,36 @@ API_ROOT_URL = ''  # if we need to shift our api from root to deeper path
 
 app = Flask(__name__)
 blueprint = Blueprint("blueprint", __name__, url_prefix="/")
+
+
+@app.after_request
+def after_request(response):
+    """
+    After-request flask hook to add CORS headers according to settings
+    """
+    if settings.config.web_enableCrossOriginRequests:
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS, DELETE, PUT'
+        response.headers['Access-Control-Allow-Headers'] = 'DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization'
+        response.headers['Access-Control-Expose-Headers'] = 'Content-Length,Content-Range'
+    return response
+
+
+@app.route(f'{API_ROOT_URL}/<path:path>', methods=['OPTIONS'])
+@app.route(f'{API_ROOT_URL}/', methods=['OPTIONS'])
+def options_handler():
+    """
+    Handles only unspecified below paths.
+    Others handles by application logic and CORS headers added in after-request flask hook
+    So I this this is unecessary part but I am too lazy to check..
+    """
+    log.debug(f'Options were requested for {request.full_path}')
+    response = Response()
+    response.headers['Content-Type'] = 'text/plain; charset=utf-8'
+    response.status_code = 204
+    if settings.config.web_enableCrossOriginRequests:
+        response.headers['Access-Control-Max-Age'] = 1728000
+    return response
 
 
 def auth_token():

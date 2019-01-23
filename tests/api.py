@@ -13,6 +13,8 @@ import contextlib
 client = None  # Injection for client to send HTTP requests. It can be flask test client or requests
 api_url = None  # Injection for api url. It's relational for flask test client, and this is full path for requests.
 
+last_response = None  # Last response to api call
+
 
 def headers(token=None):
     if token is not None:
@@ -30,6 +32,9 @@ def parse_api_reply(resp, expected_statuses=HttpCode.successes) -> dict:
     """
     Parse reply body as json and checks ['success']
     """
+    global last_response
+    last_response = resp
+
     if hasattr(resp, 'data'):
         data = resp.data  # flask test client
     else:
@@ -91,3 +96,9 @@ def users_list(token, expected_statuses=HttpCode.successes, **kwargs):
 def delete_user(token, id, expected_statuses=HttpCode.successes):
     resp = client.delete(f'{api_url}/users/{urllib.parse.quote(str(id))}', headers=headers(token))
     parse_api_reply(resp, expected_statuses=expected_statuses)
+
+
+def get_options(path):
+    resp = client.options(f'{api_url}/{path}')
+    assert resp.status_code in [200, 204]
+    return resp

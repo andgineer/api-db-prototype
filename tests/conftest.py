@@ -35,7 +35,7 @@ def get_result_data(resp, expected_statuses=HttpCode.successes) -> dict:
     return result
 
 
-@pytest.fixture(scope='function', params=[ConfigTestPureFlask, ConfigTestTransmute, ConfigTestConnexion])  #ConfigTestConnexion, ])
+@pytest.fixture(scope='function', params=[ConfigTestPureFlask, ConfigTestTransmute, ConfigTestConnexion])
 def config(request):
     settings.config = request.param()
     api.api_url = settings.config.api_url
@@ -50,7 +50,33 @@ def config_wrong(request):
 
 
 @pytest.fixture(scope='function', autouse=True)
-def api_client(config):
+def api_client(request, config):
+    if 'no_auto_client' in request.keywords:
+        yield None  # do not auto-use for tests marked as no_auto_client
+        return  # empty test tear-down
+    db.conn.make_session()
+    client = settings.config.app.test_client()
+    ctx = settings.config.app.test_request_context()
+    ctx.push()
+
+    api.client = client  # inject test client
+    yield client
+
+    ctx.pop()
+
+
+@pytest.fixture(scope='function', params=[ConfigTestPureFlask])
+def flask_config(request):
+    settings.config = request.param()
+    api.api_url = settings.config.api_url
+    return settings.config
+
+
+@pytest.fixture(scope='function')
+def flask_client(flask_config):
+    """
+    For flask-only tests
+    """
     db.conn.make_session()
     client = settings.config.app.test_client()
     ctx = settings.config.app.test_request_context()

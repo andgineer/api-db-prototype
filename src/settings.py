@@ -34,6 +34,8 @@ class ConfigBase:
     default_admin_email = DEFAULT_ADMIN_EMAIL
     default_admin_password = DEFAULT_ADMIN_PASSWORD
 
+    web_enableCrossOriginRequests = False
+
     _port = DEFAULT_PORT
     _db_uri = None
 
