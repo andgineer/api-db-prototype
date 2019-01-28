@@ -12,3 +12,5 @@ v_m=$((v_m+1))
 echo "$v_h.$v_m" > "$VER_FILE"
 #cat "$1" >> "$FILE" this is for commit-msg but I do not see how to add file to commit at this stage
 git add "$DATE_FILE" "$VER_FILE"
+# --no-verify (avoid looping)
+git commit --amend -C HEAD --no-verify
