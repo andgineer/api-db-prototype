@@ -10,9 +10,12 @@ import settings
 import db.models
 import controllers.models
 import settings
+import alembic.config
+import alembic.command
 
 
 session: Session = None
+engine = None
 
 
 def create_admin_user():
@@ -39,6 +42,7 @@ password '{settings.config.default_admin_password}' - please change her password
 
 def make_session():
     global session
+    global engine
     log.debug(f'...Connecting to DB {settings.config.db_uri}...')
     engine = create_engine(
         settings.config.db_uri,
@@ -55,5 +59,14 @@ def make_session():
 
 def refresh_metadata():
     log.debug('Refreshing metadata...')
-    Base.metadata.create_all(session.get_bind())
-    session.commit()
+    # Base.metadata.create_all(session().get_bind()) - replaced with alembic
+
+    # In fact settings.config is not None only for test
+    alembic_root = 'src/' if isinstance(settings.config, settings.ConfigTest) else ''
+
+    alembic_cfg = alembic.config.Config(f'{alembic_root}alembic.ini')
+    alembic_cfg.set_main_option('script_location', f'{alembic_root}alembic')
+    alembic_cfg.set_main_option('sqlalchemy.url', settings.config.db_uri)
+    with engine.begin() as connection:
+        alembic_cfg.attributes['connection'] = connection
+        alembic.command.upgrade(alembic_cfg, 'head', sql=False)

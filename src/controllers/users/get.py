@@ -2,7 +2,8 @@ import db.conn
 import db.models
 from controllers.helper import transaction, api_result, token_to_auth_user
 import controllers.models
-from controllers.models import AuthUser, HttpCode
+from controllers.models import HttpCode
+from controllers.auth import AuthUser
 
 
 @api_result

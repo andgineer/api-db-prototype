@@ -8,3 +8,5 @@ passlib
 cryptography
 uwsgi
 boto3
+passwords
+alembic

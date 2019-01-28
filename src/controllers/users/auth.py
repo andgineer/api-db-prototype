@@ -2,9 +2,10 @@ import db.conn
 import db.models
 from jwt_token import token, JWT_CREATED, JWT_EXPIRATION
 from controllers.helper import transaction, api_result
-from controllers.models import JWT_EMAIL, JWT_GROUP, HttpCode, APILogicError, APIUnauthError
+from controllers.models import HttpCode, APILogicError, APIUnauthError
+from controllers.auth import JWT_EMAIL, JWT_GROUP
 from journaling import log
-import passwords
+import password_hash
 import settings
 
 
@@ -18,7 +19,7 @@ def get_token(email: str, password: str, auth_token=None):  #todo: remove auth_t
     if not user:
         log.debug(f'No user with email={email}')
         raise APILogicError(f'No user with email={email}')
-    if not passwords.verify(password, user.password_hash):
+    if not password_hash.verify(password, user.password_hash):
         log.debug(f'Invalid email/password for user {email}')
         raise APIUnauthError(f'Invalid email/password for user {email}')
     log.debug(f'Issuing JWT for {email}')

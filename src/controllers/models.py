@@ -1,7 +1,5 @@
-import settings
 from schematics.models import Model
 from schematics.types import StringType, IntType, DateTimeType, DateType, ListType
-from jwt_token import token, JWT_CREATED, JWT_EXPIRATION
 
 
 PAGE_DEFAULT = 1
@@ -20,9 +18,6 @@ class HttpCode:
 FULL_ACCESS_GROUP = 'full'
 ADMIN_ACCESS_GROUP = 'admin'
 GUEST_ACCESS_GROUP = 'guest'
-
-JWT_EMAIL = 'sub'
-JWT_GROUP = 'group'
 
 
 class APIError(Exception):
@@ -150,25 +145,3 @@ class UsersList(APIModel):
     data = ListType(StringType, required=True)
     total = IntType(required=True)
 
-
-class AuthUser:
-    """
-    User authenticated by JWT from request header.
-    """
-    email: str
-    group: str
-
-    def __init__(self, token_payload: dict):
-        """
-        Init the authenticated user from decoded JWT payload.
-        Checks expiration.
-        """
-        self.email = token_payload[JWT_EMAIL]
-        self.group = token_payload[JWT_GROUP]
-        token_expiration = token.jwt2datetime(token_payload[JWT_EXPIRATION])
-        if token_expiration < settings.config.now():
-            raise APIError(f'Security token (JWT) had expired at {token_expiration}')
-
-    @property
-    def is_admin(self) -> bool:
-        return self.group == ADMIN_ACCESS_GROUP

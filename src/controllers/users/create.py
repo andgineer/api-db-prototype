@@ -3,7 +3,7 @@ import db.models
 from controllers.models import NewUser, HttpCode
 from controllers.helper import transaction, api_result, token_to_auth_user
 from journaling import log
-from controllers.models import AuthUser
+from controllers.auth import AuthUser
 
 
 @api_result

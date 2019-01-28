@@ -3,7 +3,8 @@ import db.models
 from controllers.helper import transaction, api_result, token_to_auth_user
 import controllers.models
 from journaling import log
-from controllers.models import AuthUser, Paging, HttpCode, PAGE_DEFAULT, PER_PAGE_DEFAULT, APIError
+from controllers.models import Paging, HttpCode, PAGE_DEFAULT, PER_PAGE_DEFAULT, APIError
+from controllers.auth import AuthUser
 
 
 DEFAULT_ORDER_BY = '-createdDatetime'

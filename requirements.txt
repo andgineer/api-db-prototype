@@ -7,3 +7,5 @@ pyjwt
 passlib
 cryptography
 boto3
+passwords
+alembic

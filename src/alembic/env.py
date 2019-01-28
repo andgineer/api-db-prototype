@@ -1,14 +1,15 @@
 import sys
 import os
 
-PACKAGE_PARENT = '..'
 SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
-sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
+sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, '..', '..')))
+sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, '..', '..', 'src')))
+
 
 from alembic import context
 from sqlalchemy import engine_from_config, pool
 from logging.config import fileConfig
-from src import models
+import db.conn
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -22,7 +23,7 @@ fileConfig(config.config_file_name)
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = models.Base.metadata
+target_metadata = db.conn.Base.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
@@ -57,10 +58,18 @@ def run_migrations_online():
     and associate a connection with the context.
 
     """
-    connectable = engine_from_config(
-        config.get_section(config.config_ini_section),
-        prefix='sqlalchemy.',
-        poolclass=pool.NullPool)
+    connectable = config.attributes.get('connection', None)
+
+    if connectable is None:
+        # only create Engine if we don't have a Connection
+        # from the outside
+        connectable = engine_from_config(
+            config.get_section(config.config_ini_section),
+            prefix='sqlalchemy.',
+            poolclass=pool.NullPool)
+
+    # when connectable is already a Connection object, calling
+    # connect() gives us a *branched connection*.
 
     with connectable.connect() as connection:
         context.configure(
@@ -70,6 +79,7 @@ def run_migrations_online():
 
         with context.begin_transaction():
             context.run_migrations()
+
 
 if context.is_offline_mode():
     run_migrations_offline()

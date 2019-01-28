@@ -8,7 +8,7 @@ import re
 import inspect
 import functools
 import traceback
-from controllers.models import AuthUser
+from controllers.auth import AuthUser
 import schematics.exceptions
 from controllers.models import HttpCode
 

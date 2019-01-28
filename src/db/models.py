@@ -1,7 +1,7 @@
 from sqlalchemy import Table, Column, DateTime, String, Integer, ForeignKey, func, event
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
-import passwords
+import password_hash
 from sqlalchemy.orm import attributes
 from sqlalchemy.orm.base import NEVER_SET, NO_VALUE
 from journaling import log
@@ -93,7 +93,7 @@ class User(Base):
 
     @password.setter
     def password(self, value):
-        self.password_hash = passwords.hash(value)
+        self.password_hash = password_hash.hash(value)
 
     @staticmethod
     def by_email(email, check=True):

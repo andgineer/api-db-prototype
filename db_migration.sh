@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 if [ -n "$1" ] && [[ "$1" =~ ^[^\-].* ]]; then
-
+    cd src
     alembic revision --autogenerate -m "$1"
+    cd ..
     echo
     echo "Migration script is in alembic/versions/...$1.py"
     echo
