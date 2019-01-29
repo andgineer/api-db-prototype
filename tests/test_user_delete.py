@@ -1,11 +1,11 @@
-from hypothesis import given
+import hypothesis
 import hypothesis.strategies as st
 from journaling import log
 import api
-import urllib.parse
 
 
-@given(user_id=st.integers())
+@hypothesis.given(user_id=st.integers())
+@hypothesis.settings(max_examples=10, deadline=None)
 def test_delete_fail(user_id, admin_token):
     """
     Tries to delete user in empty DB.

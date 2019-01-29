@@ -14,7 +14,7 @@ UserStrategy = st.builds(
 
 
 @given(random_user=UserStrategy)
-@settings(max_examples=10)
+@settings(max_examples=10, deadline=None)
 def test_user_crud(random_user, admin_token):
     """
     Create user, get user list, delete user.
