@@ -12,6 +12,7 @@ import controllers.models
 import settings
 import alembic.config
 import alembic.command
+from sqlalchemy.engine import reflection
 
 
 session: Session = None
@@ -59,14 +60,22 @@ def make_session():
 
 def refresh_metadata():
     log.debug('Refreshing metadata...')
-    # Base.metadata.create_all(session().get_bind()) - replaced with alembic
+    insp = reflection.Inspector.from_engine(session().get_bind())
+    table_names = insp.get_table_names()
+    if 'users' not in table_names:
+        log.info('Use alchemy to create meta DB')
+        Base.metadata.create_all(session().get_bind())
+    else:
+        log.info('Use alembic to upgrade meta DB')
 
-    # In fact settings.config is not None only for test
-    alembic_root = 'src/' if isinstance(settings.config, settings.ConfigTest) else ''
+        # In fact settings.config is not None only for test
+        alembic_root = 'src/' if isinstance(settings.config, settings.ConfigTest) else ''
 
-    alembic_cfg = alembic.config.Config(f'{alembic_root}alembic.ini')
-    alembic_cfg.set_main_option('script_location', f'{alembic_root}alembic')
-    alembic_cfg.set_main_option('sqlalchemy.url', settings.config.db_uri)
-    with engine.begin() as connection:
-        alembic_cfg.attributes['connection'] = connection
-        alembic.command.upgrade(alembic_cfg, 'head', sql=False)
+        alembic_cfg = alembic.config.Config(f'{alembic_root}alembic.ini')
+        alembic_cfg.set_main_option('script_location', f'{alembic_root}alembic')
+        alembic_cfg.set_main_option('sqlalchemy.url', settings.config.db_uri)
+        with session().get_bind().begin() as connection:
+            alembic_cfg.attributes['connection'] = connection
+            alembic.command.upgrade(alembic_cfg, 'head', sql=False)
+
+
