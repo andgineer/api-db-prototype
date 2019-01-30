@@ -20,23 +20,27 @@ ADMIN_ACCESS_GROUP = 'admin'
 GUEST_ACCESS_GROUP = 'guest'
 
 
-class APIError(Exception):
-    pass
+class APIBaseError(Exception):
+    status = None  # non-abstract descendants should replace that with specific HTTP error
 
 
-class APIUnauthError(Exception):
-    pass
+class APIError(APIBaseError):
+    status = HttpCode.wrong_request
 
 
-class APILogicError(Exception):
-    pass
+class APIUnauthError(APIBaseError):
+    status = HttpCode.unauthorized
+
+
+class APILogicError(APIBaseError):
+    status = HttpCode.logic_error
 
 
 class APIValueError(APIError):
     pass
 
 
-class APPNoTokenError(Exception):
+class APPNoTokenError(APIBaseError):
     pass
 
 
