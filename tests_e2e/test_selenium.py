@@ -7,7 +7,7 @@ from allure.constants import AttachmentType
 @pytest.allure.feature('End-to-end test suit')
 @pytest.allure.story('Test selenium hub is life')
 @pytest.allure.testcase('hhttps://github.com/masterandrey/api-db-prototype/issues/2')
-@pytest.mark.agentticketsapi
+#@pytest.mark.create-objects
 def test_selenium(browser):
     """
     Test that test infrastructure (selenium hub, allur reporter) is working

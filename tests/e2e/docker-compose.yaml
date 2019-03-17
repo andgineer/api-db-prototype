@@ -1,0 +1,4 @@
+selenium_hub:
+  image: selenium/standalone-chrome:latest
+  container_name: selenium
+  shm_size: 1G
