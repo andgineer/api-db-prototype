@@ -7,25 +7,30 @@ from datetime import datetime
 import pytest
 import allure
 from allure.constants import AttachmentType
-from pyvirtualdisplay import Display
 from selenium.common.exceptions import WebDriverException
-from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
-from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
-from selenium import webdriver
+from selenium.webdriver.chrome.options import Options as ChromeOptions
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
+# from selenium.webdriver import ChromeOptions
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 import settings
 from webdriver_augmented import WebDriverAugmented
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 
 test_browsers = ['Chrome', 'Firefox']
-webdriver_browser = {
-    'Chrome': DesiredCapabilities.CHROME,
-    'Opera': DesiredCapabilities.OPERA,
-    'HtmlUnitWithJavaScript': DesiredCapabilities.HTMLUNITWITHJS,
-    'Safari': DesiredCapabilities.SAFARI,
-    'Edge': DesiredCapabilities.EDGE,
-    'Firefox': DesiredCapabilities.FIREFOX
+browser_options = {
+    'Chrome': ChromeOptions, # DesiredCapabilities.CHROME,
+    'Firefox': FirefoxOptions,  # DesiredCapabilities.FIREFOX
 }
+
+
+def desired_caps(browser: str) -> DesiredCapabilities:
+    options = browser_options[browser]()
+    options.add_argument('--ignore-certificate-errors')
+    options.add_argument("--disable-client-side-phishing-detection")
+    options.add_argument("--no-sandbox")
+    caps = options.to_capabilities()
+    caps['platform'] = 'Linux'
+    return caps
 
 
 def get_web_driver(browser: str) -> WebDriverAugmented:
@@ -36,7 +41,8 @@ def get_web_driver(browser: str) -> WebDriverAugmented:
     try:
         webdrv = WebDriverAugmented(
             command_executor=settings.config.webdriver_host,
-            desired_capabilities=webdriver_browser[browser])
+            desired_capabilities=desired_caps(browser)
+        )
         webdrv.page_timer.start()
     except WebDriverException as e:
         print('\nFail to connect to selenium webdriver remote host: \n\n{}'.format(e))
@@ -70,10 +76,8 @@ def pytest_runtest_makereport(item, call):
         mode = 'a' if os.path.exists('failures') else 'w'
         try:
             with open('failures', mode) as f:
-                if 'web_driver' in item.fixturenames:
-                    web_driver = item.funcargs['web_driver']
-                elif 'web_driver_factory'in item.fixturenames:
-                    web_driver = item.funcargs['web_driver_factory'].last()
+                if 'browser' in item.fixturenames:
+                    web_driver = item.funcargs['browser']
                 else:
                     print('Fail to take screen-shot')
                     return
