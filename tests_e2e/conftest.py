@@ -87,3 +87,24 @@ def pytest_runtest_makereport(item, call):
             web_driver.get_screenshot_as_file(local_screenshot_file_name())
         except Exception as e:
             print('Fail to take screen-shot: {}'.format(e))
+
+
+def pytest_addoption(parser):
+    """
+    py.test options
+    """
+    parser.addoption(
+        '--host',
+        type='string',
+        default=settings.config.host,
+        dest='host',
+        help=f'''Base URL of the host to test. By default "{settings.config.host}". 
+Use host.docker.internal to go to local host from selenium grid docker.''')
+
+
+def pytest_report_header(config):
+    return '{start} Host: {host} {stop}\n'.format(
+        start='>' * 5,
+        host=config.getoption('host'),
+        stop='<' * 5
+        )

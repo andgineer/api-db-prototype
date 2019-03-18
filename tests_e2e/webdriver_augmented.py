@@ -1,6 +1,9 @@
 from selenium.webdriver.remote.webdriver import WebDriver as RemoteWebDriver
 import time
 import pprint
+import urllib.parse
+import settings
+import pytest
 
 
 PAGE_MAX_WAIT_TIME = 20  # second to wait for components
@@ -32,6 +35,11 @@ class PageTimer():
         return self.max_time - time.monotonic()
 
 
+class Page:
+    root = ''
+    projects = 'projects'
+
+
 class WebDriverAugmented(RemoteWebDriver):
     """
     Web driver, augmented with application specific logic.
@@ -41,16 +49,22 @@ class WebDriverAugmented(RemoteWebDriver):
         self.need_refresh = False
         super().__init__(*args, **kwargs)
 
+    def goto(self, page: str):
+        """
+        Open the page (see class Page).
+        """
+        self.get(urllib.parse.urljoin(pytest.config.getoption('host'), page))
+
     def check_js_log(self):
         """
-        check java script log for errors
+        check java script log for errors (only `severe` level)
         """
         js_log = self.get_log("browser")
         clean_log = []
         total_chars = 0
         idx = 0
         for entry in js_log:
-            if entry['level'] in ['SEVERE'] and 'favicon.ico' not in entry['message']:
+            if entry['level'] in ['SEVERE']:
                 idx += 1
                 clean_log.append(entry)
                 total_chars += len(entry['message'])

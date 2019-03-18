@@ -1,6 +1,7 @@
 import pytest
 import allure
 from allure.constants import AttachmentType
+from webdriver_augmented import Page
 
 
 @pytest.allure.issue('https://github.com/masterandrey/api-db-prototype/issues/1')
@@ -13,7 +14,7 @@ def test_selenium(browser):
     Test that test infrastructure (selenium grid, allure reporter) is working
     """
     with allure.step('Test access to python.org'):
-        browser.get("http://www.python.org")  # Use host.docker.internal to go to local host from selenium grid docker
+        browser.goto(Page.root)
         assert "Python" in browser.title
     with allure.step('Taking screenshot'):
         allure.attach('screenshot',

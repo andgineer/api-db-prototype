@@ -17,3 +17,7 @@ To run all tests:
     test.sh
 
 Creates web-report on http://localhost:4040 .
+
+To test non-default (not local) host:
+
+    test.sh --host=<full URL>
