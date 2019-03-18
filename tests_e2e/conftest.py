@@ -52,7 +52,7 @@ def get_web_driver(browser: str) -> WebDriverAugmented:
     return webdrv
 
 
-@pytest.fixture(scope='session', params=test_browsers, ids=lambda x: 'Браузер: {}'.format(x))
+@pytest.fixture(scope='session', params=test_browsers, ids=lambda x: 'Browser: {}'.format(x))
 def browser(request):
     """
     Returns all browsers to test with
