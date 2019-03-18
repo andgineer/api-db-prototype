@@ -8,6 +8,6 @@
     - pip install -r requirements_test.txt
     - pip install --upgrade pytest
   script:
-    - pytest -s -v --cov src --cov-report term-missing
+    - pytest -s -v --cov src --cov-report term-missing tests
   after_success:
     - coveralls
