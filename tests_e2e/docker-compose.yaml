@@ -18,6 +18,8 @@ services:
       - hub
     environment:
       HUB_HOST: hub
+    extra_hosts:
+      - "host.docker.internal:172.17.0.1"  # remove that to work on MacOS
     shm_size: 1G
 
   chrome:
@@ -28,6 +30,8 @@ services:
       - hub
     environment:
       HUB_HOST: hub
+    extra_hosts:
+      - "host.docker.internal:172.17.0.1"  # remove that to work on MacOS
     shm_size: 1G
 
   hub:

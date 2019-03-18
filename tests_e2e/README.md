@@ -21,3 +21,7 @@ Creates web-report on http://localhost:4040 .
 To test non-default (not local) host:
 
     test.sh --host=<full URL>
+    
+### MacOS
+
+Remove `extra_hosts` from docker-compose.yaml because Docker for MacOS define the name internally.      
