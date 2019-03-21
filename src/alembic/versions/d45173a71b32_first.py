@@ -7,8 +7,14 @@ Create Date: 2019-01-28 16:48:40.964023
 """
 from alembic import op
 import sqlalchemy as sa
+from sqlalchemy import orm
+import db.models
+import db.conn
 from sqlalchemy.engine import reflection
 import logging
+
+
+log = logging.getLogger('alembic.runtime.migration')
 
 
 # revision identifiers, used by Alembic.
@@ -29,33 +35,24 @@ def upgrade():
         log.info('There is "users" table in the DB - assumes that this DB revision was applied and skip it.')
         return
 
-    op.create_table('users',
-    sa.Column('created_datetime', sa.DateTime(timezone=True), nullable=True),
-    sa.Column('name', sa.String(length=120), nullable=True),
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('group', sa.String(length=32), nullable=True),
-    sa.Column('email', sa.String(length=120), nullable=False),
-    sa.Column('password_hash', sa.String(length=300), nullable=True),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('email')
-    )
-    op.create_table('projects',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('name', sa.String(length=80), nullable=False),
-    sa.Column('created', sa.DateTime(timezone=True), nullable=True),
-    sa.Column('author_id', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['author_id'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('name')
-    )
-    op.create_table('projects_collaborators',
-    sa.Column('project_id', sa.Integer(), nullable=False),
-    sa.Column('user_id', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['project_id'], ['projects.id'], ),
-    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('project_id', 'user_id')
-    )
-    # ### end Alembic commands ###
+    # oldAccount = sa.Table(
+    #     'accounts',
+    #     sa.MetaData(),
+    #     sa.Column('id', sa.Integer, primary_key=True),
+    #     sa.Column('projects_access', sa.VARCHAR(length=4)),
+    #     sa.Column('license_info_id', sa.Integer)
+
+    # bind = op.get_bind()
+    # session = orm.Session(bind=bind)
+    #
+    # for old_account in bind.execute(oldAccount.select()):
+    #     bind.execute(
+    #         oldAccount.update().where(
+    #             oldAccount.c.id == old_account.id
+    #         ).values(
+    #             license_info_id=license_info.id
+    #         )
+    #     )
 
 
 def downgrade():
@@ -64,3 +61,5 @@ def downgrade():
     op.drop_table('projects')
     op.drop_table('users')
     # ### end Alembic commands ###
+
+
