@@ -35,6 +35,7 @@ def upgrade():
         log.info('There is "users" table in the DB - assumes that this DB revision was applied and skip it.')
         return
 
+    # template for app object-independent way of migration
     # oldAccount = sa.Table(
     #     'accounts',
     #     sa.MetaData(),
