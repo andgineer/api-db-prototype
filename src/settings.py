@@ -41,6 +41,7 @@ class ConfigBase:
 
     db_autometa = True  # refresh DB metadata at start
     db_sqltrace = False
+    profiler_cprofile = True  # activates profiling.py#analyze() context manager
 
     api_host = None
     api_root = ''
