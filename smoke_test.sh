@@ -39,7 +39,7 @@ TOKEN=$(curl -s -H "Accept: application/json" \
     -H "Content-Type: application/json" \
     -X POST \
     -d '{"email": "'${ADMIN_EMAIL}'", "password": "admin"}' \
-    ${URL}/api/auth | \
+    ${URL}/auth | \
     python3 -c $'
 import sys, json
 from json.decoder import JSONDecodeError
@@ -58,7 +58,7 @@ then
 echo
 echo -e $CYAN"..requesting user list..."$NC
 echo
-curl -H 'Accept: application/json' -H "Authorization: Bearer ${TOKEN}" ${URL}/api/users?per_page=1
+curl -H 'Accept: application/json' -H "Authorization: Bearer ${TOKEN}" ${URL}/users?per_page=1
 
 if [ $? -eq 0 ]
 then

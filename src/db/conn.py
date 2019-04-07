@@ -55,6 +55,9 @@ def make_session():
     if settings.config.db_autometa:
         refresh_metadata()
     create_admin_user()
+    session.close()
+    session.get_bind().dispose()
+    log.debug('Connections dropped after creating meta-data')
     return session
 
 
