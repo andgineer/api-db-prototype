@@ -5,4 +5,4 @@ except ImportError:
 
 
     def time_ns():
-        return perf_counter() * 10 ** 9
+        return int(perf_counter() * 10 ** 9)
