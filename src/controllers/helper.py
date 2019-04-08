@@ -12,7 +12,7 @@ import traceback
 from controllers.auth import AuthUser
 import schematics.exceptions
 from controllers.models import HttpCode
-from time import time_ns
+from time_ns import time_ns
 
 
 def transaction(handler):
