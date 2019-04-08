@@ -4,4 +4,6 @@
 #
 docker build -t=backend .
 docker stop backend
-docker run --name backend -it -p 5000:5000 backend
+docker rm backend
+docker run -d --name backend -p 5000:5000 --volume $PWD/logs:/logs backend
+

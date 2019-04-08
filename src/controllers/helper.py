@@ -3,6 +3,7 @@ Common code to keep api handler DRY
 """
 import db.conn
 from journaling import log
+import journaling
 from controllers.models import APIBaseError
 import re
 import inspect
@@ -11,6 +12,7 @@ import traceback
 from controllers.auth import AuthUser
 import schematics.exceptions
 from controllers.models import HttpCode
+from time_ns import time_ns
 
 
 def transaction(handler):
@@ -57,13 +59,18 @@ def api_result(handler):
     """
     @functools.wraps(handler)
     def api_result_wrapper(*args, **kwargs):
-        result = handler(*args, **kwargs)
-        if isinstance(result, tuple):
-            code = result[1]
-            result = result[0]
-        else:
-            code = HttpCode.success
-        return result, code
+        journaling.request_start_time = time_ns()
+        try:
+            result = handler(*args, **kwargs)
+            if isinstance(result, tuple):
+                code = result[1]
+                result = result[0]
+            else:
+                code = HttpCode.success
+            return result, code
+        finally:
+            journaling.request_start_time = None
+
     # Removing our calculated argument auth_user from decorated function
     signature = inspect.signature(handler)
     params = []
@@ -83,12 +90,17 @@ def token_to_auth_user(handler):
         if 'auth_token' in kwargs:
             if kwargs['auth_token'] is not None:
                 log.debug(f'Add auth_user to {handler.__name__}\n{kwargs["auth_token"]}')
-                args = (AuthUser(kwargs['auth_token']), ) + args
+                auth_user = AuthUser(kwargs['auth_token'])
+                args = (auth_user, ) + args
+                journaling.user = auth_user.email
             else:
                 log.warning('No or wrong user token in request')
                 return 'No or wrong user token in request', HttpCode.no_token
             del kwargs['auth_token']
-        return handler(*args, **kwargs)
+        try:
+            return handler(*args, **kwargs)
+        finally:
+            journaling.user = None
     token_to_auth_user_wrapper.__signature__ = inspect.signature(handler)
     return token_to_auth_user_wrapper
 

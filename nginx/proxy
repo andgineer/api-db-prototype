@@ -1,0 +1,43 @@
+upstream backend {
+    #server unix:///server/backend.sock;
+    server back:5001; # slow TCP/IP
+}
+
+server {
+    listen 443 ssl http2 default_server;
+    ssl_certificate /etc/nginx/cert.pem;
+    ssl_certificate_key /etc/nginx/key.pem;
+    server_name  example.com;
+
+    charset     utf-8;
+    client_max_body_size 75M;
+
+    root /usr/share/nginx/html;
+
+    location /api {
+#        uwsgi_pass  backend;
+      proxy_pass  http://backend;
+      if ($upstream_http_access_control_allow_origin != '') {
+          add_header Access-Control-Max-Age $upstream_http_access_control_max_age;
+          add_header Access-Control-Allow-Origin $upstream_http_access_control_allow_origin;
+          add_header Access-Control-Allow-Methods $upstream_http_access_control_allow_methods;
+          add_header Access-Control-Allow-Headers $upstream_http_access_control_allow_headers;
+          add_header Access-Control-Expose-Headers $upstream_http_access_control_expose_headers;
+      }
+    }
+
+    location /file {
+      internal;
+      alias /file;
+      if ($upstream_http_access_control_allow_origin != '') {
+          add_header Access-Control-Max-Age $upstream_http_access_control_max_age;
+          add_header Access-Control-Allow-Origin $upstream_http_access_control_allow_origin;
+          add_header Access-Control-Allow-Methods $upstream_http_access_control_allow_methods;
+          add_header Access-Control-Allow-Headers $upstream_http_access_control_allow_headers;
+          add_header Access-Control-Expose-Headers $upstream_http_access_control_expose_headers;
+      }
+    }
+
+}
+
+

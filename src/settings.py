@@ -42,6 +42,7 @@ class ConfigBase:
     db_autometa = True  # refresh DB metadata at start
     db_sqltrace = False
     profiler_cprofile = True  # activates profiling.py#analyze() context manager
+    profiler_maxMs = 1000
 
     api_host = None
     api_root = ''
@@ -169,8 +170,8 @@ class ConfigDev(ConfigBase):
     def __init__(self):
         super().__init__()
         self.db_uri = 'sqlite:///../debug_db.sqlite'
-        self.jwt_public_key_file = 'secret/jwt_certificate.pem'
-        self.jwt_secret_key_file = 'secret/jwt_private.key'
+        self.jwt_public_key_file = PUBLIC_JWT_KEY_FILE
+        self.jwt_secret_key_file = PRIVATE_JWT_KEY_FILE
 
     @property
     def app(self):
@@ -183,7 +184,7 @@ class ConfigProd(ConfigBase):
     """
     def __init__(self):
         super().__init__()
-        self.db_uri = os.environ.get(DB_URI_ENV, None)
+        self.db_uri = os.environ.get(DB_URI_ENV, 'sqlite:///../debug_db.sqlite')
         self.port = os.environ.get(PORT_ENV, self.port)
         self.auto_db_meta = int(os.environ.get(AUTO_DB_META_ENV, 0))
         self.jwt_public_key_file = PUBLIC_JWT_KEY_FILE

@@ -13,17 +13,52 @@ import os
 import logging.config
 import yaml
 import socket
+from typing import Optional
+from time_ns import time_ns
+import settings
 
 
 LOG_CONFIG = 'logging.yaml'
 hostname = None  # host name for the machine we are running on
+user = None  # user email for the token used to call api request (if any)
 log = logging.getLogger('')  # convenient way to get logger
+request_start_time: int = None  # time_ns before starting request handler, set in controllers/request#api_result handler
+
+
+def uwsgi_info() -> Optional[dict]:
+    try:
+        import uwsgi
+        return {
+            'numproc': uwsgi.numproc,
+            'worker_id': uwsgi.worker_id(),
+            'workers': uwsgi.workers()
+        }
+    except ImportError:  # we are not under uWSGI
+        return {
+            'numproc': 0,
+            'worker_id': 'N/A',
+            'workers': []
+        }
+
+
+def elapsed() -> str:
+    if request_start_time is None:
+        return '|n/a|'
+    ms = (time_ns() - request_start_time) / 1000000
+    if ms > settings.config.profiler_maxMs:
+        return f'**>{ms:.0f}ms<**'
+    else:
+        return f'*>{ms:.1f}ms<*'
 
 
 class CustomFormatter(logging.Formatter):
     def format(self, record):
         if not hasattr(record, 'host'):
             record.host = hostname
+        if not hasattr(record, 'uwsgi'):
+            record.uwsgi = uwsgi_info()['worker_id']
+        record.user = user
+        record.elapsed = elapsed()
         return super().format(record)
 
 
