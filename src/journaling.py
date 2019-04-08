@@ -14,7 +14,7 @@ import logging.config
 import yaml
 import socket
 from typing import Optional
-from time_ns import time_ns
+from pretty_ns import time_ns
 import settings
 
 
