@@ -46,9 +46,9 @@ def elapsed() -> str:
         return '|n/a|'
     ms = (time_ns() - request_start_time) / 1000000
     if ms > settings.config.profiler_maxMs:
-        return f'***{ms:.0f}ms***'
+        return f'**>{ms:.0f}ms<**'
     else:
-        return f'*{ms:.1f}ms*'
+        return f'*>{ms:.1f}ms<*'
 
 
 class CustomFormatter(logging.Formatter):
