@@ -24,7 +24,7 @@ handlers:
         when: midnight
         level: DEBUG
         formatter: debug
-        filename: /logs/debug.log
+        filename: /var/log/adp/debug.log
         backupCount: 20
         encoding: utf8
 
@@ -33,7 +33,7 @@ handlers:
         when: midnight
         level: INFO
         formatter: info
-        filename: /logs/info.log
+        filename: /var/log/adp/info.log
         backupCount: 20
         encoding: utf8
 
@@ -42,7 +42,7 @@ handlers:
         when: midnight
         level: ERROR
         formatter: debug
-        filename: /logs/errors.log
+        filename: /var/log/adp/errors.log
         backupCount: 20
         encoding: utf8
 

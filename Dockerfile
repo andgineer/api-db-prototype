@@ -16,7 +16,7 @@ ENV API_PORT=5000
 ENV AUTO_DB_META=1
 
 EXPOSE 5000
-VOLUME /logs
+VOLUME /var/log/adp
 
 CMD uwsgi \
     --http-socket :5000 \
@@ -24,4 +24,4 @@ CMD uwsgi \
     --processes 5 \
     --protocol uwsgi \
     --master \
-    --logto /logs/uwsgi.log
+    --logto /var/log/adp/uwsgi.log

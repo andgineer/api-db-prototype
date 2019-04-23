@@ -1,0 +1,30 @@
+supply:
+  host: localhost:5000
+  base: "http://{host}/"
+prepare:
+  getToken:
+    url: "{base}auth"
+    method: POST
+    headers: json  # means Content-Type: application/json
+    body:
+      email: admin@
+      password: admin
+    script: |
+      supply(token=resp['token'])
+      reload(ammo.usersList)
+ammo:
+  usersList:
+    repeat: "{args.repeat * 2}"
+    url: "{base}users"
+    headers: &auth_headers
+      json:
+      Authorization: "Bearer {token}"
+    script: |
+      if len(resp['data']) > 0:
+        reload(ammo.getUser, id=resp['data'][0]['id'])
+  getUser:
+    repeat: "{args.repeat * 3}"
+    url: "{base}users/{id}"
+    headers:
+      <<: *auth_headers
+
