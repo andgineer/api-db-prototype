@@ -54,6 +54,8 @@ For `transmute_server` flavor of the app, API description generated as
 You can convert the swagger file `api/swagger.yaml` into document at 
 `editor.swagger.io` or `Amazon AWS API Gateway`.
 
+Visualization also available on [Swagger HUB](https://app.swaggerhub.com/apis/andgineer/api-db-prototype/1.0-oas3)
+
 
 ### Configs
 
