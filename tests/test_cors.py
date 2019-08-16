@@ -1,9 +1,7 @@
 import api
 import settings
-import pytest
 
 
-@pytest.mark.no_auto_client
 def test_cors(flask_client, admin_token):
     """
     Test Cross Origin Requests settings

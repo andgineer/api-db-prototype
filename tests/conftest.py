@@ -1,22 +1,25 @@
-from coverage import coverage
-cov = coverage(
-    branch=True,
-    omit=[
-        'tests/*',
-        'server/ncbi/*',  # we do not use this library at the moment so we do not have tests
-        'server/alembic/*',  # unit-tests do not test DB migrations, we need actual DB for that
-        'server/rabbitmq_broker.py',  # mock it because rabbitMQ is not used in unit-tests
-        'server/cloud_services.py', # mock it to not send emails and so on from unit-tests
-        'server/settings.py',  # there are a number of different configs but for unit-tests we use just one
-        'server/pretty_ns.py',  # general lib we do not need to test it
-        'server/profiling.py',  # we do not test profiling, this is debug tool
-        '*/usr/local/lib*',
-        '*lib/python*',
-    ]
-)
-cov.start()  # we have to start before import to have correct import lines coverage
+import sys
+if '--cov' in sys.argv:
+    cov = None
+else:
+    import coverage
+    cov = coverage.Coverage(
+        branch=True,
+        omit=[
+            'tests/*',
+            'src/alembic/*',  # unit-tests do not test DB migrations, we need actual DB for that
+            'src/cloud_services.py', # mock it to not send emails and so on from unit-tests
+            'src/settings.py',  # there are a number of different configs but for unit-tests we use just one
+            'src/pretty_ns.py',  # general lib we do not need to test it
+            'src/profiling.py',  # we do not test profiling, this is debug tool
+            '*/usr/local/lib*',
+            '*lib/python*',
+        ]
+    )
+    cov.start()  # we have to start before import to have correct import lines coverage
 
-import os; os.environ['FLASK_ENV'] = 'testing'  # set testing env before importing app
+import os
+os.environ['FLASK_ENV'] = 'testing'  # set testing env before importing app
 from settings import ConfigTestWrong, ConfigTestPureFlask, ConfigTestTransmute, ConfigTestConnexion
 import db.conn
 import db.models
@@ -35,14 +38,15 @@ TEST_COVERAGE_REPORT_FILE = 'coverage.txt'
 
 
 def pytest_unconfigure(config):
-    cov.stop()
-    cov.save()
-    with open(TEST_COVERAGE_REPORT_FILE, 'w') as f:
-        f.writelines(['Coverage Report:'])
-        cov.report(show_missing=True, file=f)
-    # print("HTML version: " + os.path.join(os.path.dirname(__file__), "coverage/index.html"))
-    # cov.html_report(directory='coverage')
-    cov.erase()
+    if cov is not None:
+        cov.stop()
+        cov.save()
+        with open(TEST_COVERAGE_REPORT_FILE, 'w') as f:
+            f.writelines(['Coverage Report:'])
+            cov.report(show_missing=True, file=f)
+        # print("HTML version: " + os.path.join(os.path.dirname(__file__), "coverage/index.html"))
+        # cov.html_report(directory='coverage')
+        cov.erase()
 
 
 def headers(token):
