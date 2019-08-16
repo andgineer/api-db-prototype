@@ -131,8 +131,9 @@ class ConfigTest(ConfigBase):
         self.api_host = 'http://localhost:5000'
 
     def __del__(self):
-        os.close(self.db_file_object)
-        os.remove(self.db_file_name)
+        if os is not None:
+            os.close(self.db_file_object)
+            os.remove(self.db_file_name)
 
 
 class ConfigTestPureFlask(ConfigTest):
