@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/andgineer/api-db-prototype.png)](https://travis-ci.org/andgineer/api-db-prototype)
-[![Test coverage](https://coveralls.io/repos/github/masterandrey/api-db-prototype/badge.svg?branch=master)](https://coveralls.io/github/masterandrey/api-db-prototype?branch=master)
+[![Test coverage](https://coveralls.io/repos/github/andgineer/api-db-prototype/badge.svg?branch=master)](https://coveralls.io/github/andgineer/api-db-prototype?branch=master)
 # Prototype for API server
 
 Implements API server with different frameworks
