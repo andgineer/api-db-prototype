@@ -73,6 +73,11 @@ In production you should use something like
 
 See example in `prod.sh` and `Dockerfile`.
 
+### Virtual environment
+
+Use `. ./activate.sh` to create and/or activate and `deactivate` to exit.
+To upgrade python packages in the virtual environment use `./upgrade.sh`.
+
 ## Security
 In developer version automatically created user with email `admin@` 
 and password `admin`.
