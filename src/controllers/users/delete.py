@@ -21,7 +21,7 @@ def delete_user(auth_user: AuthUser, user_id: str):
             log.debug(f'Deletion of user with id={user_id}')
             db.conn.session.delete(user_to_delete)
             db.conn.session.commit()
-            return None
+            return {}
     else:
         log.debug(f'No user with id={user_id}')
         return f'No user with id={user_id}', HttpCode.logic_error

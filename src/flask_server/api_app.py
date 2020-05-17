@@ -133,7 +133,7 @@ def api(handler, bparams: list=None, raw=False):
             code = HttpCode.success
         if code not in HttpCode.successes and isinstance(result, str):
             result = {'status': result}
-        return jsonify(result), code
+        return result, code
     return api_wrapper
 
 
