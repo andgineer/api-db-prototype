@@ -1,5 +1,8 @@
 from schematics.models import Model
-from schematics.types import StringType, IntType, DateTimeType, DateType, ListType
+from schematics.types import StringType, IntType, ListType, BaseType
+from schematics.exceptions import ConversionError
+import enum
+import random
 
 
 PAGE_DEFAULT = 1
@@ -15,9 +18,12 @@ class HttpCode:
     logic_error = 400  # Application level error like user already exists and so on
     no_token = 401  # Request without token for operation that requires one
 
-FULL_ACCESS_GROUP = 'full'
-ADMIN_ACCESS_GROUP = 'admin'
-GUEST_ACCESS_GROUP = 'guest'
+
+@enum.unique
+class UserGroup(enum.Enum):
+    FULL = 'full'
+    ADMIN = 'admin'
+    GUEST = 'guest'
 
 
 class APIBaseError(Exception):
@@ -93,6 +99,42 @@ class APIModel(Model):
         return self
 
 
+class EnumType(BaseType):
+    """
+    Converts Python Enum into the string.
+    """
+    primitive_type = str
+    native_type = enum.Enum
+
+    MESSAGES = {
+        'convert': ("Couldn't interpret '{0}' value as Enum."),
+        'find': 'Couldnt find {value} in {choices}'
+    }
+
+    def __init__(self, enum=None, **kwargs):
+        self.enum = enum
+        super().__init__(**kwargs)
+
+    def _mock(self, context=None):
+        return random.choice(list(self.enum.__members__))
+
+    def to_native(self, value, context=None):
+        if isinstance(value, self.enum):
+            return value
+        try:
+            for member in self.enum.__members__:
+                if member.lower() == value.lower():
+                    return self.enum.__members__[member]
+            else:
+                raise ValueError(self.messages['find'].format(
+                    choices=self.enum.__members__, value=value))
+        except (ValueError, TypeError):
+            raise ConversionError(self.messages['convert'].format(value))
+
+    def to_primitive(self, value, context=None):
+        return value.value
+
+
 class TokenReply(APIModel):
     """
     get_token reply
@@ -105,13 +147,13 @@ class UserShort(APIModel):
     User in list
     """
     id = StringType()
-    group = StringType()
+    group = EnumType(enum=UserGroup)
     email = StringType()
     name = StringType()
 
 
 class UpdateUser(APIModel):
-    group = StringType()
+    group = EnumType(enum=UserGroup)
     email = StringType(required=True)
     password = StringType()
     name = StringType()
@@ -121,10 +163,11 @@ class NewUser(APIModel):
     """
     To extend validation https://schematics.readthedocs.io/en/latest/usage/validation.html#extending-validation
     """
-    group = StringType(required=True)
+    group = EnumType(enum=UserGroup, required=True)
     email = StringType(required=True)
     password = StringType(required=True)
     name = StringType()
+
 
 class NewUserReply(APIModel):
     """
@@ -135,7 +178,7 @@ class NewUserReply(APIModel):
 
 class User(APIModel):
     id = StringType()
-    group = StringType()
+    group = EnumType(enum=UserGroup)
     email = StringType()
     name = StringType(default='')
 

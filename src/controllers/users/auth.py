@@ -27,7 +27,7 @@ def get_token(email: str, password: str, auth_token=None):  #todo: remove auth_t
         JWT_EXPIRATION: token.datetime2jwt(settings.config.now() + settings.config.token_expiration_delta),
         JWT_CREATED: token.datetime2jwt(settings.config.now()),
         JWT_EMAIL: user.email,
-        JWT_GROUP: user.group
+        JWT_GROUP: user.group.value
     }
     assert '.' not in payload['exp']
     return {'token': token.encode(payload)}

@@ -1,4 +1,4 @@
-from sqlalchemy import Table, Column, DateTime, String, Integer, ForeignKey, func, event
+from sqlalchemy import Table, Column, DateTime, String, Integer, ForeignKey, func, event, Enum
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 import password_hash
@@ -6,7 +6,7 @@ from sqlalchemy.orm import attributes
 from sqlalchemy.orm.base import NEVER_SET, NO_VALUE
 from journaling import log
 import db.conn
-from controllers.models import APIError
+from controllers.models import APIError, UserGroup
 
 
 class ORMClass(object):
@@ -44,9 +44,9 @@ projects_collaborators = Table(
 class Project(Base):
     __tablename__ = 'projects'
     id = Column(Integer, primary_key=True)
-    name = Column(String(80), unique=True, nullable=False)
-    created = Column(DateTime(timezone=True), default=func.now())
-    author_id = Column(Integer, ForeignKey('users.id'))
+    name = Column(String(80), unique=True, nullable=False, comment='Project name')
+    created = Column(DateTime(timezone=True), default=func.now(), comment='Project creation time')
+    author_id = Column(Integer, ForeignKey('users.id'), comment='Project author')
 
     # we do not use 'backref' feature of SQLAlchemy but duplicate relationships
     # on both sides, because we want all this fields visible in auto-completion in IDE
@@ -72,9 +72,16 @@ class Project(Base):
 class User(Base):
     __tablename__ = 'users'
     createdDatetime = Column('created_datetime', DateTime(timezone=True), default=func.now())
-    name = Column(String(120))
+    name = Column(String(120), comment='User name')
     id = Column(Integer, primary_key=True)
-    group = Column(String(32))
+    group = Column(
+        Enum(
+            UserGroup,
+            values_callable=lambda x: [e.value for e in x],  # to use enum values instead of names
+            native_enum=False,
+        ),
+        comment='User group'
+    )
     email = Column(String(120), unique=True, nullable=False)
     password_hash = Column(String(300))
 

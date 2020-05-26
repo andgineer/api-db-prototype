@@ -175,7 +175,7 @@ def nopassword_user(request):
     lambda:
     {
         'email': settings.config.default_admin_email,
-        'group': controllers.models.ADMIN_ACCESS_GROUP,
+        'group': controllers.models.UserGroup.ADMIN.value,
         'password': settings.config.default_admin_password}
 ])
 def admin_user(request):
@@ -189,7 +189,7 @@ def admin_user(request):
     lambda:
     {
         'email': 'full@',
-        'group': controllers.models.FULL_ACCESS_GROUP,
+        'group': controllers.models.UserGroup.FULL.value,
         'password': 'full',
     }
 ])
@@ -204,7 +204,7 @@ def full_user(request):
     lambda:
     {
         'email': 'demo@',
-        'group': controllers.models.GUEST_ACCESS_GROUP,
+        'group': controllers.models.UserGroup.GUEST.value,
         'password': 'demo',
     }
 ])

@@ -24,7 +24,7 @@ def create_admin_user():
     Creates default admin if no users with admin right are in DB
     """
     # if session.info.get('has_flushed', False):
-    users = db.models.User.query().filter(db.models.User.group == controllers.models.ADMIN_ACCESS_GROUP)
+    users = db.models.User.query().filter(db.models.User.group == controllers.models.UserGroup.ADMIN)
     if not users.count():
         log.debug('!' * 25 + f"""
 Creating default admin user <{settings.config.default_admin_email}> with
@@ -33,7 +33,7 @@ password '{settings.config.default_admin_password}' - please change her password
         admin_user = db.models.User(
             email=settings.config.default_admin_email,
             password=settings.config.default_admin_password,
-            group=controllers.models.ADMIN_ACCESS_GROUP
+            group=controllers.models.UserGroup.ADMIN
         )
         session.add(admin_user)
         session.commit()

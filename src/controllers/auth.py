@@ -1,6 +1,6 @@
 import settings
 from jwt_token import token, JWT_EXPIRATION
-from controllers.models import APIError, ADMIN_ACCESS_GROUP
+from controllers.models import APIError, UserGroup
 
 
 JWT_EMAIL = 'sub'
@@ -27,4 +27,4 @@ class AuthUser:
 
     @property
     def is_admin(self) -> bool:
-        return self.group == ADMIN_ACCESS_GROUP
+        return self.group == UserGroup.ADMIN.value
