@@ -1,6 +1,7 @@
 from sqlalchemy import Table, Column, DateTime, String, Integer, ForeignKey, func, event, Enum
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.ext.hybrid import hybrid_property
 import password_hash
 from sqlalchemy.orm import attributes
 from sqlalchemy.orm.base import NEVER_SET, NO_VALUE
@@ -94,12 +95,16 @@ class User(Base):
         lazy='dynamic'
     )
 
-    @property
+    @hybrid_property
     def password(self):
         raise Exception('Password getter')
 
     @password.setter
     def password(self, value):
+        """
+        For hybrid_property in setter we should check
+         not isinstance(self._scaffold_smiles, sqlalchemy.orm.attributes.InstrumentedAttribute)
+        """
         self.password_hash = password_hash.hash(value)
 
     @staticmethod
