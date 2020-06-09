@@ -9,3 +9,4 @@ cryptography
 boto3
 passwords
 alembic
+connexion[swagger-ui]

@@ -95,7 +95,7 @@ class User(Base):
         lazy='dynamic'
     )
 
-    @hybrid_property
+    @property
     def password(self):
         raise Exception('Password getter')
 
