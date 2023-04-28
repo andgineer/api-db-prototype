@@ -1,3 +1,9 @@
+pytest
+coverage
+pytest-instafail
+pytest-picked
+hypothesis
+
 flask
 flask-transmute
 connexion
@@ -6,14 +12,9 @@ schematics
 pyjwt
 passlib
 cryptography
-hypothesis
-pytest
 pytest-cov
 python-coveralls
-pytest-instafail
-pytest-picked
 coverage>=4.4
 boto3
 passwords
 alembic
-

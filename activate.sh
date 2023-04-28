@@ -26,7 +26,9 @@ if [[ ! -d ${VENV_FOLDER} ]] ; then
     echo -e $CYAN"Creating virtual environment for python in ${VENV_FOLDER}"$NC
     $PYTHON -m venv ${VENV_FOLDER}
     . ${VENV_FOLDER}/bin/activate
+    pip install --upgrade pip
     pip install -r requirements.txt
+    pip install -r requirements.dev.txt
 else
     echo -e $CYAN"Activating virtual environment ..."$NC
     . ${VENV_FOLDER}/bin/activate

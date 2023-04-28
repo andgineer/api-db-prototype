@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/andgineer/api-db-prototype.png)](https://travis-ci.org/andgineer/api-db-prototype)
+[![Build Status](https://github.com/andgineer/api-db-prototype/workflows/ci/badge.svg)](https://github.com/andgineer/api-db-prototype/actions)
 [![Test coverage](https://coveralls.io/repos/github/andgineer/api-db-prototype/badge.svg?branch=master)](https://coveralls.io/github/andgineer/api-db-prototype?branch=master)
 # Prototype for API server
 

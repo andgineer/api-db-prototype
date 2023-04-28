@@ -1,6 +1,6 @@
 flask
 flask-transmute
-connexion
+connexion==2.14.2
 SQLAlchemy
 schematics
 pyjwt
