@@ -1,5 +1,8 @@
 import sys
 import os
+from typing import Optional, Union
+
+import sqlalchemy
 
 SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
 sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, '..', '..')))
@@ -58,11 +61,13 @@ def run_migrations_online():
     and associate a connection with the context.
 
     """
-    connectable = config.attributes.get('connection', None)
+    connectable: Optional[Union[sqlalchemy.engine.Connection, sqlalchemy.engine.Engine]] = \
+        config.attributes.get('connection', None)
 
-    if connectable is None:
-        # only create Engine if we don't have a Connection
-        # from the outside
+    if connectable:  # got Connection from Alembic
+        assert isinstance(connectable, sqlalchemy.engine.Connection)
+        connectable = connectable.engine
+    else:
         connectable = engine_from_config(
             config.get_section(config.config_ini_section),
             prefix='sqlalchemy.',

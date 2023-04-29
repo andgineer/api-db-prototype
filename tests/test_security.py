@@ -1,5 +1,5 @@
 from jwt_token import token
-from hypothesis import given, settings
+from hypothesis import given, settings, HealthCheck
 from hypothesis import strategies as st
 from string import ascii_letters, digits
 import password_hash
@@ -8,7 +8,7 @@ import datetime
 from datetime import timezone
 
 
-@settings(max_examples=10)  # encryption is time consuming and we are not in business to check crypto anyway
+@settings(max_examples=10, deadline=None, suppress_health_check=[HealthCheck.function_scoped_fixture])  # encryption is time consuming and we are not in business to check crypto anyway
 @given(st.text(min_size=1, max_size=32, alphabet=ascii_letters+digits), st.text())
 def test_jwt_encode(config, key, message):
     payload = {key: message}

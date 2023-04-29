@@ -2,8 +2,7 @@ from flask import json
 import hypothesis.strategies as st
 from conftest import DEFAULT_USERS
 import api
-from hypothesis import given, settings
-
+from hypothesis import given, settings, HealthCheck
 
 UserStrategy = st.builds(
   dict,
@@ -14,7 +13,7 @@ UserStrategy = st.builds(
 
 
 @given(random_user=UserStrategy)
-@settings(max_examples=10, deadline=None)
+@settings(max_examples=10, deadline=None, suppress_health_check=[HealthCheck.function_scoped_fixture])
 def test_user_crud(random_user, admin_token):
     """
     Create user, get user list, delete user.

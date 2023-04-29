@@ -1,12 +1,12 @@
 from flask import json
-from hypothesis import given, settings
+from hypothesis import given, settings, HealthCheck
 from hypothesis import strategies as st
 from string import ascii_letters, digits
 import api
 
 
 @given(wrong_token=st.text(alphabet=ascii_letters+digits))
-@settings(max_examples=10)
+@settings(max_examples=10, deadline=None)
 def test_user_create_wrong_token(user, wrong_token):
     """
     Create user with wrong token

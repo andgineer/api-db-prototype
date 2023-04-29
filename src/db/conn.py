@@ -1,6 +1,8 @@
 """
 Encapsulates SQLAlchemy engine, session and db management logic
 """
+from typing import Optional
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from db.models import Base
@@ -15,7 +17,7 @@ import alembic.command
 from sqlalchemy.engine import reflection
 
 
-session: Session = None
+session: Optional[Session] = None
 engine = None
 
 
@@ -63,6 +65,7 @@ def make_session():
 
 def refresh_metadata():
     log.debug('Refreshing metadata...')
+    assert session is not None
     insp = reflection.Inspector.from_engine(session().get_bind())
     table_names = insp.get_table_names()
     if 'users' not in table_names:

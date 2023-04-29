@@ -1,11 +1,13 @@
 import hypothesis
 import hypothesis.strategies as st
+from hypothesis import HealthCheck
+
 from journaling import log
 import api
 
 
 @hypothesis.given(user_id=st.integers())
-@hypothesis.settings(max_examples=10, deadline=None)
+@hypothesis.settings(max_examples=10, deadline=None, suppress_health_check=[HealthCheck.function_scoped_fixture])
 def test_delete_fail(user_id, admin_token):
     """
     Tries to delete user in empty DB.
