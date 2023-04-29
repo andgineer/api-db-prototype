@@ -49,7 +49,7 @@ class JwtCrypto:
         return self._private_key
 
     def encode(self, payload: dict) -> str:
-        return jwt.encode(payload, self.private_key, algorithm='RS256').decode()
+        return jwt.encode(payload, self.private_key, algorithm='RS256')
 
     def decode(self, encoded: str) -> dict:
         try:

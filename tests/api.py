@@ -103,10 +103,7 @@ def get_token(email, password, expected_statuses=HttpCode.successes):
         headers=headers()
     )
     data = parse_api_reply(resp, expected_statuses=expected_statuses)
-    if expected_statuses == HttpCode.successes:
-        return data['token']
-    else:
-        return None
+    return data['token'] if expected_statuses == HttpCode.successes else None
 
 
 def create_user(token, user, expected_statuses=HttpCode.successes, patch_email=True):
