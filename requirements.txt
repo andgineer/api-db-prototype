@@ -37,8 +37,6 @@ connexion[swagger-ui]==2.14.2
     # via -r requirements.in
 cryptography==40.0.2
     # via -r requirements.in
-exceptiongroup==1.1.1
-    # via cattrs
 flask==2.1.2
     # via
     #   -r requirements.in
@@ -80,6 +78,7 @@ markupsafe==2.1.2
     # via
     #   jinja2
     #   mako
+    #   werkzeug
 packaging==23.1
     # via connexion
 passlib==1.7.4
@@ -133,7 +132,7 @@ urllib3==1.26.15
     # via
     #   botocore
     #   requests
-werkzeug==2.1.2
+werkzeug==2.2.3
     # via
     #   -r requirements.in
     #   connexion
