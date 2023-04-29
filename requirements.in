@@ -1,0 +1,14 @@
+Flask==2.1.2
+flask-restx==0.5.1
+Werkzeug==2.1.2
+flask-transmute
+connexion
+SQLAlchemy
+schematics
+pyjwt
+passlib
+cryptography
+boto3
+passwords
+alembic
+connexion[swagger-ui]

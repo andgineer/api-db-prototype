@@ -1,6 +1,6 @@
 from sqlalchemy import Table, Column, DateTime, String, Integer, ForeignKey, func, event, Enum
 from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import declarative_base
 from sqlalchemy.ext.hybrid import hybrid_property
 import password_hash
 from sqlalchemy.orm import attributes
