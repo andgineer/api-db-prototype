@@ -4,7 +4,7 @@
 #
 
 rm -f requirements.txt
-rm -f requirements.dev.txt
+rm -f requirements.test.txt
 
-pip-compile requirements.dev.in
+pip-compile requirements.test.in
 pip-compile requirements.in

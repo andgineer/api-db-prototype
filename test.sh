@@ -6,7 +6,7 @@
 #
 # (!) do not forget to activate virtual env and install dependencies:
 #   . ./activate.sh
-#   python -m pip install -r requirements.dev.txt
+#
 python -m pytest \
   -s -v \
   --doctest-modules \
