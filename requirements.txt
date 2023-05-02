@@ -37,9 +37,7 @@ connexion[swagger-ui]==2.14.2
     # via -r requirements.in
 cryptography==40.0.2
     # via -r requirements.in
-exceptiongroup==1.1.1
-    # via cattrs
-flask==2.2.4
+flask==2.2.5
     # via
     #   -r requirements.in
     #   connexion
