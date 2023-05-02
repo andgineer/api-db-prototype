@@ -13,9 +13,9 @@ attrs==23.1.0
     #   cattrs
     #   jsonschema
     #   transmute-core
-boto3==1.26.123
+boto3==1.26.124
     # via -r requirements.in
-botocore==1.29.123
+botocore==1.29.124
     # via
     #   boto3
     #   s3transfer
@@ -39,7 +39,7 @@ cryptography==40.0.2
     # via -r requirements.in
 exceptiongroup==1.1.1
     # via cattrs
-flask==2.1.2
+flask==2.2.4
     # via
     #   -r requirements.in
     #   connexion
@@ -115,7 +115,7 @@ six==1.16.0
     # via
     #   python-dateutil
     #   transmute-core
-sqlalchemy==2.0.11
+sqlalchemy==2.0.12
     # via
     #   -r requirements.in
     #   alembic
