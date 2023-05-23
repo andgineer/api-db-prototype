@@ -37,8 +37,6 @@ connexion[swagger-ui]==2.14.2
     # via -r requirements.in
 cryptography==40.0.2
     # via -r requirements.in
-exceptiongroup==1.1.1
-    # via cattrs
 flask==2.2.4
     # via
     #   -r requirements.in
@@ -102,7 +100,7 @@ pyyaml==6.0
     #   clickclick
     #   connexion
     #   transmute-core
-requests==2.29.0
+requests==2.31.0
     # via connexion
 s3transfer==0.6.0
     # via boto3

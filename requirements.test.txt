@@ -19,10 +19,6 @@ coverage[toml]==7.2.5
     #   -r requirements.test.in
     #   pytest-cov
     #   python-coveralls
-exceptiongroup==1.1.1
-    # via
-    #   hypothesis
-    #   pytest
 hypothesis==6.75.1
     # via -r requirements.test.in
 idna==3.4
@@ -55,17 +51,12 @@ python-coveralls==2.9.3
     # via -r requirements.test.in
 pyyaml==6.0
     # via python-coveralls
-requests==2.29.0
+requests==2.31.0
     # via python-coveralls
 six==1.16.0
     # via python-coveralls
 sortedcontainers==2.4.0
     # via hypothesis
-tomli==2.0.1
-    # via
-    #   build
-    #   coverage
-    #   pytest
 urllib3==1.26.15
     # via requests
 wheel==0.40.0
