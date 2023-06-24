@@ -8,13 +8,13 @@ attrs==23.1.0
     # via hypothesis
 build==0.10.0
     # via pip-tools
-certifi==2022.12.7
+certifi==2023.5.7
     # via requests
 charset-normalizer==3.1.0
     # via requests
 click==8.1.3
     # via pip-tools
-coverage[toml]==7.2.5
+coverage[toml]==7.2.7
     # via
     #   -r requirements.test.in
     #   pytest-cov
@@ -23,7 +23,7 @@ exceptiongroup==1.1.1
     # via
     #   hypothesis
     #   pytest
-hypothesis==6.75.1
+hypothesis==6.79.2
     # via -r requirements.test.in
 idna==3.4
     # via requests
@@ -35,17 +35,17 @@ packaging==23.1
     #   pytest
 pip-tools==6.13.0
     # via -r requirements.test.in
-pluggy==1.0.0
+pluggy==1.2.0
     # via pytest
 pyproject-hooks==1.0.0
     # via build
-pytest==7.3.1
+pytest==7.4.0
     # via
     #   -r requirements.test.in
     #   pytest-cov
     #   pytest-instafail
     #   pytest-picked
-pytest-cov==4.0.0
+pytest-cov==4.1.0
     # via -r requirements.test.in
 pytest-instafail==0.5.0
     # via -r requirements.test.in
@@ -55,7 +55,7 @@ python-coveralls==2.9.3
     # via -r requirements.test.in
 pyyaml==6.0
     # via python-coveralls
-requests==2.29.0
+requests==2.31.0
     # via python-coveralls
 six==1.16.0
     # via python-coveralls
@@ -66,7 +66,7 @@ tomli==2.0.1
     #   build
     #   coverage
     #   pytest
-urllib3==1.26.15
+urllib3==2.0.3
     # via requests
 wheel==0.40.0
     # via pip-tools

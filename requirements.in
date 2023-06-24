@@ -6,7 +6,7 @@ flask-transmute
 connexion
 SQLAlchemy
 schematics
-pyjwt==2.5.0
+pyjwt
 passlib
 cryptography
 boto3

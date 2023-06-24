@@ -20,7 +20,7 @@
     >>> conf.var
     'value'
 """
-import collections
+import collections.abc
 import os.path
 import yaml
 
@@ -43,14 +43,14 @@ def load(config:dict, obj: object=None, _prefix=None):
         last_loaded = {}
     assert hasattr(obj, '__dict__') or isinstance(obj, object), \
         'obj should be Python3-style object subclass without __slots__ and not internal types like dict.'
-    if not isinstance(config, collections.Mapping):
+    if not isinstance(config, collections.abc.Mapping):
         raise ValueError(f'Bad config:\n{str(config)[:100]}\n')
     for param in config:
         if _prefix is None:
             param_path = param
         else:
             param_path = '_'.join([_prefix, param])
-        if isinstance(config[param], collections.Mapping):
+        if isinstance(config[param], collections.abc.Mapping):
             load(config[param], obj, param_path)
         else:
             if isinstance(config[param], str):
