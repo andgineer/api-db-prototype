@@ -1,28 +1,32 @@
-import os
-from abc import abstractmethod
-import tempfile
 import datetime
-from flask_server.api_app import app as flask_app
-from transmute_server.api_app import app as transmute_app
-from openapi_server.api_app import app as connexion_app
+import os
+import tempfile
+import urllib.parse
+from abc import abstractmethod
 from datetime import timezone
-import urllib
-import journaling
+from typing import Optional
 
+import journaling
+from flask_server.api_app import app as flask_app
+from openapi_server.api_app import app as connexion_app
+from transmute_server.api_app import app as transmute_app
 
 # environment vars
-DB_URI_ENV = 'DB_URI'  # env var for DB URI (see ConfigBase.db_uri)
-PORT_ENV = 'API_PORT'  # env var for app port, default in DEFAULT_PORT
-AUTO_DB_META_ENV = 'AUTO_DB_META'  # env var, if 1 then server at start
+DB_URI_ENV = "DB_URI"  # env var for DB URI (see ConfigBase.db_uri)
+PORT_ENV = "API_PORT"  # env var for app port, default in DEFAULT_PORT
+AUTO_DB_META_ENV = "AUTO_DB_META"  # env var, if 1 then server at start
 # refresh DB metadata (create tables if necessary)
 
 # const used for prod config
 DEFAULT_PORT = 5000
 TOKEN_EXPIRATION_HOURS = 48  # jwt lifetime
-DEFAULT_ADMIN_EMAIL = 'admin@'
-DEFAULT_ADMIN_PASSWORD = 'admin'
-PRIVATE_JWT_KEY_FILE = 'secret/jwt_private.key'
-PUBLIC_JWT_KEY_FILE = 'secret/jwt_certificate.pem'
+DEFAULT_ADMIN_EMAIL = "admin@"
+DEFAULT_ADMIN_PASSWORD = "admin"
+PRIVATE_JWT_KEY_FILE = "secret/jwt_private.key"
+PUBLIC_JWT_KEY_FILE = "secret/jwt_certificate.pem"
+
+#todo tests injections - dirty and better not be inside production code
+TEST_LOG_CONFIG_FILE_PATH = "tests/resources/logging.yaml"
 
 
 class ConfigBase:
@@ -42,15 +46,14 @@ class ConfigBase:
     db_autometa = True  # refresh DB metadata at start
     db_sqltrace = False
     profiler_cprofile = True  # activates profiling.py#analyze() context manager
-    profiler_maxMs = 1000
 
     api_host = None
-    api_root = ''
+    api_root = ""
 
-    aws_region = 'us-east-1'
+    aws_region = "us-east-1"
 
-    def __init__(self):
-        journaling.setup()
+    def __init__(self, log_config: Optional[str] = None):
+        journaling.setup(log_config)
 
     @property
     def api_url(self):
@@ -62,7 +65,6 @@ class ConfigBase:
         """
         Flask-compatible App server to run.
         """
-        pass
 
     @property
     def db_uri(self):
@@ -75,7 +77,7 @@ class ConfigBase:
         if self._db_uri:
             return self._db_uri
         else:
-            raise ValueError(f'No DB URI specified')
+            raise ValueError("No DB URI specified")
 
     @db_uri.setter
     def db_uri(self, value):
@@ -108,27 +110,28 @@ class ConfigBase:
         """
         Date as 'yyyy-mm-dd'
         """
-        return date.isoformat(sep='T').split('T')[0]
+        return date.isoformat(sep="T").split("T")[0]
 
     @staticmethod
     def rfc3339_to_date(date_str: str) -> datetime:
         """
         'yyyy-mm-dd' (UTC) to datetime
         """
-        return datetime.datetime.strptime(date_str, '%Y-%m-%d').replace(tzinfo=timezone.utc)
+        return datetime.datetime.strptime(date_str, "%Y-%m-%d").replace(tzinfo=timezone.utc)
 
 
 class ConfigTest(ConfigBase):
     """
     Creates temp sqlite db.
     """
+
     def __init__(self):
-        super().__init__()
+        super().__init__(TEST_LOG_CONFIG_FILE_PATH)
         self.db_file_object, self.db_file_name = tempfile.mkstemp()
-        self.db_uri = 'sqlite:///' + self.db_file_name
-        self.jwt_public_key_file = 'src/secret/jwt_certificate.pem'
-        self.jwt_secret_key_file = 'src/secret/jwt_private.key'
-        self.api_host = 'http://localhost:5000'
+        self.db_uri = "sqlite:///" + self.db_file_name
+        self.jwt_public_key_file = "src/secret/jwt_certificate.pem"
+        self.jwt_secret_key_file = "src/secret/jwt_private.key"
+        self.api_host = "http://localhost:5000"
 
     def __del__(self):
         if os is not None:
@@ -140,6 +143,7 @@ class ConfigTestPureFlask(ConfigTest):
     """
     Creates temp sqlite db.
     """
+
     @property
     def app(self):
         return flask_app
@@ -149,6 +153,7 @@ class ConfigTestTransmute(ConfigTest):
     """
     Creates temp sqlite db.
     """
+
     @property
     def app(self):
         return transmute_app
@@ -158,6 +163,7 @@ class ConfigTestConnexion(ConfigTest):
     """
     Creates temp sqlite db.
     """
+
     @property
     def app(self):
         return connexion_app.app
@@ -168,9 +174,10 @@ class ConfigDev(ConfigBase):
     Development environment.
     Local sqlite DB.
     """
+
     def __init__(self):
         super().__init__()
-        self.db_uri = 'sqlite:///../debug_db.sqlite'
+        self.db_uri = "sqlite:///../debug_db.sqlite"
         self.jwt_public_key_file = PUBLIC_JWT_KEY_FILE
         self.jwt_secret_key_file = PRIVATE_JWT_KEY_FILE
 
@@ -183,14 +190,15 @@ class ConfigProd(ConfigBase):
     """
     Production.
     """
+
     def __init__(self):
         super().__init__()
-        self.db_uri = os.environ.get(DB_URI_ENV, 'sqlite:///../debug_db.sqlite')
+        self.db_uri = os.environ.get(DB_URI_ENV, "sqlite:///../debug_db.sqlite")
         self.port = os.environ.get(PORT_ENV, self.port)
         self.auto_db_meta = int(os.environ.get(AUTO_DB_META_ENV, 0))
         self.jwt_public_key_file = PUBLIC_JWT_KEY_FILE
         self.jwt_secret_key_file = PRIVATE_JWT_KEY_FILE
-        self.api_host = 'https://example.com'
+        self.api_host = "https://example.com"
 
     @property
     def app(self):

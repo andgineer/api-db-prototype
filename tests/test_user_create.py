@@ -1,11 +1,12 @@
-from flask import json
-from hypothesis import given, settings, HealthCheck
-from hypothesis import strategies as st
 from string import ascii_letters, digits
+
+from hypothesis import given, settings
+from hypothesis import strategies as st
+
 import api
 
 
-@given(wrong_token=st.text(alphabet=ascii_letters+digits))
+@given(wrong_token=st.text(alphabet=ascii_letters + digits))
 @settings(max_examples=10, deadline=None)
 def test_user_create_wrong_token(user, wrong_token):
     """
@@ -18,7 +19,9 @@ def test_user_create_wrong_user(wrong_user, admin_token):
     """
     Tries to create user with wrong fields.
     """
-    api.create_user(admin_token, wrong_user, expected_statuses=[501, 400])  # 400 for auto exc of transmute
+    api.create_user(
+        admin_token, wrong_user, expected_statuses=[501, 400]
+    )  # 400 for auto exc of transmute
 
 
 def test_user_create_duplicate(user, admin_token):
@@ -33,7 +36,9 @@ def test_user_create_nopassword(nopassword_user, admin_token):
     """
     Tries to create user with no password.
     """
-    api.create_user(admin_token, nopassword_user, expected_statuses=[501, 400])  # 400 for auto exc of transmute
+    api.create_user(
+        admin_token, nopassword_user, expected_statuses=[501, 400]
+    )  # 400 for auto exc of transmute
 
 
 def test_user_create_by_full(user, full_token):

@@ -1,40 +1,48 @@
+import controllers.models
 import db.conn
 import db.models
-from controllers.helper import transaction, api_result, token_to_auth_user
-import controllers.models
-from journaling import log
-from controllers.models import Paging, HttpCode, PAGE_DEFAULT, PER_PAGE_DEFAULT, APIError
 from controllers.auth import AuthUser
+from controllers.helper import api_result, token_to_auth_user, transaction
+from controllers.models import PAGE_DEFAULT, PER_PAGE_DEFAULT, APIError, HttpCode, Paging
+from journaling import log
 
+DEFAULT_ORDER_BY = "-createdDatetime"
 
-DEFAULT_ORDER_BY = '-createdDatetime'
 
 @api_result
 @transaction
 @token_to_auth_user
-def users_list(auth_user: AuthUser, email: str=None, per_page: int=PER_PAGE_DEFAULT, page: int=PAGE_DEFAULT, order_by=DEFAULT_ORDER_BY):
+def users_list(
+    auth_user: AuthUser,
+    email: str = None,
+    per_page: int = PER_PAGE_DEFAULT,
+    page: int = PAGE_DEFAULT,
+    order_by=DEFAULT_ORDER_BY,
+):
     """
     Users list
     """
     order_by_options = {
-        'createddatetime' : {'field': 'createdDatetime', 'model': db.models.User},
-        'email': {'field': 'email', 'model': db.models.User},
+        "createddatetime": {"field": "createdDatetime", "model": db.models.User},
+        "email": {"field": "email", "model": db.models.User},
     }
     if not auth_user.is_admin:
-        return 'Only admin can get list of users', HttpCode.unauthorized
+        return "Only admin can get list of users", HttpCode.unauthorized
     pager = Paging(dict(page=page, per_page=per_page))
     pager.validate()
-    if order_by.strip() == '':
+    if order_by.strip() == "":
         order_by = DEFAULT_ORDER_BY
-    if order_by[0] == '-':
+    if order_by[0] == "-":
         order_by = order_by[1:]
-        sort_dir = 'desc'
-    if order_by[0] == '+':
+        sort_dir = "desc"
+    if order_by[0] == "+":
         order_by = order_by[1:]
     if order_by.lower() not in order_by_options:
-        raise APIError(f'Wrong order by option "{order_by}". Possible options for order by: {", ".join([key for key in order_by_options.keys()])}')
+        raise APIError(
+            f'Wrong order by option "{order_by}". Possible options for order by: {", ".join([key for key in order_by_options.keys()])}'
+        )
     sort_by = order_by_options[order_by.lower()]
-    order_by = getattr(getattr(sort_by['model'], sort_by['field']), sort_dir)()
+    order_by = getattr(getattr(sort_by["model"], sort_by["field"]), sort_dir)()
     if email:
         users = [db.models.User.by_email(email, check=False)]
         if users[0] is None:
@@ -51,4 +59,4 @@ def users_list(auth_user: AuthUser, email: str=None, per_page: int=PER_PAGE_DEFA
     for user in users:
         result.append(controllers.models.UserShort().from_orm(user).as_dict)
     log.debug(f'List of users: {[user["email"] for user in result]}')
-    return {'data': result, 'total': total}
+    return {"data": result, "total": total}

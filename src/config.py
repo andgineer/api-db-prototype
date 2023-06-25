@@ -22,13 +22,13 @@
 """
 import collections.abc
 import os.path
-import yaml
 
+import yaml
 
 last_loaded = None  # contains dict with last loaded params
 
 
-def load(config:dict, obj: object=None, _prefix=None):
+def load(config: dict, obj: object = None, _prefix=None):
     """
     Loads config from dict.
 
@@ -36,31 +36,34 @@ def load(config:dict, obj: object=None, _prefix=None):
     """
     global last_loaded
     if obj is None:
+
         class Config:
             pass
+
         obj = Config()
     if _prefix is None:
         last_loaded = {}
-    assert hasattr(obj, '__dict__') or isinstance(obj, object), \
-        'obj should be Python3-style object subclass without __slots__ and not internal types like dict.'
+    assert hasattr(obj, "__dict__") or isinstance(
+        obj, object
+    ), "obj should be Python3-style object subclass without __slots__ and not internal types like dict."
     if not isinstance(config, collections.abc.Mapping):
-        raise ValueError(f'Bad config:\n{str(config)[:100]}\n')
+        raise ValueError(f"Bad config:\n{str(config)[:100]}\n")
     for param in config:
         if _prefix is None:
             param_path = param
         else:
-            param_path = '_'.join([_prefix, param])
+            param_path = "_".join([_prefix, param])
         if isinstance(config[param], collections.abc.Mapping):
             load(config[param], obj, param_path)
         else:
             if isinstance(config[param], str):
                 var = os.path.expandvars(config[param])
-            else: var = config[param]
+            else:
+                var = config[param]
             last_loaded[param_path] = var
             setattr(obj, param_path, var)
     return obj
 
 
-def load_yaml(file_name: str, obj: object=None):
-    return load(yaml.load(open(file_name, 'r')), obj)
-
+def load_yaml(file_name: str, obj: object = None):
+    return load(yaml.load(open(file_name, "r")), obj)

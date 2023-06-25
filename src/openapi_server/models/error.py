@@ -1,12 +1,12 @@
 # coding: utf-8
 
 from __future__ import absolute_import
+
 from datetime import date, datetime  # noqa: F401
+from typing import Dict, List  # noqa: F401
 
-from typing import List, Dict  # noqa: F401
-
-from openapi_server.models.base_model_ import Model
 from openapi_server import util
+from openapi_server.models.base_model_ import Model
 
 
 class Error(Model):
@@ -21,18 +21,14 @@ class Error(Model):
         :param status: The status of this Error.  # noqa: E501
         :type status: str
         """
-        self.openapi_types = {
-            'status': str
-        }
+        self.openapi_types = {"status": str}
 
-        self.attribute_map = {
-            'status': 'status'
-        }
+        self.attribute_map = {"status": "status"}
 
         self._status = status
 
     @classmethod
-    def from_dict(cls, dikt) -> 'Error':
+    def from_dict(cls, dikt) -> "Error":
         """Returns the dict as a model
 
         :param dikt: A dict.

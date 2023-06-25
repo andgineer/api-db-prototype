@@ -27,4 +27,3 @@ ammo:
     url: "{base}users/{id}"
     headers:
       <<: *auth_headers
-

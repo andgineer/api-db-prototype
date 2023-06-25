@@ -1,9 +1,11 @@
-import db.models
-from conftest import DEFAULT_USERS
 import datetime
 from datetime import timezone
+
 import pytest
+
+import db.models
 import settings
+from conftest import DEFAULT_USERS
 
 
 def db_date():
@@ -12,33 +14,25 @@ def db_date():
     """
     return datetime.datetime.now()
 
-@pytest.fixture(scope='session')
+
+@pytest.fixture(scope="session")
 def db_users():
     """
     List of user's dicts in DB ORM format
     """
     return [
-        {
-            'name': 'Cathy', 'email': 'cathy@',
-            'group': 'guest', 'password': '12345'
-        },
-        {
-            'name': 'Marry', 'email': 'marry@',
-            'group': 'guest', 'password': '12345'
-        },
-        {
-            'name': 'John', 'email': 'john@',
-            'group': 'guest', 'password': '12345'
-        },
+        {"name": "Cathy", "email": "cathy@", "group": "guest", "password": "12345"},
+        {"name": "Marry", "email": "marry@", "group": "guest", "password": "12345"},
+        {"name": "John", "email": "john@", "group": "guest", "password": "12345"},
     ]
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope="session")
 def db_projects():
     """
     List of projects's names in DB ORM format
     """
-    return [{'name': 'IT'}, {'name': 'Financial'}, {'name': 'Failed'}]
+    return [{"name": "IT"}, {"name": "Financial"}, {"name": "Failed"}]
 
 
 def test_wrong_config(wrong_session):
@@ -69,7 +63,8 @@ def test_db(session, db_users, db_projects):
 
     assert session.query(db.models.User).count() == len(db_users) + DEFAULT_USERS
 
-    user0_projects = session.query(db.models.User).filter_by(email=user_objects[0].email).first().projects
+    user0_projects = (
+        session.query(db.models.User).filter_by(email=user_objects[0].email).first().projects
+    )
     assert len(user0_projects.all()) == len(db_projects)  # first user uwns all the projects
     assert user0_projects[0].name in user0_projects_names
-

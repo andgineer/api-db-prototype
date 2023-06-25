@@ -1,12 +1,12 @@
 # coding: utf-8
 
 from __future__ import absolute_import
+
 from datetime import date, datetime  # noqa: F401
+from typing import Dict, List  # noqa: F401
 
-from typing import List, Dict  # noqa: F401
-
-from openapi_server.models.base_model_ import Model
 from openapi_server import util
+from openapi_server.models.base_model_ import Model
 
 
 class Token(Model):
@@ -21,18 +21,14 @@ class Token(Model):
         :param token: The token of this Token.  # noqa: E501
         :type token: str
         """
-        self.openapi_types = {
-            'token': str
-        }
+        self.openapi_types = {"token": str}
 
-        self.attribute_map = {
-            'token': 'token'
-        }
+        self.attribute_map = {"token": "token"}
 
         self._token = token
 
     @classmethod
-    def from_dict(cls, dikt) -> 'Token':
+    def from_dict(cls, dikt) -> "Token":
         """Returns the dict as a model
 
         :param dikt: A dict.

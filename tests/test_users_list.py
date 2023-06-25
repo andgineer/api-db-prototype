@@ -1,13 +1,13 @@
+from string import ascii_letters, digits
+
 from hypothesis import given, settings
 from hypothesis import strategies as st
-from string import ascii_letters, digits
-from conftest import DEFAULT_USERS
-import json
-import urllib.parse
+
 import api
+from conftest import DEFAULT_USERS
 
 
-@given(wrong_token=st.text(alphabet=ascii_letters+digits))
+@given(wrong_token=st.text(alphabet=ascii_letters + digits))
 @settings(max_examples=10)
 def test_users_list_wrong_token(wrong_token):
     """
@@ -52,14 +52,14 @@ def test_users_list_columns(users, admin_token):
         api.create_user(admin_token, user)
     data = api.users_list(admin_token)
     assert len(data) == len(users) + DEFAULT_USERS
-    user_dict = {user['email']: user for user in data}
+    user_dict = {user["email"]: user for user in data}
     for user in users:
-        assert user['email'] in user_dict
-        list_user = user_dict[user['email']]
-        assert list_user['name'] == user['name']
-        assert list_user['group'] == user['group']
-        assert 'password' not in list_user
-        assert 'password_hash' not in list_user
+        assert user["email"] in user_dict
+        list_user = user_dict[user["email"]]
+        assert list_user["name"] == user["name"]
+        assert list_user["group"] == user["group"]
+        assert "password" not in list_user
+        assert "password_hash" not in list_user
 
 
 def test_users_list_empty_params(user, admin_token):
@@ -68,4 +68,6 @@ def test_users_list_empty_params(user, admin_token):
     """
     api.create_user(admin_token, user)
     assert len(api.users_list(admin_token)) == 1 + DEFAULT_USERS
-    api.users_list(admin_token, page='-1', expected_statuses=[501, 400])  # 400 for auto exc of transmute
+    api.users_list(
+        admin_token, page="-1", expected_statuses=[501, 400]
+    )  # 400 for auto exc of transmute

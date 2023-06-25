@@ -1,14 +1,10 @@
 import connexion
+
 from openapi_server import encoder
-from journaling import log
-from controllers.models import APIError
-from flask import Response
-import json
 
-
-app = connexion.App(__name__, specification_dir='./openapi')
+app = connexion.App(__name__, specification_dir="./openapi")
 app.json_encoder = encoder.JSONEncoder
-app.add_api('openapi.yaml', arguments={'title': 'API-prototype'})
+app.add_api("openapi.yaml", arguments={"title": "API-prototype"})
 
 
 # @app.app.after_request
@@ -28,4 +24,4 @@ app.add_api('openapi.yaml', arguments={'title': 'API-prototype'})
 #         mimetype="application/json"
 #     )
 
-#app.add_error_handler(Exception, render_unauthorized)
+# app.add_error_handler(Exception, render_unauthorized)

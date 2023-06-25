@@ -1,10 +1,10 @@
-import cProfile
-from io import StringIO
-import pstats
 import contextlib
-from src import settings
+import cProfile
 import logging
+import pstats
+from io import StringIO
 
+from src import settings
 
 log = logging.getLogger()
 
@@ -18,8 +18,8 @@ def analyze():
     if settings.config.profiler_cprofile:
         pr.disable()
         s = StringIO()
-        ps = pstats.Stats(pr, stream=s).sort_stats('cumulative')
+        ps = pstats.Stats(pr, stream=s).sort_stats("cumulative")
         ps.print_stats()
         # uncomment this to see who's calling what
         # ps.print_callers()
-        log.debug('=-=profile=-=:'*10 + s.getvalue())
+        log.debug("=-=profile=-=:" * 10 + s.getvalue())

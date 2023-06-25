@@ -1,12 +1,12 @@
 # coding: utf-8
 
 from __future__ import absolute_import
+
 from datetime import date, datetime  # noqa: F401
+from typing import Dict, List  # noqa: F401
 
-from typing import List, Dict  # noqa: F401
-
-from openapi_server.models.base_model_ import Model
 from openapi_server import util
+from openapi_server.models.base_model_ import Model
 
 
 class NewUserResponse(Model):
@@ -21,18 +21,14 @@ class NewUserResponse(Model):
         :param id: The id of this NewUserResponse.  # noqa: E501
         :type id: str
         """
-        self.openapi_types = {
-            'id': str
-        }
+        self.openapi_types = {"id": str}
 
-        self.attribute_map = {
-            'id': 'id'
-        }
+        self.attribute_map = {"id": "id"}
 
         self._id = id
 
     @classmethod
-    def from_dict(cls, dikt) -> 'NewUserResponse':
+    def from_dict(cls, dikt) -> "NewUserResponse":
         """Returns the dict as a model
 
         :param dikt: A dict.

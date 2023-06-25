@@ -16,3 +16,6 @@ ver-release:
 
 reqs:
 	bash ./scripts/compile_requirements.sh
+
+test:
+	scripts/test.sh

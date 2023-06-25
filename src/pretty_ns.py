@@ -24,25 +24,25 @@ time_ns = None  # for Python3.7+ this is function from system library time
 
 def pretty_ns(elapsed_ns: int):
     dividers = {
-        'us': 1,
-        'mks': 1000,
-        'ms': 1000,
-        's': 1000,
-        'minutes': 60,
-        'hours': 60,
-        'days': 24
+        "us": 1,
+        "mks": 1000,
+        "ms": 1000,
+        "s": 1000,
+        "minutes": 60,
+        "hours": 60,
+        "days": 24,
     }
     result = elapsed_ns
     for unit, divider in dividers.items():
         result /= divider
         if result < 100:
-            return f'{result:.1f} {unit}'
+            return f"{result:.1f} {unit}"
         else:
             result = round(result)
 
 
 def emul_time_ns():
-    return int(perf_counter() * 10 ** 9)
+    return int(perf_counter() * 10**9)
 
 
 class Timer:
@@ -66,13 +66,16 @@ class Timer:
 
 
 import time
+
 try:
     time_ns = time.time_ns
 except AttributeError:
     from time import perf_counter
+
     time_ns = emul_time_ns
 
 
 if __name__ == "__main__":
     import doctest
+
     doctest.testmod()

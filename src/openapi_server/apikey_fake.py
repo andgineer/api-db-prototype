@@ -5,4 +5,4 @@ def check_token(api_key, required_scopes):
     Actual security check is inside application logic (controllers folder).
     This function is a fake only to please connexion transport.
     """
-    return {'uid': ''}
+    return {"uid": ""}

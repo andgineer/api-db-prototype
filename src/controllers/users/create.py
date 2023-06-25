@@ -1,9 +1,9 @@
 import db.conn
 import db.models
-from controllers.models import NewUser, HttpCode
-from controllers.helper import transaction, api_result, token_to_auth_user
-from journaling import log
 from controllers.auth import AuthUser
+from controllers.helper import api_result, token_to_auth_user, transaction
+from controllers.models import HttpCode, NewUser
+from journaling import log
 
 
 @api_result
@@ -15,7 +15,7 @@ def create_user(auth_user: AuthUser, new_user: NewUser):
     Returns new user id.
     """
     if not auth_user.is_admin:
-        return 'Only admin can create users', HttpCode.unauthorized
+        return "Only admin can create users", HttpCode.unauthorized
     new_user = NewUser(new_user)
     new_user.validate()
     user = db.models.User.by_email(new_user.email, check=False)
@@ -24,5 +24,5 @@ def create_user(auth_user: AuthUser, new_user: NewUser):
     db_user = db.models.User(**new_user.to_orm)
     db.conn.session.add(db_user)
     db.conn.session.commit()
-    log.debug(f'Created user: [{db_user}]')
-    return {'id': db_user.id}
+    log.debug(f"Created user: [{db_user}]")
+    return {"id": db_user.id}

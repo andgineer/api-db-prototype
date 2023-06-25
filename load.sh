@@ -7,4 +7,3 @@ docker run \
     -v $(pwd):/var/loadtest \
     --net host \
     -it direvius/yandex-tank
-

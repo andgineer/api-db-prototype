@@ -1,12 +1,12 @@
 # coding: utf-8
 
 from __future__ import absolute_import
+
 from datetime import date, datetime  # noqa: F401
+from typing import Dict, List  # noqa: F401
 
-from typing import List, Dict  # noqa: F401
-
-from openapi_server.models.base_model_ import Model
 from openapi_server import util
+from openapi_server.models.base_model_ import Model
 
 
 class ProjectShort(Model):
@@ -15,7 +15,7 @@ class ProjectShort(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id: str=None, name: str=None):  # noqa: E501
+    def __init__(self, id: str = None, name: str = None):  # noqa: E501
         """ProjectShort - a model defined in Swagger
 
         :param id: The id of this ProjectShort.  # noqa: E501
@@ -23,21 +23,15 @@ class ProjectShort(Model):
         :param name: The name of this ProjectShort.  # noqa: E501
         :type name: str
         """
-        self.swagger_types = {
-            'id': str,
-            'name': str
-        }
+        self.swagger_types = {"id": str, "name": str}
 
-        self.attribute_map = {
-            'id': 'id',
-            'name': 'name'
-        }
+        self.attribute_map = {"id": "id", "name": "name"}
 
         self._id = id
         self._name = name
 
     @classmethod
-    def from_dict(cls, dikt) -> 'ProjectShort':
+    def from_dict(cls, dikt) -> "ProjectShort":
         """Returns the dict as a model
 
         :param dikt: A dict.

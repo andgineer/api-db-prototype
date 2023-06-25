@@ -2,22 +2,24 @@ import hypothesis
 import hypothesis.strategies as st
 from hypothesis import HealthCheck
 
-from journaling import log
 import api
+from journaling import log
 
 
 @hypothesis.given(user_id=st.integers())
-@hypothesis.settings(max_examples=10, deadline=None, suppress_health_check=[HealthCheck.function_scoped_fixture])
+@hypothesis.settings(
+    max_examples=10, deadline=None, suppress_health_check=[HealthCheck.function_scoped_fixture]
+)
 def test_delete_fail(user_id, admin_token):
     """
     Tries to delete user in empty DB.
     """
     data = api.users_list(admin_token)
-    log.debug('empty db users '+str(data))
+    log.debug("empty db users " + str(data))
     existed_users = set()
     for user in data:
-        existed_users.add(user['id'])
-    log.debug('existed id '+str(existed_users))
+        existed_users.add(user["id"])
+    log.debug("existed id " + str(existed_users))
     while str(user_id) in existed_users:
         user_id += 1
     api.delete_user(admin_token, user_id, expected_statuses=[400])

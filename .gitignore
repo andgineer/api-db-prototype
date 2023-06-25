@@ -89,6 +89,9 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+coverage.txt
+.dmypy.json
+logs/
 
 # Spyder project settings
 .spyderproject

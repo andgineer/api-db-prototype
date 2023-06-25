@@ -6,4 +6,3 @@ echo
 cd src
 alembic upgrade --sql head
 cd ..
-

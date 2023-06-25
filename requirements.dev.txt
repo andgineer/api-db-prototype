@@ -4,6 +4,8 @@
 #
 #    pip-compile requirements.test.in
 #
+astroid==2.15.5
+    # via pylint
 attrs==23.1.0
     # via hypothesis
 build==0.10.0
@@ -19,6 +21,8 @@ coverage[toml]==7.2.7
     #   -r requirements.test.in
     #   pytest-cov
     #   python-coveralls
+dill==0.3.6
+    # via pylint
 exceptiongroup==1.1.1
     # via
     #   hypothesis
@@ -29,14 +33,30 @@ idna==3.4
     # via requests
 iniconfig==2.0.0
     # via pytest
+isort==5.12.0
+    # via pylint
+lazy-object-proxy==1.9.0
+    # via astroid
+mccabe==0.7.0
+    # via pylint
+mypy==1.4.0
+    # via -r requirements.test.in
+mypy-extensions==1.0.0
+    # via mypy
 packaging==23.1
     # via
     #   build
     #   pytest
 pip-tools==6.13.0
     # via -r requirements.test.in
+platformdirs==3.8.0
+    # via pylint
 pluggy==1.2.0
     # via pytest
+pydocstyle==6.3.0
+    # via -r requirements.test.in
+pylint==2.17.4
+    # via -r requirements.test.in
 pyproject-hooks==1.0.0
     # via build
 pytest==7.4.0
@@ -59,17 +79,35 @@ requests==2.31.0
     # via python-coveralls
 six==1.16.0
     # via python-coveralls
+snowballstemmer==2.2.0
+    # via pydocstyle
 sortedcontainers==2.4.0
     # via hypothesis
 tomli==2.0.1
     # via
     #   build
     #   coverage
+    #   mypy
+    #   pylint
     #   pytest
+tomlkit==0.11.8
+    # via pylint
+types-python-dateutil==2.8.19.13
+    # via -r requirements.test.in
+types-requests==2.31.0.1
+    # via -r requirements.test.in
+types-urllib3==1.26.25.13
+    # via types-requests
+typing-extensions==4.6.3
+    # via
+    #   astroid
+    #   mypy
 urllib3==2.0.3
     # via requests
 wheel==0.40.0
     # via pip-tools
+wrapt==1.15.0
+    # via astroid
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip

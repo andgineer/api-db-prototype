@@ -25,4 +25,3 @@ VOLUME /usr/share/nginx/html/compbio
 EXPOSE 80 443 5000
 
 CMD ["nginx"]
-

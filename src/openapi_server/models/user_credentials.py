@@ -1,12 +1,12 @@
 # coding: utf-8
 
 from __future__ import absolute_import
+
 from datetime import date, datetime  # noqa: F401
+from typing import Dict, List  # noqa: F401
 
-from typing import List, Dict  # noqa: F401
-
-from openapi_server.models.base_model_ import Model
 from openapi_server import util
+from openapi_server.models.base_model_ import Model
 
 
 class UserCredentials(Model):
@@ -23,21 +23,15 @@ class UserCredentials(Model):
         :param password: The password of this UserCredentials.  # noqa: E501
         :type password: str
         """
-        self.openapi_types = {
-            'email': str,
-            'password': str
-        }
+        self.openapi_types = {"email": str, "password": str}
 
-        self.attribute_map = {
-            'email': 'email',
-            'password': 'password'
-        }
+        self.attribute_map = {"email": "email", "password": "password"}
 
         self._email = email
         self._password = password
 
     @classmethod
-    def from_dict(cls, dikt) -> 'UserCredentials':
+    def from_dict(cls, dikt) -> "UserCredentials":
         """Returns the dict as a model
 
         :param dikt: A dict.

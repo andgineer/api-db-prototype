@@ -1,12 +1,12 @@
 # coding: utf-8
 
 from __future__ import absolute_import
+
 from datetime import date, datetime  # noqa: F401
+from typing import Dict, List  # noqa: F401
 
-from typing import List, Dict  # noqa: F401
-
-from openapi_server.models.base_model_ import Model
 from openapi_server import util
+from openapi_server.models.base_model_ import Model
 
 
 class UserToShareWith(Model):
@@ -21,18 +21,14 @@ class UserToShareWith(Model):
         :param email: The email of this UserToShareWith.  # noqa: E501
         :type email: str
         """
-        self.openapi_types = {
-            'email': str
-        }
+        self.openapi_types = {"email": str}
 
-        self.attribute_map = {
-            'email': 'email'
-        }
+        self.attribute_map = {"email": "email"}
 
         self._email = email
 
     @classmethod
-    def from_dict(cls, dikt) -> 'UserToShareWith':
+    def from_dict(cls, dikt) -> "UserToShareWith":
         """Returns the dict as a model
 
         :param dikt: A dict.

@@ -20,4 +20,3 @@ openssl req -x509 -newkey rsa:4096 -nodes -keyout ${OUT_FOLDER}/jwt_test_key.pem
 echo
 echo "Result placed into ${OUT_FOLDER}"
 echo
-
