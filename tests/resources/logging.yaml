@@ -24,7 +24,7 @@ handlers:
         when: midnight
         level: DEBUG
         formatter: debug
-        filename: "debug/debug.log"
+        filename: "logs/debug.log"
         backupCount: 20
         encoding: utf8
 
@@ -33,7 +33,7 @@ handlers:
         when: midnight
         level: INFO
         formatter: info
-        filename: "debug/info.log"
+        filename: "logs/info.log"
         backupCount: 20
         encoding: utf8
 
@@ -42,7 +42,7 @@ handlers:
         when: midnight
         level: ERROR
         formatter: debug
-        filename: "debug/errors.log"
+        filename: "logs/errors.log"
         backupCount: 20
         encoding: utf8
 

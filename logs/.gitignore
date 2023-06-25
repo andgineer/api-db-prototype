@@ -1,0 +1,4 @@
+# Ignore logs
+*
+# Except this file
+!.gitignore

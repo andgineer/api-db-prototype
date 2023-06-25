@@ -19,3 +19,6 @@ reqs:
 
 test:
 	scripts/test.sh
+
+run:
+	scripts/run_dev.sh
