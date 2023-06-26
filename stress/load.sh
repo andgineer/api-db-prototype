@@ -4,6 +4,6 @@
 #
 
 docker run \
-    -v $(pwd):/var/loadtest \
+    -v $(pwd)/stress:/var/loadtest \
     --net host \
     -it direvius/yandex-tank

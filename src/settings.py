@@ -25,7 +25,7 @@ DEFAULT_ADMIN_PASSWORD = "admin"
 PRIVATE_JWT_KEY_FILE = "secret/jwt_private.key"
 PUBLIC_JWT_KEY_FILE = "secret/jwt_certificate.pem"
 
-#todo tests injections - dirty and better not be inside production code
+# todo tests injections - dirty and better not be inside production code
 TEST_LOG_CONFIG_FILE_PATH = "tests/resources/logging.yaml"
 
 

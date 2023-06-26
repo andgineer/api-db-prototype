@@ -17,3 +17,4 @@ if [[ `which python` != $PWD"/"$VENV_FOLDER"/bin/python" ]] ; then
 fi
 
 pip install -r requirements.txt --upgrade
+pip install -r requirements.dev.txt --upgrade

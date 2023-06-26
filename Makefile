@@ -22,3 +22,6 @@ test:
 
 run:
 	scripts/run_dev.sh
+
+upgrade: reqs
+	scripts/upgrade.sh
