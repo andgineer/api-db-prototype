@@ -13,11 +13,11 @@ from journaling import log
 @token_to_auth_user
 def create_user(
     auth_user: AuthUser, new_user: Dict[str, Any]
-) -> Union[Tuple[str, int], Dict[str, Any]]:
+) -> Dict[str, Any]:
     """
     Creates user from dict that contains fields for NewUser.
 
-    Returns new user id.
+    Returns {"id": <new user id>}.
     Can return (<error message>, <HTTP code>).
     """
     if not auth_user.is_admin:
