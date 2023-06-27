@@ -2,6 +2,8 @@
 Controllers from swagger code-gen modified by hand.
 They proxy to our application logic handlers in controllers folder.
 """
+from typing import Any, Dict, Tuple, Union
+
 import connexion
 
 import controllers.models
@@ -20,26 +22,33 @@ from openapi_server.models.user_credentials import UserCredentials
 # todo use swagger auth not hack with header extraction
 
 
-def extract_token(authorization):
+def extract_token(authorization: str) -> Dict[str, Any]:
+    """Return dict to create controllers.auth.AuthUser."""
+    # get in from Authorization header like "Bearer <token>" or just "<token>"
     authorization = authorization if len(authorization.split()) < 2 else authorization.split()[1]
-    return token.decode(authorization)
+    # decode JWT payload where we pass email and group, check JWT validity
+    return token.decode(authorization)  # type: ignore
 
 
-def get_token(user_credentials=None):  # noqa: E501
+def get_token(user_credentials: UserCredentials = None) -> Dict[str, Any]:  # noqa: E501
     """
     Get access token for the user
+
+    Validate user credentials with DB and return JWT token for the user.
     """
     if connexion.request.is_json:
         user_credentials = UserCredentials.from_dict(connexion.request.get_json())  # noqa: E501
     return controllers.users.auth.get_token(user_credentials.email, user_credentials.password)
 
 
-def create_user(body):  # noqa: E501
+def create_user(body: Dict[str, Any]) -> Union[Tuple[str, int], Dict[str, Any]]:  # noqa: E501
     """
     Create a user
+
+    Return {"id": <user_id>} or (<error message>, <HTTP code>).
     """
     authorization = connexion.request.headers["Authorization"]
-    new_user = body["new_user"] if "new_user" in body else body
+    new_user = body.get("new_user", body)
 
     return controllers.users.create.create_user(
         auth_token=extract_token(authorization), new_user=new_user

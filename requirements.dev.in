@@ -12,5 +12,6 @@ coverage>=4.4
 mypy
 types-python-dateutil
 types-requests
+types-six
 pylint
 pydocstyle

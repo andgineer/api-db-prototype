@@ -1,3 +1,5 @@
+from typing import Any, Dict, Tuple, Union
+
 import db.conn
 import db.models
 from controllers.auth import AuthUser
@@ -9,10 +11,14 @@ from journaling import log
 @api_result
 @transaction
 @token_to_auth_user
-def create_user(auth_user: AuthUser, new_user: NewUser):
+def create_user(
+    auth_user: AuthUser, new_user: Dict[str, Any]
+) -> Union[Tuple[str, int], Dict[str, Any]]:
     """
-    Creates user.
+    Creates user from dict that contains fields for NewUser.
+
     Returns new user id.
+    Can return (<error message>, <HTTP code>).
     """
     if not auth_user.is_admin:
         return "Only admin can create users", HttpCode.unauthorized
