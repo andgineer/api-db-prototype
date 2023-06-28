@@ -3,7 +3,7 @@ Encapsulates SQLAlchemy engine, session and db management logic
 """
 from typing import Optional
 
-from sqlalchemy import create_engine
+from sqlalchemy import Engine, create_engine
 from sqlalchemy.engine import reflection
 from sqlalchemy.orm import Session, scoped_session, sessionmaker
 
@@ -15,14 +15,15 @@ import settings
 from db.models import Base
 from journaling import log
 
-session: Optional[Session] = None
-engine = None
+session: Optional[Session] = None  #todo we mixed Session and Session() in code
+engine: Optional[Engine] = None
 
 
-def create_admin_user():
+def create_admin_user() -> None:
     """
     Creates default admin if no users with admin right are in DB
     """
+    assert session is not None, "First init session with make_session()"
     # if session.info.get('has_flushed', False):
     users = db.models.User.query().filter(
         db.models.User.group == controllers.models.UserGroup.ADMIN
@@ -49,7 +50,7 @@ password '{settings.config.default_admin_password}' - please change her password
         )
 
 
-def make_session():
+def make_session() -> Session:
     global session
     global engine
     log.debug(f"...Connecting to DB {settings.config.db_uri}...")
@@ -63,7 +64,7 @@ def make_session():
     session.close()
     session.get_bind().dispose()
     log.debug("Connections dropped after creating meta-data")
-    return session
+    return session  # type: ignore
 
 
 def refresh_metadata():
