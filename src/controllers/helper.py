@@ -4,6 +4,7 @@ Common code to keep api handler DRY
 import functools
 import inspect
 import re
+from typing import Any, Callable
 
 import schematics.exceptions
 
@@ -15,10 +16,8 @@ from journaling import log
 from pretty_ns import time_ns
 
 
-def transaction(handler):
-    """
-    Decorator to wrap api handler into try-except to handle DB transaction.
-    """
+def transaction(handler: Callable[[Any], Any]) -> Callable[[Any], Any]:
+    """Decorate api handler into try-except to handle DB transaction."""
 
     @functools.wraps(handler)
     def transaction_wrapper(*args, **kwargs):
@@ -42,7 +41,7 @@ def transaction(handler):
                 r"(.+)missing \d+ required positional argument(s)?: (.+)", str(e)
             )
             if missing_args:
-                return f"Missing arguments: {missing_args.group(3)}", HttpCode.wrong_request
+                return f"Missing arguments: {missing_args[3]}", HttpCode.wrong_request
             log.error(f"{e}", exc_info=True)
             return "Server internal error", HttpCode.unhandled_exception
         except Exception as e:
@@ -55,9 +54,9 @@ def transaction(handler):
     return transaction_wrapper
 
 
-def api_result(handler):
-    """
-    Decorator to format api handler result.
+def api_result(handler: Callable[[Any], Any]) -> Callable[[Any], Any]:
+    """Decorate api handler result.
+
     Expects from handler tuple with result object and optional code (default 200).
     Formats result as tuple (<result object>, <http result code>)
     """
@@ -86,10 +85,8 @@ def api_result(handler):
     return api_result_wrapper
 
 
-def token_to_auth_user(handler):
-    """
-    Creates auth_user parameter from token
-    """
+def token_to_auth_user(handler: Callable[[Any], Any]) -> Callable[[Any], Any]:
+    """Create auth_user parameter from token."""
 
     @functools.wraps(handler)  # preserve initial function signature
     def token_to_auth_user_wrapper(*args, **kwargs):

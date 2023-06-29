@@ -1,3 +1,5 @@
+from typing import Any, Dict, Optional
+
 import boto3
 from botocore.exceptions import ClientError, NoCredentialsError
 
@@ -8,7 +10,8 @@ MAX_MESSAGES = 10  # Amazon limits max number of requested messages
 CHARSET = "UTF-8"
 
 
-def aws_session():
+def aws_session() -> Any:
+    """AWS Session."""
     return boto3
 
     # Authorization by local credentials. Not necessary if AWS box we run on has appropriate IAM role.
@@ -18,14 +21,13 @@ def aws_session():
     # )
 
 
-def ses():
-    """
-    Amazon simple email service
-    """
+def ses() -> Any:
+    """Amazon simple email service."""
     return aws_session().client("ses", region_name=settings.config.aws_region)
 
 
-def send_email(recipients: list, subject: str, html: str = None, text: str = None):
+def send_email(recipients: list, subject: str, html: str = None, text: str = None) -> None:
+    """Send email via Amazon SES."""
     try:
         message = {
             "Body": {},
@@ -63,25 +65,23 @@ def send_email(recipients: list, subject: str, html: str = None, text: str = Non
         log.debug(response["MessageId"])
 
 
-def sqs():
-    """
-    Amazon simple queue service
-    """
+def sqs() -> Any:
+    """Amazon simple queue service."""
     return aws_session().client("sqs", region_name=settings.config.aws_region)
 
 
-def queue_url():
+def queue_url() -> str:
+    """URL of the queue we use in our application."""
     return sqs().get_queue_url(QueueName=settings.config.aws_queue)["QueueUrl"]
 
 
-def queue():
-    """
-    Specific queue we use in our application
-    """
+def queue() -> Any:
+    """Specific queue we use in our application."""
     return sqs().get_queue_by_name(QueueName=settings.config.aws_queue)
 
 
-def queue_messages_list():
+def queue_messages_list() -> list[Dict[str, Any]]:
+    """List of messages in the queue."""
     result = []
     while True:
         messages = queue().receive_messages(
@@ -95,7 +95,8 @@ def queue_messages_list():
     return result
 
 
-def get_queue_message():
+def get_queue_message() -> Optional[Dict[str, Any]]:
+    """Get one message from the queue."""
     messages = sqs().receive_message(
         QueueUrl=queue_url(),
         MaxNumberOfMessages=1,
@@ -104,19 +105,20 @@ def get_queue_message():
     )
     if "Messages" not in messages or len(messages["Messages"]) == 0:
         return None
-    else:
-        log.debug(f'Got SQS messages: {messages["Messages"]}')
-        return messages["Messages"][0]
+    log.debug(f'Got SQS messages: {messages["Messages"]}')
+    return messages["Messages"][0]
 
 
-def send_queue_message(body):
+def send_queue_message(body) -> None:
+    """Send message to the queue."""
     response = sqs().send_message(
         QueueUrl=queue_url(), DelaySeconds=10, MessageAttributes={}, MessageBody=body
     )
     log.debug(f'Sent SQS message "{body}",\n\nresponse: {response}')
 
 
-def delete_queue_message(message):
+def delete_queue_message(message: Dict[str, Any]) -> None:
+    """Delete message from the queue."""
     log.debug(f"Delete message {message}")
     sqs().delete_message(
         QueueUrl=queue_url(),

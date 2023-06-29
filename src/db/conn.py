@@ -15,7 +15,7 @@ import settings
 from db.models import Base
 from journaling import log
 
-session: Optional[Session] = None  #todo we mixed Session and Session() in code
+session: Optional[Session] = None  # todo we mixed Session and Session() in code
 engine: Optional[Engine] = None
 
 
