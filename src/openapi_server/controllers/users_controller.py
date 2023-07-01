@@ -16,7 +16,7 @@ import controllers.users.update
 from controllers.models import PAGE_DEFAULT, PER_PAGE_DEFAULT
 from jwt_token import token
 from openapi_server.models.update_user import UpdateUser
-from openapi_server.models.user import User  # noqa: E501
+from openapi_server.models.user import User  # noqa: F401
 from openapi_server.models.user_credentials import UserCredentials
 
 # todo use swagger auth not hack with header extraction
