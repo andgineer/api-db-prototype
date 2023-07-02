@@ -13,5 +13,6 @@ mypy
 types-python-dateutil
 types-requests
 types-six
+types-PyYAML
 pylint
 pydocstyle

@@ -1,6 +1,7 @@
 from sqlalchemy import Column, DateTime, Enum, ForeignKey, Integer, String, Table, event, func
 from sqlalchemy.orm import attributes, declarative_base, relationship
 from sqlalchemy.orm.base import NEVER_SET, NO_VALUE
+from sqlalchemy.orm.query import Query
 
 import db.conn
 import password_hash
@@ -12,7 +13,7 @@ class ORMClass(object):
     """Base class for all ORM classes."""
 
     @classmethod
-    def query(cls):
+    def query(cls) -> Query:
         """Return query for this class."""
         return db.conn.session.query(cls)
 

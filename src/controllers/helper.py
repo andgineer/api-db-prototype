@@ -4,10 +4,9 @@ Common code to keep api handler DRY
 import functools
 import inspect
 import re
-from typing import Any, Callable, Concatenate, Dict, ParamSpec, TypeVar, cast
+from typing import Any, Callable, Concatenate, Dict, ParamSpec, TypeVar
 
 import schematics.exceptions
-from mypy_extensions import KwArg, VarArg
 
 import db.conn
 import journaling
@@ -16,20 +15,21 @@ from controllers.models import APIBaseError, HttpCode
 from journaling import log
 from pretty_ns import time_ns
 
-TCallable = TypeVar("TCallable", bound=Callable[[VarArg(Any), KwArg(Any)], Any])
+Param = ParamSpec("Param")
+RetType = TypeVar("RetType")
 
 
-def transaction(handler: TCallable) -> TCallable:
+def transaction(handler: Callable[Param, RetType]) -> Callable[Param, RetType]:
     """Decorate api handler into try-except to handle DB transaction."""
 
     @functools.wraps(handler)
-    def transaction_wrapper(*args: Any, **kwargs: Any) -> Any:
+    def transaction_wrapper(*args: Any, **kwargs: Any) -> RetType:
         try:
             return handler(*args, **kwargs)
         except APIBaseError as e:
             db.conn.session.rollback()
             log.error(f"{e}")
-            return f"API error {e}", e.status
+            return f"API error {e}", e.status  # type: ignore
         except schematics.exceptions.BaseError as e:
             db.conn.session.rollback()
             messages = []
@@ -37,27 +37,27 @@ def transaction(handler: TCallable) -> TCallable:
                 error_messsage = str(e.errors[field]).replace("Rogue", "Unknown")
                 messages.append(f"{field} - {error_messsage}")
             log.error(f"Model validation error: {e}")
-            return f'Wrong request parameters: {", ".join(messages)}', HttpCode.wrong_request
+            return f'Wrong request parameters: {", ".join(messages)}', HttpCode.wrong_request  # type: ignore
         except TypeError as e:
             db.conn.session.rollback()
             missing_args = re.match(
                 r"(.+)missing \d+ required positional argument(s)?: (.+)", str(e)
             )
             if missing_args:
-                return f"Missing arguments: {missing_args[3]}", HttpCode.wrong_request
+                return f"Missing arguments: {missing_args[3]}", HttpCode.wrong_request  # type: ignore
             log.error(f"{e}", exc_info=True)
-            return "Server internal error", HttpCode.unhandled_exception
+            return "Server internal error", HttpCode.unhandled_exception  # type: ignore
         except Exception as e:
             db.conn.session.rollback()
             log.error(f"{e}", exc_info=True)
-            return "Server internal error", HttpCode.unhandled_exception
+            return "Server internal error", HttpCode.unhandled_exception  # type: ignore
         finally:
             db.conn.session.close()
 
-    return cast(TCallable, transaction_wrapper)
+    return transaction_wrapper
 
 
-def api_result(handler: TCallable) -> TCallable:
+def api_result(handler: Callable[Param, RetType]) -> Callable[Param, RetType]:
     """Decorate api handler result.
 
     Expects from handler tuple with result object and optional code (default 200).
@@ -65,7 +65,7 @@ def api_result(handler: TCallable) -> TCallable:
     """
 
     @functools.wraps(handler)
-    def api_result_wrapper(*args: Any, **kwargs: Any) -> Any:
+    def api_result_wrapper(*args: Any, **kwargs: Any) -> RetType:
         journaling.request_start_time = time_ns()
         try:
             result = handler(*args, **kwargs)
@@ -74,7 +74,7 @@ def api_result(handler: TCallable) -> TCallable:
                 result = result[0]
             else:
                 code = HttpCode.success
-            return result, code
+            return result, code  # type: ignore
         finally:
             journaling.request_start_time = None
 
@@ -86,18 +86,16 @@ def api_result(handler: TCallable) -> TCallable:
             params.append(param)
     # suppress "Callable[[VarArg(Any), KwArg(Any)], Any]" has no attribute "__signature__"
     api_result_wrapper.__signature__ = signature.replace(parameters=params)  # type: ignore[attr-defined]
-    return cast(TCallable, api_result_wrapper)
+    return api_result_wrapper
 
 
-P = ParamSpec("P")
-R = TypeVar("R")
-
-
-def token_to_auth_user(handler: Callable[Concatenate[Dict[str, Any], P], R]) -> Callable[P, R]:
+def token_to_auth_user(
+    handler: Callable[Concatenate[Dict[str, Any], Param], RetType]
+) -> Callable[Param, RetType]:
     """Create auth_user parameter from token."""
 
     @functools.wraps(handler)  # preserve initial function signature
-    def token_to_auth_user_wrapper(*args: Any, **kwargs: Any) -> Any:
+    def token_to_auth_user_wrapper(*args: Any, **kwargs: Any) -> RetType:
         if "auth_token" in kwargs:
             if kwargs["auth_token"] is not None:
                 log.debug(f'Add auth_user to {handler.__name__}\n{kwargs["auth_token"]}')
@@ -106,7 +104,7 @@ def token_to_auth_user(handler: Callable[Concatenate[Dict[str, Any], P], R]) -> 
                 journaling.user = auth_user.email
             else:
                 log.warning("No or wrong user token in request")
-                return "No or wrong user token in request", HttpCode.no_token
+                return "No or wrong user token in request", HttpCode.no_token  # type: ignore
             del kwargs["auth_token"]
         try:
             return handler(*args, **kwargs)

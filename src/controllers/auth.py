@@ -21,8 +21,8 @@ class AuthUser:
         Init the authenticated user from decoded JWT payload.
         Checks expiration.
         """
-        self.email = token_payload[JWT_EMAIL]
-        self.group = token_payload[JWT_GROUP]
+        self.email: str = token_payload[JWT_EMAIL]
+        self.group: str = token_payload[JWT_GROUP]
         assert self.group in [group.value for group in UserGroup]
         token_expiration = token.jwt2datetime(token_payload[JWT_EXPIRATION])
         if token_expiration < settings.config.now():
@@ -30,4 +30,4 @@ class AuthUser:
 
     @property
     def is_admin(self) -> bool:
-        return self.group == UserGroup.ADMIN.value  # type: ignore
+        return UserGroup.ADMIN.value == self.group

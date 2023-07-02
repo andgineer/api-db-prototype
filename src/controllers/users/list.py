@@ -1,3 +1,5 @@
+from typing import Optional
+
 import controllers.models
 import db.conn
 import db.models
@@ -14,7 +16,7 @@ DEFAULT_ORDER_BY = "-createdDatetime"
 @token_to_auth_user
 def users_list(
     auth_user: AuthUser,
-    email: str = None,
+    email: str = None,  # type: ignore  # cannot use Optional because of Transmute auto-swagger magic
     per_page: int = PER_PAGE_DEFAULT,
     page: int = PAGE_DEFAULT,
     order_by=DEFAULT_ORDER_BY,

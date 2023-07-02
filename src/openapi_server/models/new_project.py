@@ -3,7 +3,7 @@
 from __future__ import absolute_import
 
 from datetime import date, datetime  # noqa: F401
-from typing import Dict, List  # noqa: F401
+from typing import Dict, List, Optional  # noqa: F401
 
 from openapi_server import util
 from openapi_server.models.base_model_ import Model
@@ -15,7 +15,7 @@ class NewProject(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name: str = None):  # noqa: E501
+    def __init__(self, name: Optional[str] = None):  # noqa: E501
         """NewProject - a model defined in Swagger
 
         :param name: The name of this NewProject.  # noqa: E501

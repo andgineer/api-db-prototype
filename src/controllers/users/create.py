@@ -19,7 +19,7 @@ def create_user(auth_user: AuthUser, new_user: Dict[str, Any]) -> Dict[str, Any]
     Can return (<error message>, <HTTP code>).
     """
     if not auth_user.is_admin:
-        return "Only admin can create users", HttpCode.unauthorized
+        return "Only admin can create users", HttpCode.unauthorized  # type: ignore
     new_user = NewUser(new_user)
     new_user.validate()
     user = db.models.User.by_email(new_user.email, check=False)

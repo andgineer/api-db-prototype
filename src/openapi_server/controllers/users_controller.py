@@ -30,18 +30,18 @@ def extract_token(authorization: str) -> Dict[str, Any]:
     return token.decode(authorization)  # type: ignore
 
 
-def get_token(user_credentials: UserCredentials = None) -> Dict[str, Any]:  # noqa: E501
+def get_token(user_credentials: UserCredentials = None) -> Dict[str, Any]:
     """
     Get access token for the user
 
     Validate user credentials with DB and return JWT token for the user.
     """
     if connexion.request.is_json:
-        user_credentials = UserCredentials.from_dict(connexion.request.get_json())  # noqa: E501
+        user_credentials = UserCredentials.from_dict(connexion.request.get_json())
     return controllers.users.auth.get_token(user_credentials.email, user_credentials.password)
 
 
-def create_user(body: Dict[str, Any]) -> Union[Tuple[str, int], Dict[str, Any]]:  # noqa: E501
+def create_user(body: Dict[str, Any]) -> Union[Tuple[str, int], Dict[str, Any]]:
     """
     Create a user
 
@@ -55,7 +55,7 @@ def create_user(body: Dict[str, Any]) -> Union[Tuple[str, int], Dict[str, Any]]:
     )
 
 
-def get_user(user_id):  # noqa: E501
+def get_user(user_id):
     """
     Get info for a specific user
     """
@@ -98,7 +98,7 @@ def update_user(user_id, update_user):  # noqa: E501
     )
 
 
-def delete_user(userId):  # noqa: E501
+def delete_user(userId: str) -> None:  # noqa: E501
     """
     Delete the user
 
