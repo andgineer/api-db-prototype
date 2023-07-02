@@ -23,10 +23,11 @@ class AuthUser:
         """
         self.email = token_payload[JWT_EMAIL]
         self.group = token_payload[JWT_GROUP]
+        assert self.group in [group.value for group in UserGroup]
         token_expiration = token.jwt2datetime(token_payload[JWT_EXPIRATION])
         if token_expiration < settings.config.now():
             raise APIError(f"Security token (JWT) had expired at {token_expiration}")
 
     @property
     def is_admin(self) -> bool:
-        return self.group == UserGroup.ADMIN.value
+        return self.group == UserGroup.ADMIN.value  # type: ignore

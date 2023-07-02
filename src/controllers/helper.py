@@ -16,12 +16,14 @@ from controllers.models import APIBaseError, HttpCode
 from journaling import log
 from pretty_ns import time_ns
 
+TCallable = TypeVar("TCallable", bound=Callable[[VarArg(Any), KwArg(Any)], Any])
 
-def transaction(handler: Callable[[Any], Any]) -> Callable[[Any], Any]:
+
+def transaction(handler: TCallable) -> TCallable:
     """Decorate api handler into try-except to handle DB transaction."""
 
     @functools.wraps(handler)
-    def transaction_wrapper(*args, **kwargs):
+    def transaction_wrapper(*args: Any, **kwargs: Any) -> Any:
         try:
             return handler(*args, **kwargs)
         except APIBaseError as e:
@@ -52,10 +54,7 @@ def transaction(handler: Callable[[Any], Any]) -> Callable[[Any], Any]:
         finally:
             db.conn.session.close()
 
-    return transaction_wrapper
-
-
-TCallable = TypeVar("TCallable", bound=Callable[[VarArg(Any), KwArg(Any)], Any])
+    return cast(TCallable, transaction_wrapper)
 
 
 def api_result(handler: TCallable) -> TCallable:
@@ -94,11 +93,11 @@ P = ParamSpec("P")
 R = TypeVar("R")
 
 
-def token_to_auth_user(handler: Callable[[Concatenate[Dict[str, Any], P]], R]) -> Callable[P, R]:
+def token_to_auth_user(handler: Callable[Concatenate[Dict[str, Any], P], R]) -> Callable[P, R]:
     """Create auth_user parameter from token."""
 
     @functools.wraps(handler)  # preserve initial function signature
-    def token_to_auth_user_wrapper(*args, **kwargs):
+    def token_to_auth_user_wrapper(*args: Any, **kwargs: Any) -> Any:
         if "auth_token" in kwargs:
             if kwargs["auth_token"] is not None:
                 log.debug(f'Add auth_user to {handler.__name__}\n{kwargs["auth_token"]}')

@@ -9,14 +9,17 @@ from journaling import log
 
 
 class ORMClass(object):
+    """Base class for all ORM classes."""
+
     @classmethod
     def query(cls):
+        """Return query for this class."""
         return db.conn.session.query(cls)
 
     @classmethod
     def by_id(cls, id, check=True):
-        """
-        Find object by ID.
+        """Find object by ID.
+
         If `check` then raise exception if not found.
         """
         result = cls.query().filter(cls.id == id).first()
@@ -41,6 +44,8 @@ projects_collaborators = Table(
 
 
 class Project(Base):
+    """Project model."""
+
     __tablename__ = "projects"
     id = Column(Integer, primary_key=True)
     name = Column(String(80), unique=True, nullable=False, comment="Project name")
@@ -62,10 +67,13 @@ class Project(Base):
     )
 
     def __repr__(self):
+        """Return string representation of the object."""
         return f"name: {self.name}, id: {self.id}"
 
 
 class User(Base):
+    """User model."""
+
     __tablename__ = "users"
     createdDatetime = Column("created_datetime", DateTime(timezone=True), default=func.now())
     name = Column(String(120), comment="User name")
@@ -89,20 +97,21 @@ class User(Base):
 
     @property
     def password(self):
-        raise Exception("Password getter")
+        """Password getter."""
+        raise NotImplementedError("Password getter")
 
     @password.setter
     def password(self, value):
-        """
-        For hybrid_property in setter we should check
-         not isinstance(self._scaffold_smiles, sqlalchemy.orm.attributes.InstrumentedAttribute)
+        """For hybrid_property in setter we should check.
+
+        not isinstance(self._scaffold_smiles, sqlalchemy.orm.attributes.InstrumentedAttribute)
         """
         self.password_hash = password_hash.hash(value)
 
     @staticmethod
     def by_email(email, check=True):
-        """
-        Find user by email.
+        """Find user by email.
+
         If `check` then raise exception if not found.
         """
         user = User.query().filter(func.lower(db.models.User.email) == email.lower()).first()
@@ -115,9 +124,11 @@ class User(Base):
 
     @property
     def as_dict(self):
+        """Return dict representation of the object."""
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
     def __repr__(self):
+        """Return string representation of the object."""
         return f"name: {self.name}, email: {self.email}, id: {self.id}"
 
 
@@ -125,6 +136,7 @@ class User(Base):
 def project_author_set_listener(
     project: Project, author: User, old_author: User, initiator: attributes.Event
 ):
+    """Listen for Project.author set event."""
     author.projects.append(project)
     if old_author not in [NEVER_SET, NO_VALUE]:
         old_author.projects.remove(project)
