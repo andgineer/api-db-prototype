@@ -96,3 +96,7 @@ like Amazon Cognito, you should provide only public key from that
 external service, so our server could check this external service's tokens.
 
 Public key is expected in `pem` certificate format.
+
+## Python version
+
+At least 3.10 because we use [Concatenate](https://peps.python.org/pep-0612/)

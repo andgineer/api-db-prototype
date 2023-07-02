@@ -1,3 +1,5 @@
+from typing import Any, Dict
+
 import settings
 from controllers.models import APIError, UserGroup
 from jwt_token import JWT_EXPIRATION, token
@@ -14,7 +16,7 @@ class AuthUser:
     email: str
     group: str
 
-    def __init__(self, token_payload: dict):
+    def __init__(self, token_payload: Dict[str, Any]):
         """
         Init the authenticated user from decoded JWT payload.
         Checks expiration.

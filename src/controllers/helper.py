@@ -4,9 +4,10 @@ Common code to keep api handler DRY
 import functools
 import inspect
 import re
-from typing import Any, Callable
+from typing import Any, Callable, Concatenate, Dict, ParamSpec, TypeVar, cast
 
 import schematics.exceptions
+from mypy_extensions import KwArg, VarArg
 
 import db.conn
 import journaling
@@ -54,7 +55,10 @@ def transaction(handler: Callable[[Any], Any]) -> Callable[[Any], Any]:
     return transaction_wrapper
 
 
-def api_result(handler: Callable[[Any], Any]) -> Callable[[Any], Any]:
+TCallable = TypeVar("TCallable", bound=Callable[[VarArg(Any), KwArg(Any)], Any])
+
+
+def api_result(handler: TCallable) -> TCallable:
     """Decorate api handler result.
 
     Expects from handler tuple with result object and optional code (default 200).
@@ -62,7 +66,7 @@ def api_result(handler: Callable[[Any], Any]) -> Callable[[Any], Any]:
     """
 
     @functools.wraps(handler)
-    def api_result_wrapper(*args, **kwargs):
+    def api_result_wrapper(*args: Any, **kwargs: Any) -> Any:
         journaling.request_start_time = time_ns()
         try:
             result = handler(*args, **kwargs)
@@ -81,11 +85,16 @@ def api_result(handler: Callable[[Any], Any]) -> Callable[[Any], Any]:
     for param in signature.parameters.values():
         if param.name != "auth_user":
             params.append(param)
-    api_result_wrapper.__signature__ = signature.replace(parameters=params)
-    return api_result_wrapper
+    # suppress "Callable[[VarArg(Any), KwArg(Any)], Any]" has no attribute "__signature__"
+    api_result_wrapper.__signature__ = signature.replace(parameters=params)  # type: ignore[attr-defined]
+    return cast(TCallable, api_result_wrapper)
 
 
-def token_to_auth_user(handler: Callable[[Any], Any]) -> Callable[[Any], Any]:
+P = ParamSpec("P")
+R = TypeVar("R")
+
+
+def token_to_auth_user(handler: Callable[[Concatenate[Dict[str, Any], P]], R]) -> Callable[P, R]:
     """Create auth_user parameter from token."""
 
     @functools.wraps(handler)  # preserve initial function signature
@@ -105,5 +114,6 @@ def token_to_auth_user(handler: Callable[[Any], Any]) -> Callable[[Any], Any]:
         finally:
             journaling.user = None
 
-    token_to_auth_user_wrapper.__signature__ = inspect.signature(handler)
+    # suppress "Callable[[VarArg(Any), KwArg(Any)], Any]" has no attribute "__signature__"
+    token_to_auth_user_wrapper.__signature__ = inspect.signature(handler)  # type: ignore[attr-defined]
     return token_to_auth_user_wrapper
