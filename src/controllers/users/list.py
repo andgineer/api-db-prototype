@@ -1,5 +1,3 @@
-from typing import Optional
-
 import controllers.models
 import db.conn
 import db.models

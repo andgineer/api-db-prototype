@@ -1,3 +1,5 @@
+from typing import Any, Dict
+
 from sqlalchemy import Column, DateTime, Enum, ForeignKey, Integer, String, Table, event, func
 from sqlalchemy.orm import attributes, declarative_base, relationship
 from sqlalchemy.orm.base import NEVER_SET, NO_VALUE
@@ -9,26 +11,25 @@ from controllers.models import APIError, UserGroup
 from journaling import log
 
 
-class ORMClass(object):
+class ORMClass:
     """Base class for all ORM classes."""
 
     @classmethod
-    def query(cls) -> Query:
+    def query(cls) -> Query[Any]:
         """Return query for this class."""
-        return db.conn.session.query(cls)
+        return db.conn.session.query(cls)  # type: ignore  # mypy bug
 
     @classmethod
-    def by_id(cls, id, check=True):
+    def by_id(cls, id: str, check: bool = True) -> Any:
         """Find object by ID.
 
         If `check` then raise exception if not found.
         """
-        result = cls.query().filter(cls.id == id).first()
+        result = cls.query().filter(cls.id == id).first()  # type: ignore  # we manually add id field to all models
         if not result:
             if check:
                 raise APIError(f'There is no {cls.__name__} with id="{id}"')
-            else:
-                log.debug(f'{cls.__name__} with id="{id}" was not found')
+            log.debug(f'{cls.__name__} with id="{id}" was not found')
         return result
 
 
@@ -44,13 +45,17 @@ projects_collaborators = Table(
 )
 
 
-class Project(Base):
+class Project(Base):  # type: ignore
     """Project model."""
 
     __tablename__ = "projects"
     id = Column(Integer, primary_key=True)
     name = Column(String(80), unique=True, nullable=False, comment="Project name")
-    created = Column(DateTime(timezone=True), default=func.now(), comment="Project creation time")
+    created = Column(
+        DateTime(timezone=True),
+        default=func.now(),  # pylint: disable=not-callable
+        comment="Project creation time",
+    )
     author_id = Column(Integer, ForeignKey("users.id"), comment="Project author")
 
     # we do not use 'backref' feature of SQLAlchemy but duplicate relationships
@@ -67,19 +72,23 @@ class Project(Base):
         "User", secondary=projects_collaborators, back_populates="projects", lazy="dynamic"
     )
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """Return string representation of the object."""
         return f"name: {self.name}, id: {self.id}"
 
 
-class User(Base):
+class User(Base):  # type: ignore
     """User model."""
 
     __tablename__ = "users"
-    createdDatetime = Column("created_datetime", DateTime(timezone=True), default=func.now())
+    createdDatetime = Column(
+        "created_datetime",
+        DateTime(timezone=True),
+        default=func.now(),  # pylint: disable=not-callable
+    )
     name = Column(String(120), comment="User name")
     id = Column(Integer, primary_key=True)
-    group = Column(
+    group = Column(  # type: ignore
         Enum(
             UserGroup,
             values_callable=lambda x: [e.value for e in x],  # to use enum values instead of names
@@ -97,12 +106,12 @@ class User(Base):
     )
 
     @property
-    def password(self):
+    def password(self) -> str:
         """Password getter."""
         raise NotImplementedError("Password getter")
 
     @password.setter
-    def password(self, value):
+    def password(self, value: str) -> None:
         """For hybrid_property in setter we should check.
 
         not isinstance(self._scaffold_smiles, sqlalchemy.orm.attributes.InstrumentedAttribute)
@@ -110,7 +119,7 @@ class User(Base):
         self.password_hash = password_hash.hash(value)
 
     @staticmethod
-    def by_email(email, check=True):
+    def by_email(email: str, check: bool = True) -> "User":
         """Find user by email.
 
         If `check` then raise exception if not found.
@@ -119,24 +128,26 @@ class User(Base):
         if not user:
             if check:
                 raise APIError(f'There is no user with email "{email}"')
-            else:
-                log.debug(f'User with email "{email}" was not found')
-        return user
+            log.debug(f'User with email "{email}" was not found')
+        return user  # type: ignore
 
     @property
-    def as_dict(self):
+    def as_dict(self) -> Dict[str, Any]:
         """Return dict representation of the object."""
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """Return string representation of the object."""
         return f"name: {self.name}, email: {self.email}, id: {self.id}"
 
 
 @event.listens_for(Project.author, "set")
 def project_author_set_listener(
-    project: Project, author: User, old_author: User, initiator: attributes.Event
-):
+    project: Project,
+    author: User,
+    old_author: User,
+    initiator: attributes.Event,  # pylint: disable=unused-argument
+) -> None:
     """Listen for Project.author set event."""
     author.projects.append(project)
     if old_author not in [NEVER_SET, NO_VALUE]:
