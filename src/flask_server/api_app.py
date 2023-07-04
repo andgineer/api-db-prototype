@@ -1,10 +1,10 @@
-"""
-Marshalling HTTP requests to transport-agnostic controllers.
+"""Marshall HTTP requests to transport-agnostic controllers.
 
 All transport-specific code please put here.
 
 """
 import inspect
+from typing import Any, Callable, Dict, List, Optional, ParamSpec, TypeVar
 
 from flask import Blueprint, Flask, Response, request
 
@@ -27,10 +27,8 @@ blueprint = Blueprint("blueprint", __name__, url_prefix="/")
 
 
 @app.after_request
-def after_request(response):
-    """
-    After-request flask hook to add CORS headers according to settings
-    """
+def after_request(response: Response) -> Response:
+    """After-request flask hook to add CORS headers according to settings."""
     if settings.config.web_enableCrossOriginRequests:
         response.headers["Access-Control-Allow-Origin"] = "*"
         response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS, DELETE, PUT"
@@ -43,9 +41,9 @@ def after_request(response):
 
 @app.route(f"{API_ROOT_URL}/<path:path>", methods=["OPTIONS"])
 @app.route(f"{API_ROOT_URL}/", methods=["OPTIONS"])
-def options_handler():
-    """
-    Handles only unspecified below paths.
+def options_handler() -> Response:
+    """Handle only unspecified below paths.
+
     Others handles by application logic and CORS headers added in after-request flask hook
     So I this this is unecessary part but I am too lazy to check..
     """
@@ -58,27 +56,32 @@ def options_handler():
     return response
 
 
-def auth_token():
-    """
-    Gets auth token from headers and pass it to handler
-    """
-    auth_header = request.headers.get("Authorization")
-    if auth_header:
-        if len(auth_header.split()) < 2:
-            # Try to use it without 'Bearer' prefix - such as from Swagger UI tools
-            if len(auth_header) < JWT_MIN_LENGTH:
-                raise APPNoTokenError(
-                    f'Expected in Authorization HTTP header: "Bearer <token>", but got\n{auth_header}'
-                )
-        else:
-            auth_header = auth_header.split()[1]
-        return token.decode(auth_header)
-    else:
+def auth_token() -> Optional[Dict[str, Any]]:
+    """Get auth token from headers and pass it to handler."""
+    if not (auth_header := request.headers.get("Authorization")):
         return None
+    if len(auth_header.split()) < 2:
+        # Try to use it without 'Bearer' prefix - such as from Swagger UI tools
+        if len(auth_header) < JWT_MIN_LENGTH:
+            raise APPNoTokenError(
+                f'Expected in Authorization HTTP header: "Bearer <token>", but got\n{auth_header}'
+            )
+    else:
+        auth_header = auth_header.split()[1]
+    return token.decode(auth_header)  # type: ignore
 
 
-def api(handler, bparams: list = None, raw=False):
-    """
+Param = ParamSpec("Param")
+RetType = TypeVar("RetType")
+
+
+def api(  # type: ignore
+    handler: Callable[Param, RetType],
+    bparams: Optional[List[str]] = None,
+    raw: Optional[bool] = False,
+):
+    """Prepare handler to be used as API endpoint.
+
     If bparams, then add body parameters into the handler parameters, if body parameters names are
     specified in `body` (if no such parameters in request body then returns whole body as
     the first and the only parameter)
@@ -91,7 +94,8 @@ def api(handler, bparams: list = None, raw=False):
     If this is not success then expected error message as a result and wraps it into {'status': messsage}
     """
 
-    def api_wrapper(*args, **kwargs):
+    def api_wrapper(*args, **kwargs):  # type: ignore  # pylint: disable=too-many-branches
+        """Wrapp for API handlers."""
         try:
             if bparams:
                 body_obj = request.get_json()
@@ -103,36 +107,34 @@ def api(handler, bparams: list = None, raw=False):
                             val = body_obj
                         else:
                             log.debug(
-                                f"No parameter {param} in request:\n{request.data} ({body_obj})"
+                                f"No parameter {param} in request:\n{request.data!r} ({body_obj})"
                             )
                             return (
-                                f"No parameter {param} in request:\n{request.data}",
+                                f"No parameter {param} in request:\n{request.data!r}",
                                 HttpCode.wrong_request,
                             )
-                    kwargs.update({param: val})
+                    kwargs[param] = val
             if request.args:
                 for param in request.args:
-                    kwargs.update({param: request.args[param]})
+                    kwargs[param] = request.args[param]
 
             # should be last so nothing could inject decoded token
             log.debug(f"API wraps handler with args: {inspect.getfullargspec(handler).args}")
             # if 'auth_user' in inspect.getfullargspec(handler).args:
-            """
-            If the handler expects authenticated user (has 'auth_user' param), we pass token to it.
-            Controller's wrapper (@auth_user) will convert token into auth_user param for the handler.
-
-            Here is transport layer so we just pass decoded token data to controller's logic.
-            """
-            kwargs.update({"auth_token": auth_token()})
+            # If the handler expects authenticated user (has 'auth_user' param), we pass token to it.
+            # Controller's wrapper (@auth_user) will convert token into auth_user param for the handler.
+            #
+            # Here is transport layer so we just pass decoded token data to controller's logic.
+            kwargs["auth_token"] = auth_token()
 
             result = handler(*args, **kwargs)
 
         except APPNoTokenError as e:
             log.debug(f"Wrong token format: {e}", exc_info=True)
-            result = {"status": str(e)}, HttpCode.no_token
+            result = {"status": str(e)}, HttpCode.no_token  # type: ignore
         except Exception as e:
             log.debug(f"Transport exception: {e}", exc_info=True)
-            result = {"status": str(e)}, HttpCode.wrong_request
+            result = {"status": str(e)}, HttpCode.wrong_request  # type: ignore
         else:
             if raw:  # Only if success, if exception we return API error
                 return result
@@ -142,7 +144,7 @@ def api(handler, bparams: list = None, raw=False):
         else:
             code = HttpCode.success
         if code not in HttpCode.successes and isinstance(result, str):
-            result = {"status": result}
+            result = {"status": result}  # type: ignore
         return result, code
 
     return api_wrapper
