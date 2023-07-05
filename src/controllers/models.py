@@ -1,6 +1,6 @@
 import enum
 import random
-from typing import Any, Dict, Optional, Type, Union
+from typing import Any, Dict, Optional, Tuple, Type, Union
 
 from schematics.exceptions import ConversionError
 from schematics.models import Model
@@ -8,6 +8,8 @@ from schematics.types import BaseType, IntType, ListType, StringType
 
 PAGE_DEFAULT = 1
 PER_PAGE_DEFAULT = 30
+
+ApiResult = Union[Dict[str, Any], Tuple[str, int]]
 
 
 class HttpCode:

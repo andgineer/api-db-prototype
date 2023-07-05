@@ -2,7 +2,7 @@
 Controllers from swagger code-gen modified by hand.
 They proxy to our application logic handlers in controllers folder.
 """
-from typing import Any, Dict, Tuple, Union
+from typing import Any, Dict
 
 import connexion
 
@@ -13,7 +13,7 @@ import controllers.users.delete
 import controllers.users.get
 import controllers.users.list
 import controllers.users.update
-from controllers.models import PAGE_DEFAULT, PER_PAGE_DEFAULT
+from controllers.models import PAGE_DEFAULT, PER_PAGE_DEFAULT, ApiResult
 from jwt_token import token
 from openapi_server.models.update_user import UpdateUser
 from openapi_server.models.user import User  # noqa: F401
@@ -38,10 +38,10 @@ def get_token(user_credentials: UserCredentials = None) -> Dict[str, Any]:
     """
     if connexion.request.is_json:
         user_credentials = UserCredentials.from_dict(connexion.request.get_json())
-    return controllers.users.auth.get_token(user_credentials.email, user_credentials.password)
+    return controllers.users.auth.get_token(user_credentials.email, user_credentials.password)  # type: ignore
 
 
-def create_user(body: Dict[str, Any]) -> Union[Tuple[str, int], Dict[str, Any]]:
+def create_user(body: Dict[str, Any]) -> ApiResult:
     """
     Create a user
 
@@ -55,15 +55,15 @@ def create_user(body: Dict[str, Any]) -> Union[Tuple[str, int], Dict[str, Any]]:
     )
 
 
-def get_user(user_id):
-    """
-    Get info for a specific user
-    """
+def get_user(user_id: str) -> ApiResult:
+    """Get info for a specific user."""
     authorization = connexion.request.headers["Authorization"]
     return controllers.users.get.get_user(auth_token=extract_token(authorization), user_id=user_id)
 
 
-def list_users(per_page: int = PER_PAGE_DEFAULT, page: int = PAGE_DEFAULT):  # noqa: E501
+def list_users(
+    per_page: int = PER_PAGE_DEFAULT, page: int = PAGE_DEFAULT
+) -> ApiResult:  # noqa: E501
     """List all users
 
     :param page: Page number of results to return.
@@ -79,9 +79,8 @@ def list_users(per_page: int = PER_PAGE_DEFAULT, page: int = PAGE_DEFAULT):  # n
     )
 
 
-def update_user(user_id, update_user):  # noqa: E501
-    """
-    Update details of particular user
+def update_user(user_id: str, update_user: UpdateUser) -> ApiResult:  # noqa: E501
+    """Update details of particular user.
 
     :param user_id: The id of the user to update
     :type user_id: str
@@ -98,9 +97,8 @@ def update_user(user_id, update_user):  # noqa: E501
     )
 
 
-def delete_user(userId: str) -> None:  # noqa: E501
-    """
-    Delete the user
+def delete_user(userId: str) -> ApiResult:  # noqa: E501
+    """Delete the user.
 
     :param userId: The id of the user to delete
     :type userId: str

@@ -10,7 +10,9 @@ from journaling import log
 @api_result
 @transaction
 @token_to_auth_user
-def update_user(auth_user: AuthUser, user_id, update_user: UpdateUser):
+def update_user(
+    auth_user: AuthUser, user_id: str, update_user: UpdateUser
+) -> controllers.models.ApiResult:
     """
     Updates user.
     """
