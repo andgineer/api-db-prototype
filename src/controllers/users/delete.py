@@ -2,10 +2,11 @@ import db.conn
 import db.models
 from controllers.auth import AuthUser
 from controllers.helper import api_result, token_to_auth_user, transaction
-from controllers.models import ApiResult, HttpCode
+from controllers.models import HttpCode
 from journaling import log
 
 
+# mypy: disallow_untyped_decorators=False
 @api_result
 @transaction
 @token_to_auth_user

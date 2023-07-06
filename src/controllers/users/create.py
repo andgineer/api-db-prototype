@@ -8,6 +8,7 @@ from controllers.models import HttpCode, NewUser
 from journaling import log
 
 
+# mypy: disallow_untyped_decorators=False
 @api_result
 @transaction
 @token_to_auth_user

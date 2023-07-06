@@ -96,7 +96,7 @@ class APIModel(Model):  # type: ignore
 
         Dictionary without convertion of dates
         """
-        result: Dict[str, Any] = self.to_native()  # type: ignore
+        result: Dict[str, Any] = self.to_native()
 
         empty_fields = {field for field in result if result[field] is None}
         for field in empty_fields:
@@ -143,7 +143,7 @@ class EnumType(BaseType):  # type: ignore
         """
         assert self.enum is not None
         if isinstance(value, self.enum):
-            return value  # type: ignore
+            return value
         if not isinstance(value, str):
             raise ConversionError(self.messages["convert"].format(value))
         assert self.enum is not None

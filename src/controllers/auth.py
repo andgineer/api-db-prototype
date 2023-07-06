@@ -1,3 +1,4 @@
+"""Auth controller."""
 from typing import Any, Dict
 
 import settings
@@ -9,16 +10,14 @@ JWT_GROUP = "group"
 
 
 class AuthUser:
-    """
-    User authenticated by JWT from request header.
-    """
+    """User authenticated by JWT from request header."""
 
     email: str
     group: str
 
-    def __init__(self, token_payload: Dict[str, Any]):
-        """
-        Init the authenticated user from decoded JWT payload.
+    def __init__(self, token_payload: Dict[str, Any]) -> None:
+        """Init the authenticated user from decoded JWT payload.
+
         Checks expiration.
         """
         self.email: str = token_payload[JWT_EMAIL]
@@ -30,4 +29,5 @@ class AuthUser:
 
     @property
     def is_admin(self) -> bool:
+        """Return True if the user is admin."""
         return UserGroup.ADMIN.value == self.group

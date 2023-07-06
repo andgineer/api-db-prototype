@@ -1,3 +1,4 @@
+"""Authenticates a user and returns a JWT token."""
 from typing import Any, Dict
 
 import db.conn
@@ -11,14 +12,13 @@ from journaling import log
 from jwt_token import JWT_CREATED, JWT_EXPIRATION, token
 
 
+# mypy: disallow_untyped_decorators=False
 @api_result
 @transaction
 def get_token(
     email: str, password: str, auth_token: Any = None
 ) -> Dict[str, Any]:  # todo: remove auth_token
-    """
-    Returns {"token": <JWT for the email/password>}.
-    """
+    """Returns {"token": <JWT for the email/password>}."""
     user = db.models.User.by_email(email)
     if not user:
         log.debug(f"No user with email={email}")

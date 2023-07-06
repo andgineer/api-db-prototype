@@ -3,12 +3,20 @@ import db.conn
 import db.models
 from controllers.auth import AuthUser
 from controllers.helper import api_result, token_to_auth_user, transaction
-from controllers.models import PAGE_DEFAULT, PER_PAGE_DEFAULT, APIError, HttpCode, Paging
+from controllers.models import (
+    PAGE_DEFAULT,
+    PER_PAGE_DEFAULT,
+    APIError,
+    ApiResult,
+    HttpCode,
+    Paging,
+)
 from journaling import log
 
 DEFAULT_ORDER_BY = "-createdDatetime"
 
 
+# mypy: disallow_untyped_decorators=False
 @api_result
 @transaction
 @token_to_auth_user
@@ -18,7 +26,7 @@ def users_list(
     per_page: int = PER_PAGE_DEFAULT,
     page: int = PAGE_DEFAULT,
     order_by=DEFAULT_ORDER_BY,
-):
+):  # type: ignore  # transmute Swagger magic does not allow type hints
     """
     Users list
     """

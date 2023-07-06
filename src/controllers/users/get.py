@@ -6,6 +6,7 @@ from controllers.helper import api_result, token_to_auth_user, transaction
 from controllers.models import ApiResult, HttpCode
 
 
+# mypy: disallow_untyped_decorators=False
 @api_result
 @transaction
 @token_to_auth_user
