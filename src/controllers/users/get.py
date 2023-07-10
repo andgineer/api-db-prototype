@@ -16,5 +16,4 @@ def get_user(auth_user: AuthUser, user_id: str) -> ApiResult:
         return "Only admin can get info about user", HttpCode.unauthorized
     if user := db.models.User.by_id(user_id):
         return controllers.models.User().from_orm(user).as_dict
-    else:
-        return f"No user with id={user_id}", HttpCode.logic_error
+    return f"No user with id={user_id}", HttpCode.logic_error

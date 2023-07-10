@@ -17,12 +17,10 @@ def delete_user(auth_user: AuthUser, user_id: str):  # type: ignore  # transmute
     """
     if not auth_user.is_admin:
         return "Only admin can delete users", HttpCode.unauthorized
-    user_to_delete = db.models.User.by_id(user_id, check=False)
-    if user_to_delete:
+    if user_to_delete := db.models.User.by_id(user_id, check=False):
         log.debug(f"Deletion of user with id={user_id}")
         db.conn.session.delete(user_to_delete)
         db.conn.session.commit()
         return {}
-    else:
-        log.debug(f"No user with id={user_id}")
-        return f"No user with id={user_id}", HttpCode.logic_error
+    log.debug(f"No user with id={user_id}")
+    return f"No user with id={user_id}", HttpCode.logic_error

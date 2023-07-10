@@ -1,6 +1,4 @@
-"""
-Common code to keep api handler DRY
-"""
+"""Common code to keep api handler DRY."""
 import functools
 import inspect
 import re
@@ -31,7 +29,7 @@ def transaction(handler: Callable[Param, Result]) -> Callable[Param, Result]:
         except APIBaseError as e:
             db.conn.session.rollback()
             log.error(f"{e}")
-            return f"API error {e}", e.status
+            return f"API error {e}", e.status  # type: ignore
         except schematics.exceptions.BaseError as e:
             db.conn.session.rollback()
             messages = []
@@ -39,20 +37,20 @@ def transaction(handler: Callable[Param, Result]) -> Callable[Param, Result]:
                 error_messsage = str(e.errors[field]).replace("Rogue", "Unknown")
                 messages.append(f"{field} - {error_messsage}")
             log.error(f"Model validation error: {e}")
-            return f'Wrong request parameters: {", ".join(messages)}', HttpCode.wrong_request
+            return f'Wrong request parameters: {", ".join(messages)}', HttpCode.wrong_request  # type: ignore
         except TypeError as e:
             db.conn.session.rollback()
             missing_args = re.match(
                 r"(.+)missing \d+ required positional argument(s)?: (.+)", str(e)
             )
             if missing_args:
-                return f"Missing arguments: {missing_args[3]}", HttpCode.wrong_request
+                return f"Missing arguments: {missing_args[3]}", HttpCode.wrong_request  # type: ignore
             log.error(f"{e}", exc_info=True)
-            return "Server internal error", HttpCode.unhandled_exception
+            return "Server internal error", HttpCode.unhandled_exception  # type: ignore
         except Exception as e:
             db.conn.session.rollback()
             log.error(f"{e}", exc_info=True)
-            return "Server internal error", HttpCode.unhandled_exception
+            return "Server internal error", HttpCode.unhandled_exception  # type: ignore
         finally:
             db.conn.session.close()
 
@@ -91,11 +89,11 @@ def api_result(handler: Func) -> Func:
     return cast(Func, api_result_wrapper)
 
 
-def token_to_auth_user(handler: Func) -> Func:
+def token_to_auth_user(handler: Callable[Param, Result]) -> Callable[Param, Result]:
     """Create auth_user parameter from token."""
 
     @functools.wraps(handler)  # preserve initial function signature
-    def token_to_auth_user_wrapper(*args, **kwargs):
+    def token_to_auth_user_wrapper(*args, **kwargs) -> Result:  # type: ignore
         if "auth_token" in kwargs:
             if kwargs["auth_token"] is not None:
                 log.debug(f'Add auth_user to {handler.__name__}\n{kwargs["auth_token"]}')
@@ -104,7 +102,7 @@ def token_to_auth_user(handler: Func) -> Func:
                 journaling.user = auth_user.email
             else:
                 log.warning("No or wrong user token in request")
-                return "No or wrong user token in request", HttpCode.no_token
+                return "No or wrong user token in request", HttpCode.no_token  # type: ignore
             del kwargs["auth_token"]
         try:
             return handler(*args, **kwargs)
@@ -113,4 +111,4 @@ def token_to_auth_user(handler: Func) -> Func:
 
     # suppress "Callable[[VarArg(Any), KwArg(Any)], Any]" has no attribute "__signature__"
     token_to_auth_user_wrapper.__signature__ = inspect.signature(handler)  # type: ignore[attr-defined]
-    return cast(Func, token_to_auth_user_wrapper)
+    return token_to_auth_user_wrapper

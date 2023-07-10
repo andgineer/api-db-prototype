@@ -1,7 +1,5 @@
 pytest
 coverage
-pytest-instafail
-pytest-picked
 hypothesis
 pip-tools
 

@@ -130,12 +130,14 @@ class EnumType(BaseType):  # type: ignore
         self.enum = enum
         super().__init__(**kwargs)
 
-    def _mock(self, context: Any = None) -> str:
+    def _mock(self, context: Any = None) -> str:  # pylint: disable=unused-argument
         """Return random enum value."""
         assert self.enum is not None
         return random.choice(list(self.enum.__members__))
 
-    def to_native(self, value: Union[enum.Enum, str], context: Any = None) -> enum.Enum:
+    def to_native(
+        self, value: Union[enum.Enum, str], context: Any = None  # pylint: disable=unused-argument
+    ) -> enum.Enum:
         """Convert to native.
 
         If `value` is instance of `EnumType` return it as it is.
@@ -157,7 +159,9 @@ class EnumType(BaseType):  # type: ignore
         except (ValueError, TypeError) as e:
             raise ConversionError(self.messages["convert"].format(value)) from e
 
-    def to_primitive(self, value: enum.Enum, context: Any = None) -> Union[str, int]:
+    def to_primitive(
+        self, value: enum.Enum, context: Any = None  # pylint: disable=unused-argument
+    ) -> Union[str, int]:
         """Convert to primitive."""
         return value.value  # type: ignore
 

@@ -8,11 +8,9 @@
 #   . ./activate.sh
 #
 python -m pytest \
-  -s -v \
   --doctest-modules \
   --ignore src/alembic \
   --ignore swagger-codegen \
   -W ignore::DeprecationWarning \
-  --instafail \
-  --picked=first \
+   tests/ \
   "$@"
