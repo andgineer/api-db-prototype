@@ -16,7 +16,7 @@ import controllers.users.update
 from controllers.models import PAGE_DEFAULT, PER_PAGE_DEFAULT, ApiResult
 from jwt_token import token
 from openapi_server.models.update_user import UpdateUser
-from openapi_server.models.user import User  # noqa: F401
+from openapi_server.models.user import User  # pylint: disable=unused-import
 from openapi_server.models.user_credentials import UserCredentials
 
 # todo use swagger auth not hack with header extraction
@@ -79,7 +79,9 @@ def list_users(
     )
 
 
-def update_user(user_id: str, update_user: UpdateUser) -> ApiResult:  # noqa: E501
+def update_user(
+    user_id: str, update_user: UpdateUser
+) -> ApiResult:  # pylint: disable=unused-argument
     """Update details of particular user.
 
     :param user_id: The id of the user to update
@@ -93,7 +95,7 @@ def update_user(user_id: str, update_user: UpdateUser) -> ApiResult:  # noqa: E5
     if connexion.request.is_json:
         update_user = UpdateUser.from_dict(connexion.request.get_json())  # noqa: E501
     return controllers.users.update.update_user(
-        auth_token=extract_token(authorization), update_user=update_user
+        auth_token=extract_token(authorization), update_user_obj=update_user
     )
 
 

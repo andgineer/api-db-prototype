@@ -1,6 +1,4 @@
-"""
-Encapsulates SQLAlchemy engine, session and db management logic
-"""
+"""Encapsulate SQLAlchemy engine, session and db management logic."""
 from typing import Optional
 
 from sqlalchemy import Engine, create_engine
@@ -20,9 +18,7 @@ engine: Optional[Engine] = None
 
 
 def create_admin_user() -> None:
-    """
-    Creates default admin if no users with admin right are in DB
-    """
+    """Create default admin if no users with admin right are in DB."""
     assert session is not None, "First init session with make_session()"
     # if session.info.get('has_flushed', False):
     users = db.models.User.query().filter(
@@ -51,6 +47,7 @@ password '{settings.config.default_admin_password}' - please change her password
 
 
 def make_session() -> Session:
+    """Make session."""
     global session
     global engine
     log.debug(f"...Connecting to DB {settings.config.db_uri}...")
@@ -68,6 +65,7 @@ def make_session() -> Session:
 
 
 def refresh_metadata():
+    """Refresh metadata."""
     log.debug("Refreshing metadata...")
     assert session is not None
     insp = reflection.Inspector.from_engine(session().get_bind())

@@ -22,7 +22,7 @@ db.conn.make_session()  # Connect to DB
 
 
 def main():
-    # Starting http server
+    """Start http server."""
     settings.config.app.run(port=settings.config.port)
 
 
