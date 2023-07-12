@@ -51,7 +51,6 @@ def make_session() -> Session:
     """Make session."""
     global session
     global engine
-    assert session
     assert settings.config
     log.debug(f"...Connecting to DB {settings.config.db_uri}...")
     engine = create_engine(settings.config.db_uri, echo=settings.config.db_sqltrace)
