@@ -1,5 +1,5 @@
-"""
-Controllers from swagger code-gen modified by hand.
+"""Controllers from swagger code-gen modified by hand.
+
 They proxy to our application logic handlers in controllers folder.
 """
 from typing import Any, Dict
@@ -31,8 +31,7 @@ def extract_token(authorization: str) -> Dict[str, Any]:
 
 
 def get_token(user_credentials: UserCredentials = None) -> Dict[str, Any]:
-    """
-    Get access token for the user
+    """Get access token for the user.
 
     Validate user credentials with DB and return JWT token for the user.
     """
@@ -42,8 +41,7 @@ def get_token(user_credentials: UserCredentials = None) -> Dict[str, Any]:
 
 
 def create_user(body: Dict[str, Any]) -> ApiResult:
-    """
-    Create a user
+    """Create a user.
 
     Return {"id": <user_id>} or (<error message>, <HTTP code>).
     """
@@ -64,7 +62,7 @@ def get_user(user_id: str) -> ApiResult:
 def list_users(
     per_page: int = PER_PAGE_DEFAULT, page: int = PAGE_DEFAULT
 ) -> ApiResult:  # noqa: E501
-    """List all users
+    """List all users.
 
     :param page: Page number of results to return.
     :type page: str

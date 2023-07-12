@@ -1,5 +1,5 @@
-"""
-Tests run from the project root folder.
+"""Pytest run from the project root folder.
+
 But the python code expects to run inside server folder.
 
 So for tests we add server folder to sys.path.

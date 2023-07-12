@@ -21,8 +21,9 @@ app = settings.config.app
 db.conn.make_session()  # Connect to DB
 
 
-def main():
+def main() -> None:
     """Start http server."""
+    assert settings.config
     settings.config.app.run(port=settings.config.port)
 
 

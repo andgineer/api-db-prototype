@@ -20,11 +20,13 @@ route = partial(flask_transmute.route, app)
 
 
 def api(handler, add_auth=True):
+    """Decorate for API handlers."""
+
     def wrapper(*args, **kwargs):
         if kwargs["Authorization"] is not None:
             token_tokens = kwargs["Authorization"].split(" ")
             token_value = token_tokens[1] if len(token_tokens) > 1 else token_tokens[0]
-            kwargs.update({"auth_token": token.decode(token_value)})
+            kwargs["auth_token"] = token.decode(token_value)
         del kwargs["Authorization"]
         result = handler(*args, **kwargs)
         if result[1] != 200:

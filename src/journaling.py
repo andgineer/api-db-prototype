@@ -1,5 +1,5 @@
-"""
-Logger with custom fields like hostname.
+"""Logger with custom fields like hostname.
+
 Convenient way of use:
     from journaling import log
     log.debug('hey!')
@@ -23,12 +23,13 @@ PROFILER_MAXMS = 1000  # max time in ms to log profiler results
 hostname = None  # host name for the machine we are running on
 user = None  # user email for the token used to call api request (if any)
 log = logging.getLogger("")  # convenient way to get logger
-request_start_time: int = (
-    None  # time_ns before starting request handler, set in controllers/request#api_result handler
-)
+request_start_time: Optional[
+    int
+] = None  # time_ns before starting request handler, set in controllers/request#api_result handler
 
 
 def uwsgi_info() -> Optional[dict]:
+    """Get uWSGI info if we are under uWSGI."""
     try:
         import uwsgi
 
@@ -42,17 +43,18 @@ def uwsgi_info() -> Optional[dict]:
 
 
 def elapsed() -> str:
+    """Return elapsed time since request start in ms."""
     if request_start_time is None:
         return "|n/a|"
     ms = (time_ns() - request_start_time) / 1000000
-    if ms > PROFILER_MAXMS:
-        return f"**>{ms:.0f}ms<**"
-    else:
-        return f"*>{ms:.1f}ms<*"
+    return f"**>{ms:.0f}ms<**" if ms > PROFILER_MAXMS else f"*>{ms:.1f}ms<*"
 
 
 class CustomFormatter(logging.Formatter):
+    """Custom formatter for logging."""
+
     def format(self, record):
+        """Add custom fields to log record."""
         if not hasattr(record, "host"):
             record.host = hostname
         if not hasattr(record, "uwsgi"):
@@ -63,9 +65,7 @@ class CustomFormatter(logging.Formatter):
 
 
 def setup(log_config: Optional[str] = LOG_CONFIG, default_level=logging.DEBUG):
-    """
-    Setup logging configuration and returns logger
-    """
+    """Set logging configuration and returns logger."""
     global hostname
     if log_config is None:
         log_config = LOG_CONFIG

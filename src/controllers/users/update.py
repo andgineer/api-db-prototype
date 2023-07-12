@@ -13,7 +13,7 @@ from journaling import log
 def update_user(
     auth_user: AuthUser, user_id: str, update_user_obj: controllers.models.UpdateUser
 ) -> controllers.models.ApiResult:
-    """Updates user."""
+    """Update user."""
     update_user_obj.validate()
     user = db.models.User.by_id(user_id)
     if user.email.lower() != auth_user.email.lower():

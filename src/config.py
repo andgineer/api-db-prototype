@@ -1,24 +1,23 @@
-"""
-    Config loder.
+"""Config loder.
 
-    There is could be nested sections.
-    Values can include environment vars like `$PATH` or `${PATH}`
+There is could be nested sections.
+Values can include environment vars like `$PATH` or `${PATH}`
 
-    All params from config set as attributes to the resulting object.
-    Nested level separated in attributes names by '_'.
+All params from config set as attributes to the resulting object.
+Nested level separated in attributes names by '_'.
 
-    If obj param is present it should be Python3-style object and not internal types like dict.
-    This is necessary to add new attributes to the object.
+If obj param is present it should be Python3-style object and not internal types like dict.
+This is necessary to add new attributes to the object.
 
-    >>> load({'section': {'var': 'value'}}).section_var
-    'value'
+>>> load({'section': {'var': 'value'}}).section_var
+'value'
 
-    >>> class Config:
-    ...     pass
-    >>> conf = Config()
-    >>> _ = load({'var': 'value'}, conf)  # doctest: +ELLIPSIS
-    >>> conf.var
-    'value'
+>>> class Config:
+...     pass
+>>> conf = Config()
+>>> _ = load({'var': 'value'}, conf)  # doctest: +ELLIPSIS
+>>> conf.var
+'value'
 """
 import collections.abc
 import os.path
@@ -29,8 +28,7 @@ last_loaded = None  # contains dict with last loaded params
 
 
 def load(config: dict, obj: object = None, _prefix=None):
-    """
-    Loads config from dict.
+    """Load config from dict.
 
     :param _prefix: internal usage for recursion
     """
@@ -66,4 +64,5 @@ def load(config: dict, obj: object = None, _prefix=None):
 
 
 def load_yaml(file_name: str, obj: object = None):
+    """Load config from yaml file."""
     return load(yaml.load(open(file_name, "r")), obj)

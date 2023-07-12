@@ -13,7 +13,7 @@ from journaling import log
 @transaction
 @token_to_auth_user
 def create_user(auth_user: AuthUser, new_user: Dict[str, Any]) -> Dict[str, Any]:
-    """Creates user from dict that contains fields for NewUser.
+    """Create user from dict that contains fields for NewUser.
 
     Returns {"id": <new user id>}.
     Can return (<error message>, <HTTP code>).

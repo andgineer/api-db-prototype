@@ -18,7 +18,7 @@ from jwt_token import JWT_CREATED, JWT_EXPIRATION, token
 def get_token(
     email: str, password: str, auth_token: Any = None  # pylint: disable=unused-argument
 ) -> Dict[str, Any]:  # todo: remove auth_token
-    """Returns {"token": <JWT for the email/password>}."""
+    """Return {"token": <JWT for the email/password>}."""
     user = db.models.User.by_email(email)
     if not user:
         log.debug(f"No user with email={email}")
