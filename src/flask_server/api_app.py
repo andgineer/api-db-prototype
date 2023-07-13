@@ -29,6 +29,7 @@ blueprint = Blueprint("blueprint", __name__, url_prefix="/")
 @app.after_request
 def after_request(response: Response) -> Response:
     """After-request flask hook to add CORS headers according to settings."""
+    assert settings.config
     if settings.config.web_enableCrossOriginRequests:
         response.headers["Access-Control-Allow-Origin"] = "*"
         response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS, DELETE, PUT"
@@ -47,6 +48,7 @@ def options_handler() -> Response:
     Others handles by application logic and CORS headers added in after-request flask hook
     So I this this is unecessary part but I am too lazy to check..
     """
+    assert settings.config
     log.debug(f"Options were requested for {request.full_path}")
     response = Response()
     response.headers["Content-Type"] = "text/plain; charset=utf-8"

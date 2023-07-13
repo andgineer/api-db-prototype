@@ -66,11 +66,11 @@ class CustomFormatter(logging.Formatter):
 
 def setup(log_config: Optional[str] = LOG_CONFIG, default_level=logging.DEBUG):
     """Set logging configuration and returns logger."""
-    global hostname
+    global hostname  # pylint: disable=global-statement
     if log_config is None:
         log_config = LOG_CONFIG
     if os.path.exists(log_config):
-        with open(log_config, "r") as f:
+        with open(log_config, "r", encoding="utf8") as f:
             config = yaml.safe_load(f.read())
             logging.config.dictConfig(config)
     else:

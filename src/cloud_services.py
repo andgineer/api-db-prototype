@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional
+from typing import Any, Dict, List, Optional
 
 import boto3
 from botocore.exceptions import ClientError, NoCredentialsError
@@ -23,13 +23,16 @@ def aws_session() -> Any:
 
 def ses() -> Any:
     """Amazon simple email service."""
+    assert settings.config
     return aws_session().client("ses", region_name=settings.config.aws_region)
 
 
-def send_email(recipients: list, subject: str, html: str = None, text: str = None) -> None:
+def send_email(
+    recipients: List[Any], subject: str, html: Optional[str] = None, text: Optional[str] = None
+) -> None:
     """Send email via Amazon SES."""
     try:
-        message = {
+        message: Dict[str, Dict[str, Any]] = {
             "Body": {},
             "Subject": {
                 "Charset": CHARSET,
@@ -51,7 +54,7 @@ def send_email(recipients: list, subject: str, html: str = None, text: str = Non
                 "ToAddresses": recipients,
             },
             Message=message,
-            Source=settings.config.sender_email,
+            Source=settings.config.sender_email,  # type: ignore
             # ConfigurationSetName=CONFIGURATION_SET,
         )
     except NoCredentialsError:
@@ -61,23 +64,26 @@ def send_email(recipients: list, subject: str, html: str = None, text: str = Non
     except ClientError as e:
         log.error(e.response["Error"]["Message"])
     else:
-        log.info("Email sent! Message ID:"),
+        log.info("Email sent! Message ID:")
         log.debug(response["MessageId"])
 
 
 def sqs() -> Any:
     """Amazon simple queue service."""
+    assert settings.config
     return aws_session().client("sqs", region_name=settings.config.aws_region)
 
 
 def queue_url() -> str:
     """URL of the queue we use in our application."""
-    return sqs().get_queue_url(QueueName=settings.config.aws_queue)["QueueUrl"]
+    assert settings.config
+    return sqs().get_queue_url(QueueName=settings.config.aws_queue)["QueueUrl"]  # type: ignore
 
 
 def queue() -> Any:
     """Specific queue we use in our application."""
-    return sqs().get_queue_by_name(QueueName=settings.config.aws_queue)
+    assert settings.config
+    return sqs().get_queue_by_name(QueueName=settings.config.aws_queue)  # type: ignore
 
 
 def queue_messages_list() -> list[Dict[str, Any]]:
@@ -106,10 +112,10 @@ def get_queue_message() -> Optional[Dict[str, Any]]:
     if "Messages" not in messages or len(messages["Messages"]) == 0:
         return None
     log.debug(f'Got SQS messages: {messages["Messages"]}')
-    return messages["Messages"][0]
+    return messages["Messages"][0]  # type: ignore
 
 
-def send_queue_message(body) -> None:
+def send_queue_message(body: str) -> None:
     """Send message to the queue."""
     response = sqs().send_message(
         QueueUrl=queue_url(), DelaySeconds=10, MessageAttributes={}, MessageBody=body

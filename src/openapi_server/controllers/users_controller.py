@@ -16,7 +16,6 @@ import controllers.users.update
 from controllers.models import PAGE_DEFAULT, PER_PAGE_DEFAULT, ApiResult
 from jwt_token import token
 from openapi_server.models.update_user import UpdateUser
-from openapi_server.models.user import User  # pylint: disable=unused-import
 from openapi_server.models.user_credentials import UserCredentials
 
 # todo use swagger auth not hack with header extraction
@@ -48,7 +47,7 @@ def create_user(body: Dict[str, Any]) -> ApiResult:
     authorization = connexion.request.headers["Authorization"]
     new_user = body.get("new_user", body)
 
-    return controllers.users.create.create_user(
+    return controllers.users.create.create_user(  # type: ignore  # pylint: disable=no-value-for-parameter
         auth_token=extract_token(authorization), new_user=new_user
     )
 
@@ -56,7 +55,9 @@ def create_user(body: Dict[str, Any]) -> ApiResult:
 def get_user(user_id: str) -> ApiResult:
     """Get info for a specific user."""
     authorization = connexion.request.headers["Authorization"]
-    return controllers.users.get.get_user(auth_token=extract_token(authorization), user_id=user_id)
+    return controllers.users.get.get_user(  # type: ignore  # pylint: disable=no-value-for-parameter
+        auth_token=extract_token(authorization), user_id=user_id
+    )
 
 
 def list_users(
@@ -72,14 +73,14 @@ def list_users(
     :rtype: Users
     """
     authorization = connexion.request.headers["Authorization"]
-    return controllers.users.list.users_list(
+    return controllers.users.list.users_list(  # type: ignore  # pylint: disable=no-value-for-parameter
         auth_token=extract_token(authorization), page=page, per_page=per_page
     )
 
 
 def update_user(
-    user_id: str, update_user: UpdateUser
-) -> ApiResult:  # pylint: disable=unused-argument
+    user_id: str, update_user: UpdateUser  # pylint: disable=unused-argument
+) -> ApiResult:
     """Update details of particular user.
 
     :param user_id: The id of the user to update
@@ -92,7 +93,7 @@ def update_user(
     authorization = connexion.request.headers["Authorization"]
     if connexion.request.is_json:
         update_user = UpdateUser.from_dict(connexion.request.get_json())  # noqa: E501
-    return controllers.users.update.update_user(
+    return controllers.users.update.update_user(  # type: ignore  # pylint: disable=no-value-for-parameter
         auth_token=extract_token(authorization), update_user_obj=update_user
     )
 
@@ -104,6 +105,6 @@ def delete_user(userId: str) -> ApiResult:  # noqa: E501
     :type userId: str
     """
     authorization = connexion.request.headers["Authorization"]
-    return controllers.users.delete.delete_user(
+    return controllers.users.delete.delete_user(  # type: ignore
         auth_token=extract_token(authorization), user_id=userId
     )

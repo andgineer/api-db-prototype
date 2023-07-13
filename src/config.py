@@ -32,7 +32,7 @@ def load(config: dict, obj: object = None, _prefix=None):
 
     :param _prefix: internal usage for recursion
     """
-    global last_loaded
+    global last_loaded  # pylint: disable=global-statement
     if obj is None:
 
         class Config:
@@ -65,4 +65,4 @@ def load(config: dict, obj: object = None, _prefix=None):
 
 def load_yaml(file_name: str, obj: object = None):
     """Load config from yaml file."""
-    return load(yaml.load(open(file_name, "r")), obj)
+    return load(yaml.safe_load(open(file_name, "r", encoding="utf8")), obj)

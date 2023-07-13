@@ -26,7 +26,7 @@ def create_admin_user() -> None:
         db.models.User.group == controllers.models.UserGroup.ADMIN
     )
     if not users.count():
-        log.debug(
+        log.debug(  # pylint: disable=logging-not-lazy
             "!" * 25
             + f"""
 Creating default admin user <{settings.config.default_admin_email}> with
@@ -60,7 +60,7 @@ def make_session() -> Session:
     if settings.config.db_autometa:
         refresh_metadata()
     create_admin_user()
-    session.close()
+    session.close()  # type: ignore
     session.get_bind().dispose()  # type: ignore
     log.debug("Connections dropped after creating meta-data")
     return session  # type: ignore

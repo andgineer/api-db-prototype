@@ -20,6 +20,7 @@ class AuthUser:
 
         Checks expiration.
         """
+        assert settings.config
         self.email: str = token_payload[JWT_EMAIL]
         self.group: str = token_payload[JWT_GROUP]
         assert self.group in [group.value for group in UserGroup]

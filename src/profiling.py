@@ -23,4 +23,4 @@ def analyze() -> None:
         ps.print_stats()
         # uncomment this to see who's calling what
         # ps.print_callers()
-        log.debug("=-=profile=-=:" * 10 + s.getvalue())
+        log.debug("=-=profile=-=:" * 10 + s.getvalue())  # pylint: disable=logging-not-lazy
