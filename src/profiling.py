@@ -9,8 +9,8 @@ from src import settings
 log = logging.getLogger()
 
 
-@contextlib.contextmanager
-def analyze() -> None:
+@contextlib.contextmanager  # type: ignore
+def analyze() -> None:  # type: ignore
     """Analyze."""
     if settings.config.profiler_cprofile:
         pr = cProfile.Profile()

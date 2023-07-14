@@ -49,8 +49,8 @@ password '{settings.config.default_admin_password}' - please change her password
 
 def make_session() -> Session:
     """Make session."""
-    global session
-    global engine
+    global session  # pylint: disable=global-statement
+    global engine  # pylint: disable=global-statement
     assert settings.config
     log.debug(f"...Connecting to DB {settings.config.db_uri}...")
     engine = create_engine(settings.config.db_uri, echo=settings.config.db_sqltrace)

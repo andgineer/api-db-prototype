@@ -21,13 +21,14 @@ This is necessary to add new attributes to the object.
 """
 import collections.abc
 import os.path
+from typing import Any, Dict, Optional
 
 import yaml
 
-last_loaded = None  # contains dict with last loaded params
+last_loaded: Optional[Dict[str, Any]] = None  # contains dict with last loaded params
 
 
-def load(config: dict, obj: object = None, _prefix=None):
+def load(config: Dict[str, Any], obj: Optional[Any] = None, _prefix: Optional[str] = None) -> Any:
     """Load config from dict.
 
     :param _prefix: internal usage for recursion
@@ -39,7 +40,7 @@ def load(config: dict, obj: object = None, _prefix=None):
             pass
 
         obj = Config()
-    if _prefix is None:
+    if last_loaded is None:
         last_loaded = {}
     assert hasattr(obj, "__dict__") or isinstance(
         obj, object
@@ -63,6 +64,6 @@ def load(config: dict, obj: object = None, _prefix=None):
     return obj
 
 
-def load_yaml(file_name: str, obj: object = None):
+def load_yaml(file_name: str, obj: Optional[Any] = None) -> Dict[str, Any]:
     """Load config from yaml file."""
-    return load(yaml.safe_load(open(file_name, "r", encoding="utf8")), obj)
+    return load(yaml.safe_load(open(file_name, "r", encoding="utf8")), obj)  # type: ignore

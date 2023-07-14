@@ -105,6 +105,6 @@ def delete_user(userId: str) -> ApiResult:  # noqa: E501
     :type userId: str
     """
     authorization = connexion.request.headers["Authorization"]
-    return controllers.users.delete.delete_user(  # type: ignore
+    return controllers.users.delete.delete_user(  # type: ignore  # pylint: disable=no-value-for-parameter
         auth_token=extract_token(authorization), user_id=userId
     )

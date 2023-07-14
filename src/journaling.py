@@ -12,7 +12,7 @@ import logging
 import logging.config
 import os
 import socket
-from typing import Optional
+from typing import Any, Dict, Optional
 
 import yaml
 
@@ -20,15 +20,15 @@ from pretty_ns import time_ns
 
 LOG_CONFIG = "logging.yaml"
 PROFILER_MAXMS = 1000  # max time in ms to log profiler results
-hostname = None  # host name for the machine we are running on
-user = None  # user email for the token used to call api request (if any)
+hostname: Optional[str] = None  # host name for the machine we are running on
+user: Optional[str] = None  # user email for the token used to call api request (if any)
 log = logging.getLogger("")  # convenient way to get logger
 request_start_time: Optional[
     int
 ] = None  # time_ns before starting request handler, set in controllers/request#api_result handler
 
 
-def uwsgi_info() -> Optional[dict]:
+def uwsgi_info() -> Dict[str, Any]:
     """Get uWSGI info if we are under uWSGI."""
     try:
         import uwsgi
@@ -53,7 +53,7 @@ def elapsed() -> str:
 class CustomFormatter(logging.Formatter):
     """Custom formatter for logging."""
 
-    def format(self, record):
+    def format(self, record: logging.LogRecord) -> str:
         """Add custom fields to log record."""
         if not hasattr(record, "host"):
             record.host = hostname
@@ -64,7 +64,7 @@ class CustomFormatter(logging.Formatter):
         return super().format(record)
 
 
-def setup(log_config: Optional[str] = LOG_CONFIG, default_level=logging.DEBUG):
+def setup(log_config: Optional[str] = LOG_CONFIG, default_level: int = logging.DEBUG) -> None:
     """Set logging configuration and returns logger."""
     global hostname  # pylint: disable=global-statement
     if log_config is None:
