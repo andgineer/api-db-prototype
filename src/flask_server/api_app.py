@@ -26,7 +26,7 @@ app = Flask(__name__)
 blueprint = Blueprint("blueprint", __name__, url_prefix="/")
 
 
-@app.after_request  # type: ignore
+@app.after_request
 def after_request(response: Response) -> Response:
     """After-request flask hook to add CORS headers according to settings."""
     assert settings.config
