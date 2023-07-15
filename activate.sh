@@ -4,7 +4,7 @@
 #
 
 VENV_FOLDER="venv"
-PYTHON="python3.10"
+PYTHON="python3.11"
 
 RED='\033[1;31m'
 GREEN='\033[1;32m'
@@ -27,8 +27,8 @@ if [[ ! -d ${VENV_FOLDER} ]] ; then
     $PYTHON -m venv ${VENV_FOLDER}
     . ${VENV_FOLDER}/bin/activate
     pip install --upgrade pip
-    pip install -r requirements.txt
     pip install -r requirements.dev.txt
+    pip install -r requirements.txt
 else
     echo -e $CYAN"Activating virtual environment ..."$NC
     . ${VENV_FOLDER}/bin/activate

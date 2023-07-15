@@ -70,7 +70,7 @@ def auth_token() -> Optional[Dict[str, Any]]:
             )
     else:
         auth_header = auth_header.split()[1]
-    return token.decode(auth_header)  # type: ignore
+    return token.decode(auth_header)
 
 
 Param = ParamSpec("Param")
