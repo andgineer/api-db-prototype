@@ -28,6 +28,10 @@ class JwtCrypto:
     @property
     def public_key(self) -> bytes:
         """Facilitate lazy loading so we can set key's files beforehand."""
+        assert settings.config
+        assert hasattr(settings.config, "jwt_public_key_file") and isinstance(
+            settings.config.jwt_public_key_file, str
+        )
         if not self._public_key:
             log.debug(f"Loading public key from {settings.config.jwt_public_key_file}")
             cert_str = open(settings.config.jwt_public_key_file, "rb").read()
@@ -38,10 +42,14 @@ class JwtCrypto:
     @property
     def private_key(self) -> bytes:
         """Facilitate lazy loading so we can set key's files beforehand."""
+        assert settings.config
+        assert hasattr(settings.config, "jwt_public_key_file") and isinstance(
+            settings.config.jwt_secret_key_file, str
+        )
         if not self._private_key:
             log.debug(f"Loading private key from {settings.config.jwt_secret_key_file}")
             self._private_key = open(settings.config.jwt_secret_key_file, "rb").read()
-        return self._private_key
+        return self._private_key  # type: ignore
 
     def encode(self, payload: Dict[str, Any]) -> str:
         """Encode payload into jwt string."""

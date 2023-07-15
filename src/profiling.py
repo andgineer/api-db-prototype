@@ -10,7 +10,7 @@ log = logging.getLogger()
 
 
 @contextlib.contextmanager  # type: ignore
-def analyze() -> None:  # type: ignore
+def analyze():  # type: ignore
     """Analyze."""
     if settings.config.profiler_cprofile:
         pr = cProfile.Profile()

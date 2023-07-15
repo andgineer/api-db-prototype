@@ -1,6 +1,7 @@
 import inspect
 from functools import partial
 from itertools import chain
+from typing import Any, Callable
 
 import flask_transmute
 from flask import Blueprint, Flask
@@ -19,10 +20,10 @@ blueprint = Blueprint("blueprint", __name__, url_prefix="/")
 route = partial(flask_transmute.route, app)
 
 
-def api(handler, add_auth=True):
+def api(handler: Callable[[Any], Any], add_auth: bool = True) -> Response:
     """Decorate for API handlers."""
 
-    def wrapper(*args, **kwargs):
+    def wrapper(*args, **kwargs):  # type: ignore
         if kwargs["Authorization"] is not None:
             token_tokens = kwargs["Authorization"].split(" ")
             token_value = token_tokens[1] if len(token_tokens) > 1 else token_tokens[0]
@@ -48,7 +49,7 @@ def api(handler, add_auth=True):
                 annotation=str,
             )
         )
-    wrapper.__signature__ = signature.replace(parameters=params)
+    wrapper.__signature__ = signature.replace(parameters=params)  # type: ignore
     wrapper.__name__ = handler.__name__
     return wrapper
 

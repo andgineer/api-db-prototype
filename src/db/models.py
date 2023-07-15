@@ -116,7 +116,7 @@ class User(Base):  # type: ignore
 
         not isinstance(self._scaffold_smiles, sqlalchemy.orm.attributes.InstrumentedAttribute)
         """
-        self.password_hash = password_hash.hash(value)
+        self.password_hash = password_hash.hash(value)  # type: ignore
 
     @staticmethod
     def by_email(email: str, check: bool = True) -> "User":
