@@ -23,7 +23,7 @@ def transaction(handler: Callable[Param, Result]) -> Callable[Param, Result]:
     """Decorate api handler into try-except to handle DB transaction."""
 
     @functools.wraps(handler)
-    def transaction_wrapper(*args: Param.args, **kwargs: Param.kwargs) -> Result:  # type: ignore
+    def transaction_wrapper(*args: Param.args, **kwargs: Param.kwargs) -> Result:
         try:
             return handler(*args, **kwargs)
         except APIBaseError as e:

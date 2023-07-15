@@ -49,7 +49,7 @@ class JwtCrypto:
         if not self._private_key:
             log.debug(f"Loading private key from {settings.config.jwt_secret_key_file}")
             self._private_key = open(settings.config.jwt_secret_key_file, "rb").read()
-        return self._private_key  # type: ignore
+        return self._private_key
 
     def encode(self, payload: Dict[str, Any]) -> str:
         """Encode payload into jwt string."""

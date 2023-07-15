@@ -31,4 +31,4 @@ class AuthUser:
     @property
     def is_admin(self) -> bool:
         """Return True if the user is admin."""
-        return UserGroup.ADMIN.value == self.group  # type: ignore
+        return UserGroup.ADMIN.value == self.group
