@@ -35,10 +35,8 @@ clickclick==20.10.2
     # via connexion
 connexion[swagger-ui]==2.14.2
     # via -r requirements.in
-cryptography==41.0.1
+cryptography==41.0.2
     # via -r requirements.in
-exceptiongroup==1.1.1
-    # via cattrs
 flask==2.2.4
     # via
     #   -r requirements.in
@@ -128,7 +126,6 @@ transmute-core==1.13.4
 typing-extensions==4.7.1
     # via
     #   alembic
-    #   cattrs
     #   sqlalchemy
 urllib3==1.26.16
     # via
