@@ -33,6 +33,7 @@ jobs:
       run: |
         pytest \
         -s -v \
+        --cov=src \
         --junitxml pytest.xml \
         --doctest-modules \
         --ignore src/alembic \
