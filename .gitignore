@@ -46,6 +46,8 @@ coverage.xml
 *.cover
 .hypothesis/
 .pytest_cache/
+pytest.xml
+pytest-coverage.txt
 
 # Translations
 *.mo
@@ -89,8 +91,8 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-coverage.txt
 .dmypy.json
+debug_db.sqlite
 
 # Spyder project settings
 .spyderproject

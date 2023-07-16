@@ -42,7 +42,7 @@ from controllers.models import HttpCode
 from settings import ConfigTestConnexion, ConfigTestPureFlask, ConfigTestTransmute, ConfigTestWrong
 
 DEFAULT_USERS = 1  # pre-created admin@
-TEST_COVERAGE_REPORT_FILE = "pytest-coverage"
+TEST_COVERAGE_REPORT_FILE = "pytest-coverage.txt"
 
 
 def pytest_unconfigure(config):
