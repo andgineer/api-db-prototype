@@ -3,8 +3,8 @@ coverage
 hypothesis
 pip-tools
 
-python-coveralls
-coverage>=4.4, <7.0.0
+coverage
+coveralls
 
 mypy
 types-python-dateutil
