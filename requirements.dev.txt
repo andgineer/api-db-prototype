@@ -21,11 +21,15 @@ click==8.1.5
 coverage==6.5.0
     # via
     #   -r requirements.dev.in
-    #   python-coveralls
+    #   coveralls
+coveralls==3.3.1
+    # via -r requirements.dev.in
 dill==0.3.6
     # via pylint
 distlib==0.3.6
     # via virtualenv
+docopt==0.6.2
+    # via coveralls
 filelock==3.12.2
     # via virtualenv
 hypothesis==6.81.2
@@ -70,16 +74,10 @@ pyproject-hooks==1.0.0
     # via build
 pytest==7.4.0
     # via -r requirements.dev.in
-python-coveralls==2.9.3
-    # via -r requirements.dev.in
 pyyaml==6.0
-    # via
-    #   pre-commit
-    #   python-coveralls
+    # via pre-commit
 requests==2.31.0
-    # via python-coveralls
-six==1.16.0
-    # via python-coveralls
+    # via coveralls
 snowballstemmer==2.2.0
     # via pydocstyle
 sortedcontainers==2.4.0
