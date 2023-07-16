@@ -3,7 +3,6 @@ coverage
 hypothesis
 pip-tools
 
-pytest-cov
 python-coveralls
 coverage>=4.4
 

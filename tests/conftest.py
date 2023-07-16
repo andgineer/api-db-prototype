@@ -1,5 +1,9 @@
 import sys
 
+# we have to start coverage before import to have correct import lines coverage
+# that's why we do not use pytest coverage plugin - the only purpose of it is to do start() and stop() for us
+# and that would break coverage mechanism bacause we do that manually
+
 if "--cov" in sys.argv:
     cov = None
 else:
@@ -18,7 +22,7 @@ else:
             "*lib/python*",
         ],
     )
-    cov.start()  # we have to start before import to have correct import lines coverage
+    cov.start()
 
 import os
 
@@ -38,7 +42,7 @@ from controllers.models import HttpCode
 from settings import ConfigTestConnexion, ConfigTestPureFlask, ConfigTestTransmute, ConfigTestWrong
 
 DEFAULT_USERS = 1  # pre-created admin@
-TEST_COVERAGE_REPORT_FILE = "coverage.txt"
+TEST_COVERAGE_REPORT_FILE = "pytest-coverage"
 
 
 def pytest_unconfigure(config):
