@@ -8,7 +8,7 @@
 #   . ./activate.sh
 #
 python -m pytest \
-  --cov=src \
+  --cov src \
   --doctest-modules \
   --ignore src/alembic \
   --ignore swagger-codegen \
