@@ -29,5 +29,24 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install -r requirements.txt
         python -m pip install -r requirements.dev.txt
-    - name: Test with pytest
-      run: pytest
+    - name: Test with pytest, see conftest.py for coverage report creation
+      run: |
+        pytest \
+        -s -v \
+        --junitxml=pytest.xml \
+        --doctest-modules \
+        --ignore src/alembic \
+        --ignore swagger-codegen \
+        -W ignore::DeprecationWarning \
+        tests/
+    - name: Pytest coverage comment
+      if: ${{ matrix.python-version == 3.11 && matrix.platform == 'ubuntu-latest' }}
+      uses: MishaKav/pytest-coverage-comment@main
+      with:
+        pytest-coverage-path: ./pytest-coverage.txt
+        junitxml-path: ./pytest.xml
+    - name: Upload coverage data to coveralls.io
+      if: ${{ matrix.python-version == 3.11 && matrix.platform == 'ubuntu-latest' }}
+      run: coveralls --service=github
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
