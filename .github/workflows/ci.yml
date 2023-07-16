@@ -33,14 +33,13 @@ jobs:
       run: |
         pytest \
         -s -v \
-        --cov=src \
+        --cov src \
         --junitxml pytest.xml \
         --doctest-modules \
         --ignore src/alembic \
         --ignore swagger-codegen \
         -W ignore::DeprecationWarning \
         tests/
-      shell: bash
     - name: Pytest coverage comment
       if: ${{ matrix.python-version == 3.11 && matrix.platform == 'ubuntu-latest' }}
       uses: MishaKav/pytest-coverage-comment@main

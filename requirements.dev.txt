@@ -18,10 +18,11 @@ charset-normalizer==3.2.0
     # via requests
 click==8.1.5
     # via pip-tools
-coverage==6.5.0
+coverage[toml]==6.5.0
     # via
     #   -r requirements.dev.in
     #   coveralls
+    #   pytest-cov
 coveralls==3.3.1
     # via -r requirements.dev.in
 dill==0.3.6
@@ -73,6 +74,10 @@ pylint==2.17.4
 pyproject-hooks==1.0.0
     # via build
 pytest==7.4.0
+    # via
+    #   -r requirements.dev.in
+    #   pytest-cov
+pytest-cov==4.1.0
     # via -r requirements.dev.in
 pyyaml==6.0
     # via pre-commit
