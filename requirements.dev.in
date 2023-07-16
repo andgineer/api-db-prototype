@@ -3,7 +3,7 @@ coverage
 hypothesis
 pip-tools
 
-coverage
+pytest-cov
 coveralls
 
 mypy
