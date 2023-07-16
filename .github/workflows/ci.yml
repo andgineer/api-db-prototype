@@ -33,6 +33,7 @@ jobs:
       run: |
         pytest \
         -s -v \
+        --junitxml=pytest.xml \
         --doctest-modules \
         --ignore src/alembic \
         --ignore swagger-codegen \
