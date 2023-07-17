@@ -1,29 +1,3 @@
-import sys
-
-# # we have to start coverage before import to have correct import lines coverage
-# # that's why we do not use pytest coverage plugin - the only purpose of it is to do start() and stop() for us
-# # and that would break coverage mechanism bacause we do that manually
-#
-# if "--cov" in sys.argv:
-#     cov = None
-# else:
-#     import coverage
-#
-#     cov = coverage.Coverage(
-#         branch=True,
-#         omit=[
-#             "tests/*",
-#             "src/alembic/*",  # unit-tests do not test DB migrations, we need actual DB for that
-#             "src/cloud_services.py",  # mock it to not send emails and so on from unit-tests
-#             "src/settings.py",  # there are a number of different configs but for unit-tests we use just one
-#             "src/pretty_ns.py",  # general lib we do not need to test it
-#             "src/profiling.py",  # we do not test profiling, this is debug tool
-#             "*/usr/local/lib*",
-#             "*lib/python*",
-#         ],
-#     )
-#     cov.start()
-
 import os
 
 os.environ["FLASK_ENV"] = "testing"  # set testing env before importing app
@@ -43,18 +17,6 @@ from settings import ConfigTestConnexion, ConfigTestPureFlask, ConfigTestTransmu
 
 DEFAULT_USERS = 1  # pre-created admin@
 TEST_COVERAGE_REPORT_FILE = "pytest-coverage.txt"
-
-
-# def pytest_unconfigure(config):
-#     if cov is not None:
-#         cov.stop()
-#         cov.save()
-#         with open(TEST_COVERAGE_REPORT_FILE, "w") as f:
-#             f.writelines(["Coverage Report:"])
-#             cov.report(show_missing=True, file=f)
-#         # print("HTML version: " + os.path.join(os.path.dirname(__file__), "coverage/index.html"))
-#         # cov.html_report(directory='coverage')
-#         cov.erase()
 
 
 def headers(token):

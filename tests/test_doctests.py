@@ -2,6 +2,18 @@ import doctest
 from pathlib import Path
 import importlib.util
 
+import pytest
+
+
+@pytest.fixture(scope="function", autouse=False)
+def api_client(request, config):
+    """Suppress the default fixture.
+
+    We run doctests just inside the module and do not need any environment.
+    """
+    pass
+
+
 def process_file(py_file):
     """Run doctests for a Python file."""
     with open(py_file, 'r') as file:
