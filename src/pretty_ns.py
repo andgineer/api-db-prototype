@@ -10,8 +10,9 @@ Usage:
 >>> pretty_ns((start + 100) - start)
 '0.1 mks'
 
+>>> import time
 >>> with Timer() as timer:
-...     pass
+...     time.sleep(0.01)
 ...     timer.pretty.endswith('s')
 ...     timer.ns > 0
 True

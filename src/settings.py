@@ -1,3 +1,4 @@
+import contextlib
 import datetime
 import os
 import tempfile
@@ -134,8 +135,9 @@ class ConfigTest(ConfigBase):
     def __del__(self) -> None:
         """Remove temp db file."""
         if os is not None:
-            os.close(self.db_file_object)
-            os.remove(self.db_file_name)
+            with contextlib.suppress(PermissionError):
+                os.close(self.db_file_object)
+                os.remove(self.db_file_name)
 
     @property
     def app(self) -> Any:
