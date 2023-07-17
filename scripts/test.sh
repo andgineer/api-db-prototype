@@ -9,7 +9,6 @@
 #
 python -m pytest \
   --cov src \
-  --doctest-modules \
   --ignore src/alembic \
   --ignore swagger-codegen \
   -W ignore::DeprecationWarning \
