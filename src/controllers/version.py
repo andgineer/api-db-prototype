@@ -1,5 +1,5 @@
 """Version controller."""
-from version import version
+from version import version  # type: ignore
 
 
 def get_version() -> str:
