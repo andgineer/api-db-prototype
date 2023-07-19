@@ -123,7 +123,7 @@ def update_user(token, user, id, expected_statuses=HttpCode.successes, patch_ema
     with patch(
         "cloud_services.send_email", return_value=None
     ) if patch_email else contextlib.nullcontext():
-        resp = put(f"{api_url}/users/{id}", data=json.dumps(user), headers=headers(token))
+        resp = put(f"{api_url}/users/{urllib.parse.quote(str(id))}", data=json.dumps({"update_user": user}), headers=headers(token))
     return parse_api_reply(resp, expected_statuses=expected_statuses)
 
 

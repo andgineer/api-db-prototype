@@ -8,6 +8,7 @@
       <excludeFolder url="file://$MODULE_DIR$/.pytest_cache" />
       <excludeFolder url="file://$MODULE_DIR$/tests/.pytest_cache" />
       <excludeFolder url="file://$MODULE_DIR$/venv" />
+      <excludeFolder url="file://$MODULE_DIR$/logs" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.10 (api-db-prototype) (3)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />

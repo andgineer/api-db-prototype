@@ -15,7 +15,6 @@ import controllers.users.list
 import controllers.users.update
 from controllers.models import PAGE_DEFAULT, PER_PAGE_DEFAULT, ApiResult
 from jwt_token import token
-from openapi_server.models.update_user import UpdateUser
 from openapi_server.models.user_credentials import UserCredentials
 
 # todo use swagger auth not hack with header extraction
@@ -52,11 +51,11 @@ def create_user(body: Dict[str, Any]) -> ApiResult:
     )
 
 
-def get_user(user_id: str) -> ApiResult:
+def get_user(userId: str) -> ApiResult:
     """Get info for a specific user."""
     authorization = connexion.request.headers["Authorization"]
     return controllers.users.get.get_user(  # type: ignore  # pylint: disable=no-value-for-parameter
-        auth_token=extract_token(authorization), user_id=user_id
+        auth_token=extract_token(authorization), user_id=userId
     )
 
 
@@ -78,23 +77,12 @@ def list_users(
     )
 
 
-def update_user(
-    user_id: str, update_user: UpdateUser  # pylint: disable=unused-argument
-) -> ApiResult:
-    """Update details of particular user.
-
-    :param user_id: The id of the user to update
-    :type user_id: str
-    :param update_user:
-    :type update_user: dict | bytes
-
-    :rtype: Empty
-    """
+def update_user(userId: str, body: Dict[str, Any]) -> ApiResult:
+    """Update details of particular user."""
     authorization = connexion.request.headers["Authorization"]
-    if connexion.request.is_json:
-        update_user = UpdateUser.from_dict(connexion.request.get_json())  # noqa: E501
+    update_user_dict = body.get("update_user", body)
     return controllers.users.update.update_user(  # type: ignore  # pylint: disable=no-value-for-parameter
-        auth_token=extract_token(authorization), update_user_obj=update_user
+        auth_token=extract_token(authorization), user_id=userId, update_user=update_user_dict
     )
 
 

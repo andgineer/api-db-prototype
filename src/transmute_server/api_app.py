@@ -11,7 +11,9 @@ from controllers import models
 from controllers.users.auth import get_token
 from controllers.users.create import create_user
 from controllers.users.delete import delete_user
+from controllers.users.get import get_user
 from controllers.users.list import users_list
+from controllers.users.update import update_user
 from journaling import log
 from jwt_token import token
 
@@ -76,6 +78,38 @@ user_delete = route(paths="/users/{user_id}", methods=["DELETE"])(
         ),
     )(
         api(delete_user)
+    )
+)
+
+user_update = route(paths="/users/{user_id}", methods=["PUT"])(
+    describe(  # we have to duplicate due to bug https://github.com/toumorokoshi/flask-transmute/issues/11
+        paths="/users/{user_id}",
+        methods=["PUT"],
+        body_parameters=["update_user"],
+        header_parameters=["Authorization"],
+        parameter_descriptions={
+            "user_id": "ID of user to update",
+            "update_user": "Parameters of user to update",
+        },
+        response_types=dict(
+            chain(error_responces.items(), {200: {"type": str, "description": "Success"}}.items())
+        ),
+    )(
+        api(update_user)
+    )
+)
+
+user_get = route(paths="/users/{user_id}", methods=["GET"])(
+    describe(  # we have to duplicate due to bug https://github.com/toumorokoshi/flask-transmute/issues/11
+        paths="/users/{user_id}",
+        methods=["GET"],
+        header_parameters=["Authorization"],
+        parameter_descriptions={"user_id": "ID of user to get"},
+        response_types=dict(
+            chain(error_responces.items(), {200: {"type": str, "description": "Success"}}.items())
+        ),
+    )(
+        api(get_user)
     )
 )
 

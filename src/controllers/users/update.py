@@ -1,3 +1,5 @@
+from typing import Any, Dict
+
 import controllers.models
 import db.conn
 import db.models
@@ -10,19 +12,18 @@ from journaling import log
 @api_result
 @transaction
 @token_to_auth_user
-def update_user(
-    auth_user: AuthUser, user_id: str, update_user_obj: controllers.models.UpdateUser
-) -> controllers.models.ApiResult:
+def update_user(auth_user: AuthUser, user_id: str, update_user: Dict[str, Any]) -> Dict[str, Any]:
     """Update user."""
+    update_user_obj = controllers.models.UpdateUser(update_user)
     update_user_obj.validate()
     user = db.models.User.by_id(user_id)
-    if user.email.lower() != auth_user.email.lower():
-        return (
-            f"Only user himself update user <{user.email}> properties, not <{auth_user.email}>.",
+    if user.email.lower() != auth_user.email.lower() and not auth_user.is_admin:
+        return (  # type: ignore
+            f"Only user himself or admin can update user <{user.email}> properties, not <{auth_user.email}>.",
             controllers.models.HttpCode.unauthorized,
         )
     if update_user_obj.email.lower() != user.email.lower():
-        return (
+        return (  # type: ignore
             f"You cannot change user email (current <{user.email}>, new <{update_user_obj.email}>)",
             controllers.models.HttpCode.logic_error,
         )

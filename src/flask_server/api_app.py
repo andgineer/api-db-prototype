@@ -15,6 +15,7 @@ from controllers.users.create import create_user
 from controllers.users.delete import delete_user
 from controllers.users.get import get_user
 from controllers.users.list import users_list
+from controllers.users.update import update_user
 from controllers.version import get_version
 from journaling import log
 from jwt_token import JWT_MIN_LENGTH, token
@@ -166,6 +167,12 @@ app.add_url_rule(
     "create_user",
     api(create_user, bparams=["new_user"]),
     methods=["POST"],
+)
+app.add_url_rule(
+    f"{API_ROOT_URL}/users/<string:user_id>",
+    "update_user",
+    api(update_user, bparams=["update_user"]),
+    methods=["PUT"],
 )
 app.add_url_rule(f"{API_ROOT_URL}/users", "users_list", api(users_list), methods=["GET"])
 app.add_url_rule(
