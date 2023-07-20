@@ -15,7 +15,7 @@ def _deserialize(data, klass):
     if data is None:
         return None
 
-    if klass in six.integer_types or klass in (float, str, bool):
+    if klass in (int, float, str, bool):
         return _deserialize_primitive(data, klass)
     elif klass == object:
         return _deserialize_object(data)
@@ -23,11 +23,13 @@ def _deserialize(data, klass):
         return deserialize_date(data)
     elif klass == datetime.datetime:
         return deserialize_datetime(data)
-    elif type(klass) == typing.GenericMeta:
-        if klass.__extra__ == list:
-            return _deserialize_list(data, klass.__args__[0])
-        if klass.__extra__ == dict:
-            return _deserialize_dict(data, klass.__args__[1])
+    elif typing.get_origin(klass) is not None:
+        origin = typing.get_origin(klass)
+        args = typing.get_args(klass)
+        if origin == list:
+            return _deserialize_list(data, args[0])
+        if origin == dict:
+            return _deserialize_dict(data, args[1])
     else:
         return deserialize_model(data, klass)
 
@@ -42,12 +44,9 @@ def _deserialize_primitive(data, klass):
     :rtype: int | long | float | str | bool
     """
     try:
-        value = klass(data)
-    except UnicodeEncodeError:
-        value = six.u(data)
-    except TypeError:
-        value = data
-    return value
+        return klass(data)
+    except (ValueError, TypeError):
+        return data
 
 
 def _deserialize_object(value):
@@ -102,15 +101,11 @@ def deserialize_model(data, klass):
     """
     instance = klass()
 
-    if not instance.openapi_types:
-        return data
+    if not hasattr(instance, 'openapi_types') or not instance.openapi_types:
+        return instance
 
     for attr, attr_type in six.iteritems(instance.openapi_types):
-        if (
-            data is not None
-            and instance.attribute_map[attr] in data
-            and isinstance(data, (list, dict))
-        ):
+        if data is not None and instance.attribute_map[attr] in data and isinstance(data, (list, dict)):
             value = data[instance.attribute_map[attr]]
             setattr(instance, attr, _deserialize(value, attr_type))
 
