@@ -1,5 +1,5 @@
 #!make
-VERSION := $(shell cat src/openapi_server/version.py | cut -d= -f2 | sed 's/\"//g; s/ //')
+VERSION := $(shell cat src/build_timestamp)
 export VERSION
 
 version:
