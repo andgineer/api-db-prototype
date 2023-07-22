@@ -6,8 +6,9 @@ from typing import Optional
 
 
 def version() -> Optional[str]:
+    """Return app version."""
     try:
-        return open("build_timestamp", "r").read().strip()
+        return open("build_timestamp", "r", encoding="utf8").read().strip()
     except Exception:
         return None
 

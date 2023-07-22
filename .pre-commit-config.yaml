@@ -2,7 +2,6 @@ exclude: |
     (?x)(
         tests/|
         stress/|
-        version.py|
         setup.py|
         src/alembic/|
         openapi_server/models/|
