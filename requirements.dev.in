@@ -6,6 +6,8 @@ pip-tools
 pytest-cov
 coveralls
 
+urllib3<1.27  # botocore req
+
 mypy
 types-python-dateutil
 types-requests

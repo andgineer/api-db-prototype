@@ -1,5 +1,5 @@
-# flask 2.3.2 needs Werkzeug>=2.3.3 but connexion 2.14.2 compatible with werkzeug<2.3
-flask==2.2.4
+flask<2.3  # connexion is not compatible with flask 2.3
+urllib3<1.27  # botocore req
 flask-restx
 Werkzeug
 flask-transmute

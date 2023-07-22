@@ -14,9 +14,9 @@ attrs==23.1.0
     #   jsonschema
     #   referencing
     #   transmute-core
-boto3==1.28.3
+boto3==1.28.9
     # via -r requirements.in
-botocore==1.31.3
+botocore==1.31.9
     # via
     #   boto3
     #   s3transfer
@@ -28,7 +28,7 @@ cffi==1.15.1
     # via cryptography
 charset-normalizer==3.2.0
     # via requests
-click==8.1.5
+click==8.1.6
     # via
     #   clickclick
     #   flask
@@ -38,7 +38,7 @@ connexion[swagger-ui]==2.14.2
     # via -r requirements.in
 cryptography==41.0.2
     # via -r requirements.in
-flask==2.2.4
+flask==2.2.5
     # via
     #   -r requirements.in
     #   connexion
@@ -66,14 +66,14 @@ jmespath==1.0.1
     # via
     #   boto3
     #   botocore
-jsonschema==4.18.3
+jsonschema==4.18.4
     # via
     #   connexion
     #   flask-restx
     #   swagger-schema
 jsonschema-extractor==2.0.2
     # via transmute-core
-jsonschema-specifications==2023.6.1
+jsonschema-specifications==2023.7.1
     # via jsonschema
 mako==1.2.4
     # via alembic
@@ -90,24 +90,24 @@ passwords==0.2.0
     # via -r requirements.in
 pycparser==2.21
     # via cffi
-pyjwt==2.7.0
+pyjwt==2.8.0
     # via -r requirements.in
 python-dateutil==2.8.2
     # via botocore
 pytz==2023.3
     # via flask-restx
-pyyaml==6.0
+pyyaml==6.0.1
     # via
     #   clickclick
     #   connexion
     #   transmute-core
-referencing==0.29.1
+referencing==0.30.0
     # via
     #   jsonschema
     #   jsonschema-specifications
 requests==2.31.0
     # via connexion
-rpds-py==0.8.10
+rpds-py==0.9.2
     # via
     #   jsonschema
     #   referencing
@@ -138,6 +138,7 @@ typing-extensions==4.7.1
     #   sqlalchemy
 urllib3==1.26.16
     # via
+    #   -r requirements.in
     #   botocore
     #   requests
 werkzeug==2.2.3
