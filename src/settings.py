@@ -34,6 +34,7 @@ TEST_LOG_CONFIG_FILE_PATH = "tests/resources/logging.yaml"
 class ConfigBase:
     """Base class for config."""
 
+    debug_mode = False
     jwt_secret_key_file: Optional[str] = None
     jwt_public_key_file: Optional[str] = None
 
@@ -123,6 +124,8 @@ class ConfigBase:
 class ConfigTest(ConfigBase):
     """Creates temp sqlite db."""
 
+    debug_mode = True
+
     def __init__(self) -> None:
         """Init."""
         super().__init__(TEST_LOG_CONFIG_FILE_PATH)
@@ -177,6 +180,8 @@ class ConfigDev(ConfigBase):
 
     Local sqlite DB.
     """
+
+    debug_mode = True
 
     def __init__(self) -> None:
         """Init."""

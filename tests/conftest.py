@@ -1,6 +1,6 @@
 import os
 
-os.environ["FLASK_ENV"] = "testing"  # set testing env before importing app
+os.environ["SERVER_ENV"] = "testing"  # set testing env before importing app
 import json
 from datetime import datetime, timedelta, timezone
 from unittest.mock import patch

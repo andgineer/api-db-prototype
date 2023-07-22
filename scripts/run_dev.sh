@@ -9,4 +9,4 @@ if [ ! -d "/var/log/adp/" ]; then
     sudo chown $(id -u) /var/log/adp
 fi
 
-cd src && FLASK_ENV=development python app.py
+cd src && SERVER_ENV=development python app.py

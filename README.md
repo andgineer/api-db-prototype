@@ -62,11 +62,11 @@ Visualization also available on [Swagger HUB](https://app.swaggerhub.com/apis/an
 See `settings.py`.
 
 For `Prod` config you should specify DB in `settings.py`.
-This config would be used by default (if no `FLASK_ENV` specified).
+This config would be used by default (if no `SERVER_ENV` specified).
 
 ### Deployment
 
-To run dev version `server$ FLASK_ENV=development python3.7 app.py`.
+To run dev version `server$ SERVER_ENV=development python3.7 app.py`.
 
 In production you should use something like
 [Gunicorn or uWsgi](http://flask.pocoo.org/docs/1.0/deploying/).

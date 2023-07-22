@@ -26,19 +26,19 @@ def setup_config(monkeypatch):
     monkeypatch.setattr(conn, "make_session", MockDBSession().make_session)
 
 @mock.patch('app.main')
-@mock.patch.dict(os.environ, {"FLASK_ENV": "development"})
+@mock.patch.dict(os.environ, {"SERVER_ENV": "development"})
 def test_main_in_development_env(main_mock):
     app.main()
     main_mock.assert_called_once()
 
 @mock.patch('app.main')
-@mock.patch.dict(os.environ, {"FLASK_ENV": "testing"})
+@mock.patch.dict(os.environ, {"SERVER_ENV": "testing"})
 def test_main_in_testing_env(main_mock):
     app.main()
     main_mock.assert_called_once()
 
 @mock.patch('app.main')
-@mock.patch.dict(os.environ, {"FLASK_ENV": "production"})
+@mock.patch.dict(os.environ, {"SERVER_ENV": "production"})
 def test_main_in_production_env(main_mock):
     app.main()
     main_mock.assert_called_once()
