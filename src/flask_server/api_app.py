@@ -4,9 +4,10 @@ All transport-specific code please put here.
 
 """
 import inspect
-from typing import Any, Callable, Dict, List, Optional, ParamSpec, TypeVar
+from typing import Any, Callable, Dict, List, Optional, ParamSpec, Tuple, TypeVar
 
 from flask import Blueprint, Flask, Response, request
+from flask_swagger_ui import get_swaggerui_blueprint
 
 import settings
 from controllers.models import APPNoTokenError, HttpCode
@@ -181,3 +182,33 @@ app.add_url_rule(
 app.add_url_rule(f"{API_ROOT_URL}/version", "get_version", get_version, methods=["GET"])
 
 app.register_blueprint(blueprint)
+
+
+# Route for serving the OpenAPI specification file
+@app.route("/swagger.yaml")
+def serve_openapi_spec() -> Tuple[str, int, Dict[str, Any]]:
+    """Generate Swagger UI base on Swagger spec."""
+    with open("openapi_server/openapi/openapi.yaml", "r", encoding="utf8") as file:
+        content = file.read()
+    return content, 200, {"Content-Type": "text/yaml"}
+
+
+SWAGGER_URL = "/docs"  # URL for exposing Swagger UI (without trailing '/')
+API_URL = "http://127.0.0.1:5000/swagger.yaml"
+
+# Call factory function to create our blueprint
+swaggerui_blueprint = get_swaggerui_blueprint(
+    SWAGGER_URL,  # Swagger UI static files will be mapped to '{SWAGGER_URL}/dist/'
+    API_URL,
+    config={"app_name": "Test application"},  # Swagger UI config overrides
+    # oauth_config={  # OAuth config. See https://github.com/swagger-api/swagger-ui#oauth2-configuration .
+    #    'clientId': "your-client-id",
+    #    'clientSecret': "your-client-secret-if-required",
+    #    'realm': "your-realms",
+    #    'appName': "your-app-name",
+    #    'scopeSeparator': " ",
+    #    'additionalQueryStringParams': {'test': "hello"}
+    # }
+)
+
+app.register_blueprint(swaggerui_blueprint)

@@ -1,5 +1,5 @@
 flask
-flask-transmute
+flask_swagger_ui
 connexion
 SQLAlchemy
 schematics

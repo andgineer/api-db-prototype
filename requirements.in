@@ -2,7 +2,7 @@ flask<2.3  # connexion is not compatible with flask 2.3
 urllib3<1.27  # botocore req
 flask-restx
 Werkzeug
-flask-transmute
+flask_swagger_ui
 connexion
 SQLAlchemy
 schematics

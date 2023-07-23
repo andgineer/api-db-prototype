@@ -13,7 +13,7 @@ import db.conn
 import db.models
 import settings
 from controllers.models import HttpCode
-from settings import ConfigTestConnexion, ConfigTestPureFlask, ConfigTestTransmute, ConfigTestWrong
+from settings import ConfigTestConnexion, ConfigTestPureFlask, ConfigTestWrong
 
 DEFAULT_USERS = 1  # pre-created admin@
 TEST_COVERAGE_REPORT_FILE = "pytest-coverage.txt"
@@ -41,7 +41,7 @@ def get_result_data(resp, expected_statuses=HttpCode.successes) -> dict:
 
 
 @pytest.fixture(
-    scope="function", params=[ConfigTestPureFlask, ConfigTestTransmute, ConfigTestConnexion]
+    scope="function", params=[ConfigTestPureFlask, ConfigTestConnexion]
 )
 def config(request):
     settings.config = request.param()

@@ -10,7 +10,7 @@ attrs==23.1.0
     # via hypothesis
 build==0.10.0
     # via pip-tools
-certifi==2023.5.7
+certifi==2023.7.22
     # via requests
 cfgv==3.3.1
     # via pre-commit
@@ -25,7 +25,7 @@ coverage[toml]==6.5.0
     #   pytest-cov
 coveralls==3.3.1
     # via -r requirements.dev.in
-dill==0.3.6
+dill==0.3.7
     # via pylint
 distlib==0.3.7
     # via virtualenv
@@ -35,7 +35,7 @@ filelock==3.12.2
     # via virtualenv
 hypothesis==6.82.0
     # via -r requirements.dev.in
-identify==2.5.25
+identify==2.5.26
     # via pre-commit
 idna==3.4
     # via requests
@@ -107,7 +107,7 @@ urllib3==1.26.16
     #   requests
 virtualenv==20.24.1
     # via pre-commit
-wheel==0.40.0
+wheel==0.41.0
     # via pip-tools
 wrapt==1.15.0
     # via astroid

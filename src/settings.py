@@ -11,7 +11,6 @@ from unittest.mock import MagicMock
 import journaling
 from flask_server.api_app import app as flask_app
 from openapi_server.api_app import app as connexion_app
-from transmute_server.api_app import app as transmute_app
 
 # environment vars
 DB_URI_ENV = "DB_URI"  # env var for DB URI (see ConfigBase.db_uri)
@@ -157,15 +156,6 @@ class ConfigTestPureFlask(ConfigTest):
         return flask_app
 
 
-class ConfigTestTransmute(ConfigTest):
-    """Creates temp sqlite db."""
-
-    @property
-    def app(self) -> Any:
-        """Flask-compatible App server."""
-        return transmute_app
-
-
 class ConfigTestConnexion(ConfigTest):
     """Creates temp sqlite db."""
 
@@ -193,7 +183,7 @@ class ConfigDev(ConfigBase):
     @property
     def app(self) -> Any:
         """Flask-compatible App server."""
-        return transmute_app
+        return flask_app
 
 
 class ConfigProd(ConfigBase):

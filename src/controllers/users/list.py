@@ -13,13 +13,13 @@ DEFAULT_ORDER_BY = "-createdDatetime"
 @api_result
 @transaction
 @token_to_auth_user
-def users_list(  # type: ignore  # transmute Swagger magic does not allow type hints
+def users_list(
     auth_user: AuthUser,
     email: str = None,  # type: ignore  # cannot use Optional because of Transmute auto-swagger magic
     per_page: int = PER_PAGE_DEFAULT,
     page: int = PAGE_DEFAULT,
-    order_by=DEFAULT_ORDER_BY,
-):
+    order_by: str = DEFAULT_ORDER_BY,
+) -> controllers.models.ApiResult:
     """Users list."""
     order_by_options = {
         "createddatetime": {"field": "createdDatetime", "model": db.models.User},
