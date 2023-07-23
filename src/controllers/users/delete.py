@@ -2,7 +2,7 @@ import db.conn
 import db.models
 from controllers.auth import AuthUser
 from controllers.helper import api_result, token_to_auth_user, transaction
-from controllers.models import HttpCode
+from controllers.models import ApiResult, HttpCode
 from journaling import log
 
 
@@ -10,7 +10,7 @@ from journaling import log
 @api_result
 @transaction
 @token_to_auth_user
-def delete_user(auth_user: AuthUser, user_id: str):  # type: ignore  # transmute Swagger magic does not allow type hints
+def delete_user(auth_user: AuthUser, user_id: str) -> ApiResult:
     """Delete user.
 
     Returns deleted user id.

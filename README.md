@@ -6,6 +6,15 @@ Implements API server with different frameworks
 * Swagger codegen (connexion)
 * Pure flask with flask_swagger_ui for Swagger UI
 
+# Swagger UI
+
+- Open `127.0.0.1:5000/docs`
+- Execute `Auth` with user `admin@`, password `admin`
+- Press green button `Authorize` and copy there the token from result of `auth`
+
+After that you play with the API (`Try it out` button), Swagger API will automatically add the security token
+to all API calls.
+
 ## Folder overview
 * `create_keys.sh` - to create key and sertificate in `secret/`
 * `db_migration.sh` - creates migration script in `alembic/versions/`
@@ -44,9 +53,6 @@ Libraries:
 
 To create objects in empty DB use `db_create.sh`.
 The DB connect string is in `src/config.py`.
-
-For `Flask` flavor of the app, API description generated as
-`localhost:5000/docs`.
 
 ### Open API (swagger)
 You can convert the swagger file `api/swagger.yaml` into document at
