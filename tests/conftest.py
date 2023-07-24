@@ -27,9 +27,7 @@ def headers(token):
 
 
 def get_result_data(resp, expected_statuses=HttpCode.successes) -> dict:
-    """
-    Parse reply body as json and checks ['success']
-    """
+    """Parse reply body as json and checks ['success']."""
     if resp.data:
         result = json.loads(resp.data)
     else:
@@ -81,9 +79,7 @@ def flask_config(request):
 
 @pytest.fixture(scope="function")
 def flask_client(flask_config):
-    """
-    For flask-only tests
-    """
+    """Flask-only tests."""
     db.conn.make_session()
     client = settings.config.app.test_client()
     ctx = settings.config.app.test_request_context()
@@ -114,9 +110,7 @@ def now_plus_two():
 
 @pytest.fixture(scope="session")
 def users():
-    """
-    List of user's dicts
-    """
+    """List of user's dicts."""
     return [
         {"name": "Cathy", "email": "cathy@", "group": "guest", "password": "12345"},
         {"name": "Marry", "email": "marry@", "group": "guest", "password": "12345"},
@@ -134,9 +128,7 @@ def users():
     ],
 )
 def nopassword_user(request):
-    """
-    User without password
-    """
+    """User without password."""
     return request.param()
 
 
@@ -151,9 +143,7 @@ def nopassword_user(request):
     ],
 )
 def admin_user(request):
-    """
-    Default admin user
-    """
+    """Default admin user."""
     return request.param()
 
 
@@ -168,9 +158,7 @@ def admin_user(request):
     ],
 )
 def full_user(request):
-    """
-    Full-type user
-    """
+    """Full-type user."""
     return request.param()
 
 
@@ -185,9 +173,7 @@ def full_user(request):
     ],
 )
 def demo_user(request):
-    """
-    demo-type user
-    """
+    """Demo-type user."""
     return request.param()
 
 
@@ -214,43 +200,33 @@ def user(request):
     ],
 )
 def wrong_user(request):
-    """
-    Wrong user's dict (without password, with fields not in spec like 'id')
-    """
+    """Wrong user's dict (without password, with fields not in spec like 'id')."""
     return request.param()
 
 
 @pytest.fixture(scope="function")
 def admin_token(api_client):
-    """
-    JWT for admin
-    """
+    """JWT for admin."""
     return api.get_token(email="admin@", password="admin")
 
 
 @pytest.fixture(scope="function")
 @patch("settings.config.now")
 def admin_token_for_life(mock_now, api_client):
-    """
-    JWT for admin valid for long time
-    """
+    """JWT for admin valid for long time."""
     mock_now.return_value = datetime.now(timezone.utc) + timedelta(days=7)
     return api.get_token(email="admin@", password="admin")
 
 
 @pytest.fixture(scope="function")
 def full_token(api_client, full_user, admin_token):
-    """
-    JWT for full user (non-admin)
-    """
+    """JWT for full user (non-admin)."""
     api.create_user(admin_token, full_user)
     return api.get_token(email=full_user["email"], password=full_user["password"])
 
 
 @pytest.fixture(scope="function")
 def demo_token(api_client, demo_user, admin_token):
-    """
-    JWT for demo user (non-admin)
-    """
+    """JWT for demo user (non-admin)."""
     api.create_user(admin_token, demo_user)
     return api.get_token(email=demo_user["email"], password=demo_user["password"])

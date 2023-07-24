@@ -11,15 +11,10 @@ from journaling import log
     max_examples=10, deadline=None, suppress_health_check=[HealthCheck.function_scoped_fixture]
 )
 def test_delete_fail(user_id, admin_token):
-    """
-    Tries to delete user in empty DB.
-    """
+    """Delete user in empty DB."""
     data = api.users_list(admin_token)
-    log.debug("empty db users " + str(data))
-    existed_users = set()
-    for user in data:
-        existed_users.add(user["id"])
-    log.debug("existed id " + str(existed_users))
-    while str(user_id) in existed_users:
-        user_id += 1
-    api.delete_user(admin_token, user_id, expected_statuses=[400])
+    log.debug(f"empty db users {str(data)}")
+    existing_user_ids = {user["id"] for user in data}
+    log.debug(f"existed id {existing_user_ids}")
+    non_existing_user_id = max((int(id) for id in existing_user_ids), default=user_id) + 1
+    api.delete_user(admin_token, non_existing_user_id, expected_statuses=[400])
