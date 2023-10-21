@@ -2,9 +2,34 @@
 [![Test coverage](https://coveralls.io/repos/github/andgineer/api-db-prototype/badge.svg?branch=master)](https://coveralls.io/github/andgineer/api-db-prototype?branch=master)
 # Prototype for API server
 
-Implements API server with different frameworks
-* Swagger codegen (connexion)
-* Pure flask with flask_swagger_ui for Swagger UI
+This project is an experimental implementation of an API server using different approaches:
+
+## Approaches:
+
+1. **Swagger Codegen (Connexion) - Spec First:**
+2. **Flask - Code First:**
+
+In both cases we use SQLAlchemy for DB access.
+And provide Swagger UI for API documentation (in case of Flask with flask_swagger_ui).
+
+## Common Controllers:
+
+In this project, there is an effort to create common controllers shared between the two approaches.
+Due to this, typed requests and responses are not used, as common controllers can be challenging
+to adapt to both spec-first and code-first approaches.
+
+## Real-World Considerations:
+
+In a real-world project, it is advisable to choose a single approach and use it consistently.
+
+However, this experiment explores different methods to showcase their strengths and weaknesses.
+
+Frameworks like FastAPI and LiteStar utilize Python type hinting to automatically generate
+API specifications and generate Python code from API specs.
+This simplifies API development by leveraging type hints for documentation and code generation.
+
+By understanding the pros and cons of each approach, developers can make informed decisions
+when selecting the most suitable method for their projects.
 
 # Swagger UI
 
