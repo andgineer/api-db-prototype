@@ -29,15 +29,15 @@ codegen:
 create-keys:
 	scripts/create_keys.sh
 
-.HELP: db_migration  ## Create migration script in alembic/versions/
+.HELP: db-migration  ## Create migration script in alembic/versions/
 db-migration:
 	scripts/db_migration.sh
 
-.HELP: db_show_migration_sql  ## Show migration script as SQL
-db_show_migration_sql:
+.HELP: db-show-migration  ## Show migration script as SQL
+db-show-migration:
 	scripts/db_show_migration_sql.sh
 
-.HELP: db_upgrade  ## Run migrations from alembic/versions/
+.HELP: db-upgrade  ## Run migrations from alembic/versions/
 db-upgrade:
 	scripts/db_upgrade.sh
 
@@ -65,11 +65,11 @@ psql:
 test:
 	scripts/test.sh
 
-.HELP: smoke_test  ## Quick curl test (request JWT and after that user list with it)
+.HELP: smoke-test  ## Quick curl test (request JWT and after that user list with it)
 smoke-test:
 	scripts/smoke_test.sh
 
-.HELP: git_hook_install  ## Install git hook to add 'build' date to application
+.HELP: git-hook-install  ## Install git hook to add 'build' date to application
 git-hook-install:
 	scripts/git_hook_install.sh
 
