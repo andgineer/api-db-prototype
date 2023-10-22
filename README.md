@@ -130,7 +130,7 @@ This config would be used by default (if no `SERVER_ENV` specified).
 
 For web token crypto server uses keys from files configured in the config
 object.
-Default is `sever/security` folder.
+Default is `secret/`.
 
 Example how to recreate keys see in `create_keys.sh`.
 Private key is for token issuing.
