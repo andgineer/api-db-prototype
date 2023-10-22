@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Creates key and sertificate in secret/
+# Creates key and certificate in secret/
 #
 
 OUT_FOLDER=server/secret
