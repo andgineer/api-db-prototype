@@ -10,7 +10,7 @@ This project is an experimental implementation of an API server using different 
 2. **Flask - Code First**
 
 In both cases we use SQLAlchemy for DB access and Alembic for DB versioning, implement JWT auth.
-And provide Swagger.
+And provide Swagger UI.
 
 ## Common Controllers
 
