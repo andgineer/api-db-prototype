@@ -99,8 +99,8 @@ The DB connect string is in `src/settings.py`.
 Other DB-related commands
 
     make db-upgrade
-    db-show-migration
-    db-migration
+    make db-show-migration
+    make db-migration
 
 ## Libraries
 
