@@ -27,7 +27,6 @@ However, this experiment explores different methods to showcase their strengths 
 
 Frameworks like FastAPI and LiteStar utilize Python type hinting to automatically generate
 API specifications.
-This simplifies API development by using type hints for both documentation and code generation.
 
 In contrast, Connexion generates Python code from API specs, requiring you to develop the API specification first.
 
