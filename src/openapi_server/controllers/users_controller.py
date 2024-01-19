@@ -25,7 +25,7 @@ def extract_token(authorization: str) -> Dict[str, Any]:
     # get in from Authorization header like "Bearer <token>" or just "<token>"
     authorization = authorization if len(authorization.split()) < 2 else authorization.split()[1]
     # decode JWT payload where we pass email and group, check JWT validity
-    return token.decode(authorization)  # type: ignore
+    return token.decode(authorization)
 
 
 def get_token(user_credentials: UserCredentials = None) -> Dict[str, Any]:
@@ -35,7 +35,7 @@ def get_token(user_credentials: UserCredentials = None) -> Dict[str, Any]:
     """
     if connexion.request.is_json:
         user_credentials = UserCredentials.from_dict(connexion.request.get_json())
-    return controllers.users.auth.get_token(  # type: ignore  # pylint: disable=c-extension-no-member
+    return controllers.users.auth.get_token(
         user_credentials.email, user_credentials.password
     )
 
@@ -48,7 +48,7 @@ def create_user(body: Dict[str, Any]) -> ApiResult:
     authorization = connexion.request.headers["Authorization"]
     new_user = body.get("new_user", body)
 
-    return controllers.users.create.create_user(  # pylint: disable=c-extension-no-member,no-value-for-parameter
+    return controllers.users.create.create_user(
         auth_token=extract_token(authorization), new_user=new_user
     )
 
@@ -56,12 +56,12 @@ def create_user(body: Dict[str, Any]) -> ApiResult:
 def get_user(userId: str) -> ApiResult:
     """Get info for a specific user."""
     authorization = connexion.request.headers["Authorization"]
-    return controllers.users.get.get_user(  # pylint: disable=c-extension-no-member,no-value-for-parameter
+    return controllers.users.get.get_user(
         auth_token=extract_token(authorization), user_id=userId
     )
 
 
-def list_users(per_page: int = PER_PAGE_DEFAULT, page: int = PAGE_DEFAULT) -> ApiResult:  # noqa: E501
+def list_users(per_page: int = PER_PAGE_DEFAULT, page: int = PAGE_DEFAULT) -> ApiResult:
     """List all users.
 
     :param page: Page number of results to return.
@@ -72,7 +72,7 @@ def list_users(per_page: int = PER_PAGE_DEFAULT, page: int = PAGE_DEFAULT) -> Ap
     :rtype: Users
     """
     authorization = connexion.request.headers["Authorization"]
-    return controllers.users.list.users_list(  # pylint: disable=c-extension-no-member,no-value-for-parameter
+    return controllers.users.list.users_list(
         auth_token=extract_token(authorization), page=page, per_page=per_page
     )
 
@@ -81,18 +81,18 @@ def update_user(userId: str, body: Dict[str, Any]) -> ApiResult:
     """Update details of particular user."""
     authorization = connexion.request.headers["Authorization"]
     update_user_dict = body.get("update_user", body)
-    return controllers.users.update.update_user(  # pylint: disable=c-extension-no-member,no-value-for-parameter
+    return controllers.users.update.update_user(
         auth_token=extract_token(authorization), user_id=userId, update_user=update_user_dict
     )
 
 
-def delete_user(userId: str) -> ApiResult:  # noqa: E501
+def delete_user(userId: str) -> ApiResult:
     """Delete the user.
 
     :param userId: The id of the user to delete
     :type userId: str
     """
     authorization = connexion.request.headers["Authorization"]
-    return controllers.users.delete.delete_user(  # pylint: disable=c-extension-no-member,no-value-for-parameter
+    return controllers.users.delete.delete_user(
         auth_token=extract_token(authorization), user_id=userId
     )

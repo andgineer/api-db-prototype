@@ -5,6 +5,7 @@ exclude: |
         setup.py|
         src/alembic/|
         openapi_server/models/|
+        openapi_server/controllers/|
         openapi_server/util.py|
         openapi_server/__main__.py|
         openapi_server/apikey_fake.py
