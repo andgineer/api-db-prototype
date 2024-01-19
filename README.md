@@ -14,7 +14,7 @@
 | src/controllers/users/auth.py                        |       25 |        2 |     92% |     27-28 |
 | src/controllers/users/create.py                      |       22 |        0 |    100% |           |
 | src/controllers/users/delete.py                      |       19 |        1 |     95% |        19 |
-| src/controllers/users/get.py                         |       16 |        2 |     88% |    18, 21 |
+| src/controllers/users/get.py                         |       16 |        2 |     88% |    19, 22 |
 | src/controllers/users/list.py                        |       42 |        7 |     83% |35, 40, 42, 48-51 |
 | src/controllers/users/update.py                      |       24 |        2 |     92% |    21, 26 |
 | src/controllers/version.py                           |        7 |        4 |     43% |      8-11 |
