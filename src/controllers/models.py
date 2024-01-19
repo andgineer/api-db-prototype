@@ -136,7 +136,9 @@ class EnumType(BaseType):  # type: ignore
         return random.choice(list(self.enum.__members__))
 
     def to_native(
-        self, value: Union[enum.Enum, str], context: Any = None  # pylint: disable=unused-argument
+        self,
+        value: Union[enum.Enum, str],
+        context: Any = None,  # pylint: disable=unused-argument
     ) -> enum.Enum:
         """Convert to native.
 
@@ -160,7 +162,9 @@ class EnumType(BaseType):  # type: ignore
             raise ConversionError(self.messages["convert"].format(value)) from e
 
     def to_primitive(
-        self, value: enum.Enum, context: Any = None  # pylint: disable=unused-argument
+        self,
+        value: enum.Enum,
+        context: Any = None,  # pylint: disable=unused-argument
     ) -> Union[str, int]:
         """Convert to primitive."""
         return value.value  # type: ignore

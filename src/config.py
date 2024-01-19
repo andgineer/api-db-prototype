@@ -42,8 +42,8 @@ def load(config: Dict[str, Any], obj: Optional[Any] = None, _prefix: Optional[st
         obj = Config()
     if last_loaded is None:
         last_loaded = {}
-    assert hasattr(obj, "__dict__") or isinstance(
-        obj, object
+    assert (
+        hasattr(obj, "__dict__") or isinstance(obj, object)
     ), "obj should be Python3-style object subclass without __slots__ and not internal types like dict."
     if not isinstance(config, collections.abc.Mapping):
         raise ValueError(f"Bad config:\n{str(config)[:100]}\n")

@@ -20,6 +20,7 @@ True
 
 """
 from typing import Any, Callable, Union
+import time
 
 time_ns: Callable[[], int]  # for Python3.7+ this is function from system library time
 # for earlier Python versions this is emulation of the Python3.7 time_ns
@@ -74,8 +75,6 @@ class Timer:
         """Return elapsed time in human lovable form."""
         return pretty_ns(self.ns)
 
-
-import time
 
 try:
     time_ns = time.time_ns

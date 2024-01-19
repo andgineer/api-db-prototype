@@ -17,5 +17,5 @@ def get_user(auth_user: AuthUser, user_id: str) -> Dict[str, Any]:
     if not auth_user.is_admin:
         return "Only admin can get info about user", HttpCode.unauthorized  # type: ignore
     if user := db.models.User.by_id(user_id):
-        return controllers.models.User().from_orm(user).as_dict
+        return controllers.models.User().from_orm(user).as_dict  # type: ignore  # pylint: disable=c-extension-no-member
     return f"No user with id={user_id}", HttpCode.logic_error  # type: ignore

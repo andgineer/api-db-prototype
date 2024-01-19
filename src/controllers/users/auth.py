@@ -16,7 +16,9 @@ from jwt_token import JWT_CREATED, JWT_EXPIRATION, token
 @api_result
 @transaction
 def get_token(
-    email: str, password: str, auth_token: Any = None  # pylint: disable=unused-argument
+    email: str,
+    password: str,
+    auth_token: Any = None,  # pylint: disable=unused-argument
 ) -> Dict[str, Any]:  # todo: remove auth_token
     """Return {"token": <JWT for the email/password>}."""
     assert settings.config

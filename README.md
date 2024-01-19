@@ -1,5 +1,5 @@
 [![Build Status](https://github.com/andgineer/api-db-prototype/workflows/ci/badge.svg)](https://github.com/andgineer/api-db-prototype/actions)
-[![Test coverage](https://coveralls.io/repos/github/andgineer/api-db-prototype/badge.svg?branch=master)](https://coveralls.io/github/andgineer/api-db-prototype?branch=master)
+[![Coverage](https://raw.githubusercontent.com/andgineer/api-db-prototype/python-coverage-comment-action-data/badge.svg)](https://htmlpreview.github.io/?https://github.com/andgineer/api-db-prototype/blob/python-coverage-comment-action-data/htmlcov/index.html)
 # API server experiment
 
 This project is an experimental implementation of an API server using different approaches.
@@ -151,3 +151,7 @@ In production you should use something like
 [Gunicorn or uWsgi](http://flask.pocoo.org/docs/1.0/deploying/).
 
 See example in `prod.sh` and `Dockerfile`.
+
+## Coverage report
+* [Codecov](https://app.codecov.io/gh/andgineer/api-db-prototype/tree/master/src)
+* [Coveralls](https://coveralls.io/github/andgineer/api-db-prototype)
