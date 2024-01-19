@@ -13,7 +13,7 @@ reqs:
 	pip install -r requirements.txt
 	pip install -r requirements.dev.txt
 
-.HELP: test  ## Run the tests
+.HELP: test  ## Run tests (you can use -k or -m to filter them by name or by mark respectively)
 test:
 	scripts/test.sh
 
@@ -60,10 +60,6 @@ prod:
 .HELP: psql  ## Run PostgreSQL CLI
 psql:
 	scripts/psql.sh
-
-.HELP: test  ## Run tests (you can use -k or -m to filter them by name or by mark respectively)
-test:
-	scripts/test.sh
 
 .HELP: smoke-test  ## Quick curl test (request JWT and after that user list with it)
 smoke-test:

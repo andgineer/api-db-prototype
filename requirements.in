@@ -8,7 +8,7 @@ SQLAlchemy
 schematics
 pyjwt
 passlib
-cryptography
+cryptography>=41.0.3
 boto3
 passwords
 alembic

@@ -2,6 +2,8 @@
 echo
 echo "Run developer version of api server"
 echo
+echo "May ask for sudo password"
+echo
 
 # we use prod settings with logs in `/var` so sudo
 if [ ! -d "/var/log/adp/" ]; then
