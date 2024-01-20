@@ -60,6 +60,7 @@ def api_client(request, config):
         yield None  # do not auto-use for tests marked as no_auto_client
         return  # empty test tear-down
     db.conn.make_session()
+    settings.config.app.testing = True
     client = settings.config.app.test_client()
     ctx = settings.config.app.test_request_context()
     ctx.push()

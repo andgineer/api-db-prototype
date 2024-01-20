@@ -46,8 +46,10 @@ def test_deserialize():
     assert _deserialize({'value': '1'}, DummyModel).value == 1
 
     # Test exceptions in _deserialize_primitive
-    assert _deserialize("abc", int) == "abc"
-    assert _deserialize("abc", float) == "abc"
+    with pytest.raises(ValueError):
+        _deserialize("abc", int)
+    with pytest.raises(ValueError):
+        _deserialize("abc", float)
     assert _deserialize(u"abc", str) == "abc"
 
     # Test for list of model
@@ -67,10 +69,11 @@ def test_deserialize():
         def __init__(self):
             self.value = None
 
-    result = _deserialize('data', DummyModelNoOpenAPI)
-
-    assert isinstance(result, DummyModelNoOpenAPI)
-    assert result.value is None
+    with pytest.raises(AttributeError):
+        result = _deserialize('data', DummyModelNoOpenAPI)
+    # obsolete - old version worked also with ValueError
+    # assert isinstance(result, DummyModelNoOpenAPI)
+    # assert result.value is None
 
 
 def test_deserialize_model():

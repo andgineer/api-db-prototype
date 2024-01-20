@@ -1,18 +1,17 @@
+# test
 pytest
 coverage
 hypothesis
-pip-tools
-
 pytest-cov
 coveralls
+flask_testing
+
+# build
+pip-tools
 
 urllib3
 
+# linter
 mypy
-types-python-dateutil
-types-requests
-types-six
-types-PyYAML
 pylint
-pydocstyle
 pre-commit

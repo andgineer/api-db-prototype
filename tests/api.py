@@ -90,7 +90,7 @@ def parse_api_reply(resp, expected_statuses=HttpCode.successes) -> dict:
         result = None
     assert (
         resp.status_code in expected_statuses
-    ), f"API request result with unxpected status {resp.status_code}: {data}"
+    ), f"API request result with unexpected status {resp.status_code}: {data}"
     return result
 
 

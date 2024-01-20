@@ -5,6 +5,7 @@ They proxy to our application logic handlers in controllers folder.
 from typing import Any, Dict
 
 import connexion
+from connexion.frameworks import starlette
 
 import controllers.models
 import controllers.users.auth
@@ -15,7 +16,10 @@ import controllers.users.list
 import controllers.users.update
 from controllers.models import PAGE_DEFAULT, PER_PAGE_DEFAULT, ApiResult
 from jwt_token import token
+from openapi_server.models import Token
+from openapi_server.models.new_user import NewUser
 from openapi_server.models.user_credentials import UserCredentials
+from flask import Response
 
 # todo use swagger auth not hack with header extraction
 
@@ -28,36 +32,36 @@ def extract_token(authorization: str) -> Dict[str, Any]:
     return token.decode(authorization)
 
 
-def get_token(user_credentials: UserCredentials = None) -> Dict[str, Any]:
+def get_token(body: Dict[str, Any]) -> Dict[str, Any]:
     """Get access token for the user.
 
     Validate user credentials with DB and return JWT token for the user.
     """
-    if connexion.request.is_json:
-        user_credentials = UserCredentials.from_dict(connexion.request.get_json())
-    return controllers.users.auth.get_token(
-        user_credentials.email, user_credentials.password
-    )
+    creds = UserCredentials.from_dict(body)
+    return Token(
+        controllers.users.auth.get_token(
+            creds.email, creds.password
+        )
+    ).to_dict()
 
 
-def create_user(body: Dict[str, Any]) -> ApiResult:
+def create_user(body: Dict[str, Any]) -> Dict[str, Any]:
     """Create a user.
 
     Return {"id": <user_id>} or (<error message>, <HTTP code>).
     """
     authorization = connexion.request.headers["Authorization"]
-    new_user = body.get("new_user", body)
-
+    new_user = NewUser.from_dict(body)
     return controllers.users.create.create_user(
         auth_token=extract_token(authorization), new_user=new_user
     )
 
 
-def get_user(userId: str) -> ApiResult:
+def get_user(user_id: str) -> ApiResult:
     """Get info for a specific user."""
     authorization = connexion.request.headers["Authorization"]
     return controllers.users.get.get_user(
-        auth_token=extract_token(authorization), user_id=userId
+        auth_token=extract_token(authorization), user_id=user_id
     )
 
 

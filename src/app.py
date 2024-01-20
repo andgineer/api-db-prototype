@@ -15,6 +15,7 @@ if app_env == TESTING_ENV:
 elif app_env == DEV_ENV:
     settings.config = settings.ConfigDev()
 else:
+    print("Using production config")
     settings.config = settings.ConfigProd()
 
 app = settings.config.app

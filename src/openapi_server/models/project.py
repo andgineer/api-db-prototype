@@ -6,7 +6,7 @@ from datetime import date, datetime  # noqa: F401
 from typing import Dict, List, Optional  # noqa: F401
 
 from openapi_server import util
-from openapi_server.models.base_model_ import Model
+from openapi_server.models.base_model import Model
 from openapi_server.models.new_project import NewProject  # noqa: F401,E501
 
 

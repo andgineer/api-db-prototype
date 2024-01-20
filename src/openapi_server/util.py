@@ -1,7 +1,7 @@
 import datetime
-import typing
 
-import six
+import typing
+from openapi_server import typing_utils
 
 
 def _deserialize(data, klass):
@@ -15,7 +15,7 @@ def _deserialize(data, klass):
     if data is None:
         return None
 
-    if klass in (int, float, str, bool):
+    if klass in (int, float, str, bool, bytearray):
         return _deserialize_primitive(data, klass)
     elif klass == object:
         return _deserialize_object(data)
@@ -23,13 +23,11 @@ def _deserialize(data, klass):
         return deserialize_date(data)
     elif klass == datetime.datetime:
         return deserialize_datetime(data)
-    elif typing.get_origin(klass) is not None:
-        origin = typing.get_origin(klass)
-        args = typing.get_args(klass)
-        if origin == list:
-            return _deserialize_list(data, args[0])
-        if origin == dict:
-            return _deserialize_dict(data, args[1])
+    elif typing_utils.is_generic(klass):
+        if typing_utils.is_list(klass):
+            return _deserialize_list(data, klass.__args__[0])
+        if typing_utils.is_dict(klass):
+            return _deserialize_dict(data, klass.__args__[1])
     else:
         return deserialize_model(data, klass)
 
@@ -44,9 +42,12 @@ def _deserialize_primitive(data, klass):
     :rtype: int | long | float | str | bool
     """
     try:
-        return klass(data)
-    except (ValueError, TypeError):
-        return data
+        value = klass(data)
+    except UnicodeEncodeError:
+        value = data
+    except TypeError:
+        value = data
+    return value
 
 
 def _deserialize_object(value):
@@ -65,9 +66,11 @@ def deserialize_date(string):
     :return: date.
     :rtype: date
     """
+    if string is None:
+      return None
+    
     try:
         from dateutil.parser import parse
-
         return parse(string).date()
     except ImportError:
         return string
@@ -83,9 +86,11 @@ def deserialize_datetime(string):
     :return: datetime.
     :rtype: datetime
     """
+    if string is None:
+      return None
+    
     try:
         from dateutil.parser import parse
-
         return parse(string)
     except ImportError:
         return string
@@ -101,11 +106,13 @@ def deserialize_model(data, klass):
     """
     instance = klass()
 
-    if not hasattr(instance, 'openapi_types') or not instance.openapi_types:
-        return instance
+    if not instance.openapi_types:
+        return data
 
-    for attr, attr_type in six.iteritems(instance.openapi_types):
-        if data is not None and instance.attribute_map[attr] in data and isinstance(data, (list, dict)):
+    for attr, attr_type in instance.openapi_types.items():
+        if data is not None \
+                and instance.attribute_map[attr] in data \
+                and isinstance(data, (list, dict)):
             value = data[instance.attribute_map[attr]]
             setattr(instance, attr, _deserialize(value, attr_type))
 
@@ -122,7 +129,8 @@ def _deserialize_list(data, boxed_type):
     :return: deserialized list.
     :rtype: list
     """
-    return [_deserialize(sub_data, boxed_type) for sub_data in data]
+    return [_deserialize(sub_data, boxed_type)
+            for sub_data in data]
 
 
 def _deserialize_dict(data, boxed_type):
@@ -135,4 +143,5 @@ def _deserialize_dict(data, boxed_type):
     :return: deserialized dict.
     :rtype: dict
     """
-    return {k: _deserialize(v, boxed_type) for k, v in six.iteritems(data)}
+    return {k: _deserialize(v, boxed_type)
+            for k, v in data.items() }

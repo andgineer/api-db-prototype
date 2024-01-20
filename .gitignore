@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 .ruff_cache/
+swagger-codegen/
 
 # C extensions
 *.so

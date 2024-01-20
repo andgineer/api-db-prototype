@@ -22,30 +22,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Token'
           description: Successful operation
-        400:
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: No user with such email
-        403:
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Invalid email/password
-        500:
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal server error
-        501:
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Wrong request
       summary: Get access token for the user
       tags:
       - users
@@ -71,36 +47,12 @@ paths:
           type: string
         style: form
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Users'
           description: Successful operation
-        401:
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: No user token
-        403:
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Operation is not permitted for the user
-        500:
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal server error
-        501:
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Wrong request
       security:
       - JWTBearer: []
       summary: List all users
@@ -116,36 +68,12 @@ paths:
               $ref: '#/components/schemas/NewUser'
         required: true
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/NewUserResponse'
           description: Successful operation
-        401:
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: No user token
-        403:
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Operation is not permitted for the user
-        500:
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal server error
-        501:
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Wrong request
       security:
       - JWTBearer: []
       summary: Create a user
@@ -165,36 +93,12 @@ paths:
           type: string
         style: simple
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Empty'
           description: Successful operation
-        401:
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: No user token
-        403:
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Operation is not permitted for the user
-        500:
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal server error
-        501:
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Wrong request
       security:
       - JWTBearer: []
       summary: Delete the user
@@ -213,36 +117,12 @@ paths:
           type: string
         style: simple
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
           description: Successful operation
-        401:
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: No user token
-        403:
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Operation is not permitted for the user
-        500:
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal server error
-        501:
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Wrong request
       security:
       - JWTBearer: []
       summary: Get info for a specific user
@@ -267,36 +147,12 @@ paths:
               $ref: '#/components/schemas/UpdateUser'
         required: true
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Empty'
           description: Successful operation
-        401:
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: No user token
-        403:
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Operation is not permitted for the user
-        500:
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal server error
-        501:
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Wrong request
       security:
       - JWTBearer: []
       summary: Update details of particular user
@@ -305,25 +161,25 @@ paths:
       x-openapi-router-controller: openapi_server.controllers.users_controller
 components:
   responses:
-    401:
+    "401":
       content:
         '*/*':
           schema:
             $ref: '#/components/schemas/Error'
       description: No user token
-    403:
+    "403":
       content:
         '*/*':
           schema:
             $ref: '#/components/schemas/Error'
       description: Operation is not permitted for the user
-    500:
+    "500":
       content:
         '*/*':
           schema:
             $ref: '#/components/schemas/Error'
       description: Internal server error
-    501:
+    "501":
       content:
         '*/*':
           schema:
@@ -336,9 +192,12 @@ components:
         email: email
       properties:
         email:
+          title: email
           type: string
         password:
+          title: password
           type: string
+      title: UserCredentials
       type: object
     Token:
       example:
@@ -346,7 +205,9 @@ components:
       properties:
         token:
           description: User jwt token
+          title: token
           type: string
+      title: Token
       type: object
     Users:
       items:
@@ -356,25 +217,33 @@ components:
       example:
         name: name
         email: email
+        group: null
       properties:
         group:
           $ref: '#/components/schemas/UserGroup'
         email:
+          title: email
           type: string
         name:
+          title: name
           type: string
+      title: UserShort
       type: object
     UpdateUser:
       example:
         name: name
         email: email
+        group: null
       properties:
         group:
           $ref: '#/components/schemas/UserGroup'
         email:
+          title: email
           type: string
         name:
+          title: name
           type: string
+      title: UpdateUser
       type: object
     NewUser:
       $ref: '#/components/schemas/UpdateUser'
@@ -385,11 +254,18 @@ components:
           id:
             type: string
         type: object
+      example:
+        name: name
+        id: id
+        email: email
+        group: null
+      title: User
     UserGroup:
       enum:
       - admin
       - full
       - guest
+      title: UserGroup
       type: string
     NewUserResponse:
       example:
@@ -397,17 +273,23 @@ components:
       properties:
         id:
           description: ID of the created user
+          title: id
           type: string
       required:
       - id
+      title: NewUserResponse
       type: object
     Empty:
       type: object
     Error:
+      example:
+        status: status
       properties:
         status:
           description: error message
+          title: status
           type: string
+      title: Error
       type: object
   securitySchemes:
     JWTBearer:

@@ -162,7 +162,7 @@ class ConfigTestConnexion(ConfigTest):
     @property
     def app(self) -> Any:
         """Flask-compatible App server."""
-        return connexion_app.app
+        return connexion_app
 
 
 class ConfigDev(ConfigBase):
@@ -202,7 +202,7 @@ class ConfigProd(ConfigBase):
     @property
     def app(self) -> Any:
         """Flask-compatible App server."""
-        return flask_app
+        return connexion_app
 
 
 class ConfigTestWrong(ConfigBase):
