@@ -1,12 +1,12 @@
 from typing import Any, Dict
 
 import six
-from connexion.apps.flask_app import FlaskJSONEncoder
+from connexion.frameworks.flask import FlaskJSONProvider
 
 from openapi_server.models.base_model_ import Model
 
 
-class JSONEncoder(FlaskJSONEncoder):  # type: ignore
+class JSONEncoder(FlaskJSONProvider):  # type: ignore
     """JSON encoder for Connexion with support for marshmallow schemas."""
 
     include_nulls = False
@@ -14,7 +14,7 @@ class JSONEncoder(FlaskJSONEncoder):  # type: ignore
     def default(self, o: Any) -> Dict[str, Any]:
         """Convert object to dict."""
         if not isinstance(o, Model):
-            return FlaskJSONEncoder.default(self, o)  # type: ignore
+            return FlaskJSONProvider.default(self, o)  # type: ignore
         dikt = {}
         for attr, _ in six.iteritems(o.openapi_types):
             value = getattr(o, attr)

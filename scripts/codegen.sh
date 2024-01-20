@@ -19,7 +19,7 @@ echo "Modify $SRV/controllers by yourself based on generated ones in $OUT/contro
 
 # Generate Python's clients
 mkdir -p $OUT
-docker run --rm -it -v ${PWD}:/local openapitools/openapi-generator-cli generate -i /local/$IN -g python-flask -o /local/$OUT
+docker run --rm -it -v ${PWD}:/local openapitools/openapi-generator-cli generate --generator-key v3.0 -i /local/$IN -g python-flask -o /local/$OUT
 
 # Copy to our source excluding controllers
 echo "...yaml..."

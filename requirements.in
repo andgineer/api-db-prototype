@@ -1,5 +1,5 @@
-flask<2.3  # connexion is not compatible with flask 2.3
-urllib3<1.27  # botocore req
+flask  # connexion is not compatible with flask 2.3
+urllib3
 flask-restx
 Werkzeug
 flask_swagger_ui
@@ -12,4 +12,4 @@ cryptography>=41.0.3  # security vulnerability in cryptography 41.0.2
 boto3
 passwords
 alembic
-connexion[swagger-ui]
+connexion[swagger-ui,flask]

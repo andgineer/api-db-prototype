@@ -10,8 +10,8 @@ class MockModel(Model):
         self.attr1 = attr1
         self.attr2 = attr2
 
-def test_JSONEncoder():
-    encoder = JSONEncoder()
+def test_JSONEncoder(config):
+    encoder = JSONEncoder(config.app)
 
     # Test with non-Model instance
     non_model_obj = datetime.datetime.now()
