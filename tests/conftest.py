@@ -62,13 +62,15 @@ def api_client(request, config):
     db.conn.make_session()
     settings.config.app.testing = True
     client = settings.config.app.test_client()
-    ctx = settings.config.app.test_request_context()
-    ctx.push()
+    if hasattr(settings.config.app, "test_request_context"):
+        ctx = settings.config.app.test_request_context()
+        ctx.push()
 
     api.client = client  # inject test client
     yield client
 
-    ctx.pop()
+    if hasattr(settings.config.app, "test_request_context"):
+        ctx.pop()
 
 
 @pytest.fixture(scope="function", params=[ConfigTestPureFlask])
@@ -83,13 +85,15 @@ def flask_client(flask_config):
     """Flask-only tests."""
     db.conn.make_session()
     client = settings.config.app.test_client()
-    ctx = settings.config.app.test_request_context()
-    ctx.push()
+    if hasattr(settings.config.app, "test_request_context"):
+        ctx = settings.config.app.test_request_context()
+        ctx.push()
 
     api.client = client  # inject test client
     yield client
 
-    ctx.pop()
+    if hasattr(settings.config.app, "test_request_context"):
+        ctx.pop()
 
 
 @pytest.fixture(scope="function")

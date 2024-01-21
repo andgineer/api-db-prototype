@@ -188,8 +188,8 @@ components:
   schemas:
     UserCredentials:
       example:
-        password: password
-        email: email
+        password: admin
+        email: "admin@"
       properties:
         email:
           title: email

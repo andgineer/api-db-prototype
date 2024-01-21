@@ -1,6 +1,7 @@
 """Controllers from swagger code-gen modified by hand.
 
-They proxy to our application logic handlers in controllers folder.
+We create them with `make codegen` and then modify by hand to add
+proxy to our application logic handlers in `controllers/`.
 """
 from typing import Any, Dict
 
@@ -38,11 +39,9 @@ def get_token(body: Dict[str, Any]) -> Dict[str, Any]:
     Validate user credentials with DB and return JWT token for the user.
     """
     creds = UserCredentials.from_dict(body)
-    return Token(
-        controllers.users.auth.get_token(
+    return controllers.users.auth.get_token(
             creds.email, creds.password
-        )
-    ).to_dict()
+    )
 
 
 def create_user(body: Dict[str, Any]) -> Dict[str, Any]:
@@ -51,7 +50,7 @@ def create_user(body: Dict[str, Any]) -> Dict[str, Any]:
     Return {"id": <user_id>} or (<error message>, <HTTP code>).
     """
     authorization = connexion.request.headers["Authorization"]
-    new_user = NewUser.from_dict(body)
+    new_user = NewUser.from_dict(body)["new_user"]
     return controllers.users.create.create_user(
         auth_token=extract_token(authorization), new_user=new_user
     )

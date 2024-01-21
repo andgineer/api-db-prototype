@@ -14,7 +14,6 @@ And provide Swagger UI.
 
 ## Common Controllers
 
-
 In this project, we're trying to create controllers (application logic)
 that can be shared between the two different approaches we're using.
 
@@ -33,16 +32,15 @@ In contrast, Connexion generates Python code from API specs, requiring you to de
 The choice between these approaches can depend on various factors, including project size, development team size,
 and the requirement to implement external API specification.
 
-# Run
+# Run dev version (Flask werkzeug) with auto reload on source change
 
     . ./activate.sh
     make run
 
-## Swagger UI
+# API UI
+[Swagger UI](http://127.0.0.1:5000/ui)
 
-http://127.0.0.1:5000/docs
-
-To authorize API calls:
+### To authorize API calls:
 - Execute from the UI API request `Users` -> `Auth` -> `Try it`
   - email `admin@`, password `admin`
   - press `Execute`

@@ -193,7 +193,7 @@ def serve_openapi_spec() -> Tuple[str, int, Dict[str, Any]]:
     return content, 200, {"Content-Type": "text/yaml"}
 
 
-SWAGGER_URL = "/docs"  # URL for exposing Swagger UI (without trailing '/')
+SWAGGER_URL = "/ui"  # URL for exposing Swagger UI (without trailing '/')
 API_URL = "http://127.0.0.1:5000/swagger.yaml"
 
 # Call factory function to create our blueprint
