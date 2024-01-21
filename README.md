@@ -4,7 +4,7 @@
 
 | Name                                                 |    Stmts |     Miss |   Cover |   Missing |
 |----------------------------------------------------- | -------: | -------: | ------: | --------: |
-| src/app.py                                           |       20 |        6 |     70% |15-18, 26-27, 31 |
+| src/app.py                                           |       21 |        7 |     67% |15-19, 27-28, 32 |
 | src/cloud\_services.py                               |       58 |       23 |     60% |15, 26-27, 60-65, 73-74, 79-80, 85-86, 91-101, 113, 136-137 |
 | src/config.py                                        |       29 |        3 |     90% |49, 61, 69 |
 | src/controllers/\_\_init\_\_.py                      |        0 |        0 |    100% |           |
@@ -23,27 +23,28 @@
 | src/flask\_server/\_\_init\_\_.py                    |        0 |        0 |    100% |           |
 | src/journaling.py                                    |       52 |        4 |     92% | 36, 97-99 |
 | src/jwt\_token.py                                    |       49 |        0 |    100% |           |
-| src/openapi\_server/api\_app.py                      |        5 |        0 |    100% |           |
+| src/openapi\_server/api\_app.py                      |        4 |        0 |    100% |           |
 | src/openapi\_server/apikey\_fake.py                  |        2 |        0 |    100% |           |
-| src/openapi\_server/controllers/users\_controller.py |       36 |        0 |    100% |           |
+| src/openapi\_server/controllers/users\_controller.py |       39 |        0 |    100% |           |
 | src/openapi\_server/encoder.py                       |       17 |        0 |    100% |           |
-| src/openapi\_server/models/\_\_init\_\_.py           |       10 |        0 |    100% |           |
-| src/openapi\_server/models/base\_model\_.py          |       31 |       16 |     48% |23, 30-52, 59, 63, 67, 71 |
-| src/openapi\_server/models/error.py                  |       19 |        6 |     68% |24-28, 39, 50, 62 |
-| src/openapi\_server/models/new\_user.py              |       12 |        3 |     75% | 20-22, 33 |
-| src/openapi\_server/models/new\_user\_response.py    |       21 |        8 |     62% |24-28, 39, 50, 61-64 |
-| src/openapi\_server/models/token.py                  |       19 |        6 |     68% |24-28, 39, 50, 62 |
-| src/openapi\_server/models/update\_user.py           |       34 |       12 |     65% |29-35, 46, 56, 67, 77, 88, 98, 109 |
-| src/openapi\_server/models/user.py                   |       42 |       15 |     64% |32-39, 50, 60, 71, 81, 92, 102, 113, 123, 134 |
-| src/openapi\_server/models/user\_credentials.py      |       26 |        0 |    100% |           |
-| src/openapi\_server/models/user\_group.py            |       16 |        3 |     81% | 27-29, 40 |
-| src/openapi\_server/models/user\_short.py            |       34 |       12 |     65% |29-35, 46, 56, 67, 77, 88, 98, 109 |
-| src/openapi\_server/util.py                          |       54 |        6 |     89% |21, 57, 72-73, 90-91 |
+| src/openapi\_server/models/\_\_init\_\_.py           |        8 |        0 |    100% |           |
+| src/openapi\_server/models/base\_model.py            |       30 |       16 |     47% |22, 29-49, 56, 60, 64, 68 |
+| src/openapi\_server/models/error.py                  |       18 |        6 |     67% |21-29, 40, 51, 63 |
+| src/openapi\_server/models/new\_user.py              |       12 |        0 |    100% |           |
+| src/openapi\_server/models/new\_user\_response.py    |       20 |        8 |     60% |21-29, 40, 51, 62-65 |
+| src/openapi\_server/models/token.py                  |       18 |        6 |     67% |21-29, 40, 51, 63 |
+| src/openapi\_server/models/update\_user.py           |       34 |       12 |     65% |27-41, 52, 62, 73, 83, 94, 104, 115 |
+| src/openapi\_server/models/user.py                   |       41 |       15 |     63% |29-46, 57, 67, 78, 88, 99, 109, 120, 130, 141 |
+| src/openapi\_server/models/user\_credentials.py      |       25 |        0 |    100% |           |
+| src/openapi\_server/models/user\_group.py            |       15 |        3 |     80% | 25-28, 40 |
+| src/openapi\_server/models/user\_short.py            |       34 |       12 |     65% |27-41, 52, 62, 73, 83, 94, 104, 115 |
+| src/openapi\_server/typing\_utils.py                 |       15 |        7 |     53% |      4-16 |
+| src/openapi\_server/util.py                          |       59 |       10 |     83% |21, 47, 49, 58, 70, 75-76, 90, 95-96 |
 | src/password\_hash.py                                |        5 |        0 |    100% |           |
 | src/pretty\_ns.py                                    |       34 |        7 |     79% |46, 51, 81-84, 88-90 |
 | src/settings.py                                      |      123 |       17 |     86% |93, 98, 110, 178-181, 186, 194-200, 205, 214 |
 | src/version.py                                       |        8 |        1 |     88% |        17 |
-|                                            **TOTAL** | **1246** |  **193** | **85%** |           |
+|                                            **TOTAL** | **1260** |  **202** | **84%** |           |
 
 
 ## Setup coverage badge
