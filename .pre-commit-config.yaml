@@ -8,6 +8,7 @@ exclude: |
         openapi_server/controllers/|
         openapi_server/util.py|
         openapi_server/__main__.py|
+        openapi_server/typing_utils.py|
         openapi_server/apikey_fake.py
     )
 repos:
@@ -35,6 +36,7 @@ repos:
           --warn-unused-ignores
           --cache-fine-grained
           --no-namespace-packages
+#        require_serial: true
         files: \.py$
         language: python
 

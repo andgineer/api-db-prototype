@@ -28,7 +28,7 @@ app = Flask(__name__)
 blueprint = Blueprint("blueprint", __name__, url_prefix="/")
 
 
-@app.after_request
+@app.after_request  # type: ignore
 def after_request(response: Response) -> Response:
     """After-request flask hook to add CORS headers according to settings."""
     assert settings.config
@@ -42,8 +42,8 @@ def after_request(response: Response) -> Response:
     return response
 
 
-@app.route(f"{API_ROOT_URL}/<path:path>", methods=["OPTIONS"])
-@app.route(f"{API_ROOT_URL}/", methods=["OPTIONS"])
+@app.route(f"{API_ROOT_URL}/<path:path>", methods=["OPTIONS"])  # type: ignore
+@app.route(f"{API_ROOT_URL}/", methods=["OPTIONS"])  # type: ignore
 def options_handler() -> Response:
     """Handle only unspecified below paths.
 
@@ -56,7 +56,7 @@ def options_handler() -> Response:
     response.headers["Content-Type"] = "text/plain; charset=utf-8"
     response.status_code = 204
     if settings.config.web_enableCrossOriginRequests:
-        response.headers["Access-Control-Max-Age"] = 1728000
+        response.headers["Access-Control-Max-Age"] = 1728000  # type: ignore
     return response
 
 
@@ -185,7 +185,7 @@ app.register_blueprint(blueprint)
 
 
 # Route for serving the OpenAPI specification file
-@app.route("/swagger.yaml")
+@app.route("/swagger.yaml")  # type: ignore
 def serve_openapi_spec() -> Tuple[str, int, Dict[str, Any]]:
     """Generate Swagger UI base on Swagger spec."""
     with open("openapi_server/openapi/openapi.yaml", "r", encoding="utf8") as file:
