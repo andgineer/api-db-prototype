@@ -23,7 +23,7 @@
 | src/flask\_server/\_\_init\_\_.py                    |        0 |        0 |    100% |           |
 | src/journaling.py                                    |       52 |        4 |     92% | 36, 97-99 |
 | src/jwt\_token.py                                    |       49 |        0 |    100% |           |
-| src/openapi\_server/api\_app.py                      |        4 |        0 |    100% |           |
+| src/openapi\_server/api\_app.py                      |        3 |        0 |    100% |           |
 | src/openapi\_server/apikey\_fake.py                  |        2 |        0 |    100% |           |
 | src/openapi\_server/controllers/users\_controller.py |       39 |        0 |    100% |           |
 | src/openapi\_server/encoder.py                       |       17 |        0 |    100% |           |
@@ -44,7 +44,7 @@
 | src/pretty\_ns.py                                    |       34 |        7 |     79% |46, 51, 81-84, 88-90 |
 | src/settings.py                                      |      123 |       17 |     86% |93, 98, 110, 178-181, 186, 194-200, 205, 214 |
 | src/version.py                                       |        8 |        1 |     88% |        17 |
-|                                            **TOTAL** | **1260** |  **202** | **84%** |           |
+|                                            **TOTAL** | **1259** |  **202** | **84%** |           |
 
 
 ## Setup coverage badge
