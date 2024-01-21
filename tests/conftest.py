@@ -62,14 +62,17 @@ def api_client(request, config):
     db.conn.make_session()
     settings.config.app.testing = True
     client = settings.config.app.test_client()
+
     if hasattr(settings.config.app, "test_request_context"):
         ctx = settings.config.app.test_request_context()
         ctx.push()
+    else:
+        ctx = None
 
     api.client = client  # inject test client
     yield client
 
-    if hasattr(settings.config.app, "test_request_context"):
+    if ctx is not None:
         ctx.pop()
 
 
@@ -88,11 +91,13 @@ def flask_client(flask_config):
     if hasattr(settings.config.app, "test_request_context"):
         ctx = settings.config.app.test_request_context()
         ctx.push()
+    else:
+        ctx = None
 
     api.client = client  # inject test client
     yield client
 
-    if hasattr(settings.config.app, "test_request_context"):
+    if ctx is not None:
         ctx.pop()
 
 

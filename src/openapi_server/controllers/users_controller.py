@@ -3,7 +3,7 @@
 We create them with `make codegen` and then modify by hand to add
 proxy to our application logic handlers in `controllers/`.
 """
-from typing import Any, Dict
+from typing import Any, Dict, Union
 
 import connexion
 from connexion.frameworks import starlette
@@ -56,7 +56,7 @@ def create_user(body: Dict[str, Any]) -> Dict[str, Any]:
     )
 
 
-def get_user(user_id: str) -> ApiResult:
+def get_user(user_id: str) -> Union[Dict[str, Any], Any]:
     """Get info for a specific user."""
     authorization = connexion.request.headers["Authorization"]
     return controllers.users.get.get_user(
@@ -80,22 +80,22 @@ def list_users(per_page: int = PER_PAGE_DEFAULT, page: int = PAGE_DEFAULT) -> Ap
     )
 
 
-def update_user(userId: str, body: Dict[str, Any]) -> ApiResult:
+def update_user(user_id: str, body: Dict[str, Any]) -> ApiResult:
     """Update details of particular user."""
     authorization = connexion.request.headers["Authorization"]
     update_user_dict = body.get("update_user", body)
     return controllers.users.update.update_user(
-        auth_token=extract_token(authorization), user_id=userId, update_user=update_user_dict
+        auth_token=extract_token(authorization), user_id=user_id, update_user=update_user_dict
     )
 
 
-def delete_user(userId: str) -> ApiResult:
+def delete_user(user_id: str) -> ApiResult:
     """Delete the user.
 
-    :param userId: The id of the user to delete
-    :type userId: str
+    :param user_id: The id of the user to delete
+    :type user_id: str
     """
     authorization = connexion.request.headers["Authorization"]
     return controllers.users.delete.delete_user(
-        auth_token=extract_token(authorization), user_id=userId
+        auth_token=extract_token(authorization), user_id=user_id
     )
