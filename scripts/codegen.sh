@@ -31,6 +31,7 @@ echo "...models..."
 cp -r $OUT/openapi_server/models $SRV
 echo "...root units..."
 cp $OUT/openapi_server/*.* $SRV/
+cp -r $OUT/openapi_server/controllers $SRV/controllers_boilerplate
 git add $SRV/\*.*
 
 # Cleaning up
@@ -39,6 +40,7 @@ find $OUT/ -type f -maxdepth 1 -exec rm {} \;
 rm -r $OUT/openapi_server/models
 rm -r $OUT/openapi_server/openapi
 rm -r $OUT/openapi_server/test
+rm -r $OUT/openapi_server/controllers
 find $OUT/openapi_server/ -type f -maxdepth 1 -exec rm {} \;
 
 echo
