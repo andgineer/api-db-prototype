@@ -103,7 +103,7 @@ Other DB-related commands
     make db-show-migration
     make db-migration
 
-## API
+## API development
 To add new requests to the API, first you should implement controllers for them in `src/controllers/`.
 Next we use different approaches for Flask and Connexion.
 
