@@ -13,3 +13,4 @@ boto3
 passwords
 alembic
 connexion[swagger-ui,flask]
+starlette>=0.36.2

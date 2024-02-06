@@ -41,7 +41,7 @@ charset-normalizer==3.3.2
     # via requests
 click==8.1.7
     # via flask
-connexion[flask,swagger-ui]==3.0.5
+connexion[flask,swagger-ui]==3.0.3
     # via -r requirements.in
 cryptography==42.0.2
     # via -r requirements.in
@@ -134,8 +134,10 @@ sqlalchemy==2.0.25
     # via
     #   -r requirements.in
     #   alembic
-starlette==0.32.0.post1
-    # via connexion
+starlette==0.37.0
+    # via
+    #   -r requirements.in
+    #   connexion
 swagger-ui-bundle==1.1.0
     # via connexion
 typing-extensions==4.9.0

@@ -1,6 +1,7 @@
 Flask
 flask_swagger_ui
 connexion[swagger-ui,flask, uvicorn]
+starlette>=0.36.2
 gunicorn
 inotify
 Werkzeug
