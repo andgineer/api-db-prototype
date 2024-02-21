@@ -23,12 +23,18 @@ fi
 
 # virtual env
 if [[ ! -d ${VENV_FOLDER} ]] ; then
+    unset CONDA_PREFIX  # if conda is installed, it will mess with the virtual env
+    START_TIME=$(date +%s)
+
     echo -e $CYAN"Creating virtual environment for python in ${VENV_FOLDER}"$NC
     uv venv --python=${PYTHON} ${VENV_FOLDER}
     . ${VENV_FOLDER}/bin/activate
     uv pip install --upgrade pip
     uv pip install -r requirements.dev.txt
     uv pip install -r requirements.txt
+
+    END_TIME=$(date +%s)
+    echo "REnvironment created in $((END_TIME - $START_TIME)) seconds"
 else
     echo -e $CYAN"Activating virtual environment ..."$NC
     . ${VENV_FOLDER}/bin/activate
