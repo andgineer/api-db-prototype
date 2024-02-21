@@ -44,7 +44,7 @@ click==8.1.7
     #   uvicorn
 connexion[flask,swagger-ui,uvicorn]==3.0.3
     # via -r requirements.prod.in
-cryptography==42.0.2
+cryptography==42.0.4
     # via -r requirements.prod.in
 flask[async]==3.0.2
     # via
@@ -53,6 +53,8 @@ flask[async]==3.0.2
     #   flask-swagger-ui
 flask-swagger-ui==4.11.1
     # via -r requirements.prod.in
+greenlet==3.0.3
+    # via sqlalchemy
 gunicorn==21.2.0
     # via -r requirements.prod.in
 h11==0.14.0

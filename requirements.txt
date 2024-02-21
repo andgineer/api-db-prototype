@@ -43,7 +43,7 @@ click==8.1.7
     # via flask
 connexion[flask,swagger-ui]==3.0.3
     # via -r requirements.in
-cryptography==42.0.2
+cryptography==42.0.4
     # via -r requirements.in
 flask[async]==3.0.2
     # via
@@ -55,6 +55,8 @@ flask-restx==1.3.0
     # via -r requirements.in
 flask-swagger-ui==4.11.1
     # via -r requirements.in
+greenlet==3.0.3
+    # via sqlalchemy
 h11==0.14.0
     # via httpcore
 httpcore==1.0.2
