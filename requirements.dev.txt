@@ -43,17 +43,12 @@ click==8.1.7
     #   pip-tools
 connexion==3.0.6
 coverage==7.4.2
-    # via
-    #   coveralls
-    #   pytest-cov
-coveralls==1.8.0
+    # via pytest-cov
 cryptography==42.0.4
 dill==0.3.8
     # via pylint
 distlib==0.3.8
     # via virtualenv
-docopt==0.6.2
-    # via coveralls
 filelock==3.13.1
     # via virtualenv
 flask==3.0.2
@@ -159,9 +154,7 @@ referencing==0.33.0
     #   jsonschema
     #   jsonschema-specifications
 requests==2.31.0
-    # via
-    #   connexion
-    #   coveralls
+    # via connexion
 rpds-py==0.18.0
     # via
     #   jsonschema

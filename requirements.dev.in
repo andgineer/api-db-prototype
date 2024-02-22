@@ -5,7 +5,6 @@ pytest
 coverage
 hypothesis
 pytest-cov
-coveralls
 flask_testing
 
 # build
