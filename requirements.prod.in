@@ -1,17 +1,6 @@
-Flask
-flask_swagger_ui
-connexion[swagger-ui,flask, uvicorn]
-starlette>=0.36.2
+-r requirements.txt
+
 gunicorn
+uvicorn
 inotify
-Werkzeug
 setuptools
-swagger-ui-bundle
-SQLAlchemy
-schematics
-pyjwt
-passlib
-cryptography
-boto3
-passwords
-alembic

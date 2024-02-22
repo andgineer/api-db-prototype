@@ -9,7 +9,8 @@ schematics
 pyjwt
 passlib
 cryptography>=41.0.3  # security vulnerability in cryptography 41.0.2
-boto3
+boto3>=1.33.0  # there is error in metadata for older
+s3transfer>=0.8.2  # to have newer botocore
 passwords
 alembic
 connexion[swagger-ui,flask]

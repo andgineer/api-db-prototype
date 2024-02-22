@@ -5,7 +5,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 #RUN apt install uwsgi-plugin-python3
 
-COPY requirements_prod.txt /requirements.txt
+COPY requirements.prod.txt /requirements.txt
 ENV PATH="/root/.local/bin:${PATH}"
 
 RUN pip install -r /requirements.txt \

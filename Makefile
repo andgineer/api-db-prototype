@@ -1,6 +1,7 @@
 #!make
 VERSION := $(shell cat src/build_ver)
 export VERSION
+unexport CONDA_PREFIX  # if conda is installed, it will mess with the virtual env
 
 .HELP: version ## Show the current version
 version:
@@ -10,8 +11,7 @@ version:
 reqs:
 	pre-commit autoupdate
 	bash ./scripts/compile_requirements.sh
-	pip install -r requirements.txt
-	pip install -r requirements.dev.txt
+	uv pip install -r requirements.dev.txt
 
 .HELP: test  ## Run tests (you can use -k or -m to filter them by name or by mark respectively)
 test:

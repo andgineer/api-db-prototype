@@ -26,13 +26,13 @@ if [[ ! -d ${VENV_FOLDER} ]] ; then
     unset CONDA_PREFIX  # if conda is installed, it will mess with the virtual env
 
     echo -e $CYAN"Creating virtual environment for python in ${VENV_FOLDER}"$NC
+    unset CONDA_PREFIX  # if conda is installed, it will mess with the virtual env
     if uv venv ${VENV_FOLDER} --python=${PYTHON}; then
       START_TIME=$(date +%s)
 
       . ${VENV_FOLDER}/bin/activate
       uv pip install --upgrade pip
       uv pip install -r requirements.dev.txt
-      uv pip install -r requirements.txt
 
       END_TIME=$(date +%s)
       echo "Environment created in $((END_TIME - $START_TIME)) seconds"
