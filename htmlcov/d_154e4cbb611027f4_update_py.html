@@ -64,8 +64,8 @@
             <a id="indexLink" class="nav" href="index.html">&Hat; index</a> &nbsp; &nbsp;
             <a id="nextFileLink" class="nav" href="d_0261cd8f181aa2ca_version_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
-            <a class="nav" href="https://coverage.readthedocs.io/en/7.4.2">coverage.py v7.4.2</a>,
-            created at 2024-02-22 14:06 +0000
+            <a class="nav" href="https://coverage.readthedocs.io/en/7.4.4">coverage.py v7.4.4</a>,
+            created at 2024-03-22 09:43 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"/>
@@ -101,19 +101,19 @@
     <p class="run"><span class="n"><a id="t19" href="#t19">19</a></span><span class="t">    <span class="nam">user</span> <span class="op">=</span> <span class="nam">db</span><span class="op">.</span><span class="nam">models</span><span class="op">.</span><span class="nam">User</span><span class="op">.</span><span class="nam">by_id</span><span class="op">(</span><span class="nam">user_id</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t20" href="#t20">20</a></span><span class="t">    <span class="key">if</span> <span class="nam">user</span><span class="op">.</span><span class="nam">email</span><span class="op">.</span><span class="nam">lower</span><span class="op">(</span><span class="op">)</span> <span class="op">!=</span> <span class="nam">auth_user</span><span class="op">.</span><span class="nam">email</span><span class="op">.</span><span class="nam">lower</span><span class="op">(</span><span class="op">)</span> <span class="key">and</span> <span class="key">not</span> <span class="nam">auth_user</span><span class="op">.</span><span class="nam">is_admin</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p class="mis show_mis"><span class="n"><a id="t21" href="#t21">21</a></span><span class="t">        <span class="key">return</span> <span class="op">(</span>  <span class="com"># type: ignore</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t22" href="#t22">22</a></span><span class="t">            <span class="str">f"Only user himself or admin can update user &lt;{user.email}> properties, not &lt;{auth_user.email}>."</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t22" href="#t22">22</a></span><span class="t">            <span class="fst">f"</span><span class="fst">Only user himself or admin can update user &lt;</span><span class="op">{</span><span class="nam">user</span><span class="op">.</span><span class="nam">email</span><span class="op">}</span><span class="fst">> properties, not &lt;</span><span class="op">{</span><span class="nam">auth_user</span><span class="op">.</span><span class="nam">email</span><span class="op">}</span><span class="fst">>.</span><span class="fst">"</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t23" href="#t23">23</a></span><span class="t">            <span class="nam">controllers</span><span class="op">.</span><span class="nam">models</span><span class="op">.</span><span class="nam">HttpCode</span><span class="op">.</span><span class="nam">unauthorized</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t24" href="#t24">24</a></span><span class="t">        <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t25" href="#t25">25</a></span><span class="t">    <span class="key">if</span> <span class="nam">update_user_obj</span><span class="op">.</span><span class="nam">email</span><span class="op">.</span><span class="nam">lower</span><span class="op">(</span><span class="op">)</span> <span class="op">!=</span> <span class="nam">user</span><span class="op">.</span><span class="nam">email</span><span class="op">.</span><span class="nam">lower</span><span class="op">(</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p class="mis show_mis"><span class="n"><a id="t26" href="#t26">26</a></span><span class="t">        <span class="key">return</span> <span class="op">(</span>  <span class="com"># type: ignore</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t27" href="#t27">27</a></span><span class="t">            <span class="str">f"You cannot change user email (current &lt;{user.email}>, new &lt;{update_user_obj.email}>)"</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t27" href="#t27">27</a></span><span class="t">            <span class="fst">f"</span><span class="fst">You cannot change user email (current &lt;</span><span class="op">{</span><span class="nam">user</span><span class="op">.</span><span class="nam">email</span><span class="op">}</span><span class="fst">>, new &lt;</span><span class="op">{</span><span class="nam">update_user_obj</span><span class="op">.</span><span class="nam">email</span><span class="op">}</span><span class="fst">>)</span><span class="fst">"</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t28" href="#t28">28</a></span><span class="t">            <span class="nam">controllers</span><span class="op">.</span><span class="nam">models</span><span class="op">.</span><span class="nam">HttpCode</span><span class="op">.</span><span class="nam">logic_error</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t29" href="#t29">29</a></span><span class="t">        <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t30" href="#t30">30</a></span><span class="t">    <span class="nam">update_user_db</span> <span class="op">=</span> <span class="nam">update_user_obj</span><span class="op">.</span><span class="nam">to_orm</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t31" href="#t31">31</a></span><span class="t">    <span class="key">for</span> <span class="nam">field</span> <span class="key">in</span> <span class="nam">update_user_db</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t32" href="#t32">32</a></span><span class="t">        <span class="nam">setattr</span><span class="op">(</span><span class="nam">user</span><span class="op">,</span> <span class="nam">field</span><span class="op">,</span> <span class="nam">update_user_db</span><span class="op">[</span><span class="nam">field</span><span class="op">]</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t33" href="#t33">33</a></span><span class="t">    <span class="nam">db</span><span class="op">.</span><span class="nam">conn</span><span class="op">.</span><span class="nam">session</span><span class="op">.</span><span class="nam">commit</span><span class="op">(</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t34" href="#t34">34</a></span><span class="t">    <span class="nam">log</span><span class="op">.</span><span class="nam">info</span><span class="op">(</span><span class="str">f"Updated user [{user}]"</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t34" href="#t34">34</a></span><span class="t">    <span class="nam">log</span><span class="op">.</span><span class="nam">info</span><span class="op">(</span><span class="fst">f"</span><span class="fst">Updated user [</span><span class="op">{</span><span class="nam">user</span><span class="op">}</span><span class="fst">]</span><span class="fst">"</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t35" href="#t35">35</a></span><span class="t">    <span class="key">return</span> <span class="nam">update_user_obj</span><span class="op">.</span><span class="nam">as_dict</span>&nbsp;</span><span class="r"></span></p>
 </main>
 <footer>
@@ -123,8 +123,8 @@
             <a id="indexLink" class="nav" href="index.html">&Hat; index</a> &nbsp; &nbsp;
             <a id="nextFileLink" class="nav" href="d_0261cd8f181aa2ca_version_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
-            <a class="nav" href="https://coverage.readthedocs.io/en/7.4.2">coverage.py v7.4.2</a>,
-            created at 2024-02-22 14:06 +0000
+            <a class="nav" href="https://coverage.readthedocs.io/en/7.4.4">coverage.py v7.4.4</a>,
+            created at 2024-03-22 09:43 +0000
         </p>
     </div>
 </footer>
