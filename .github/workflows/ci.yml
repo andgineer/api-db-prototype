@@ -19,14 +19,14 @@ jobs:
     runs-on: ${{ matrix.platform }}
     env:
       PYTEST_CMD: > 
-        pytest \
-        -s -v \
-        --cov src \
-        --cov-report term-missing:skip-covered \
-        --junitxml pytest.xml \
-        --ignore src/alembic \
-        --ignore swagger-codegen \
-        -W ignore::DeprecationWarning \
+        pytest
+        -s -v
+        --cov src
+        --cov-report term-missing:skip-covered
+        --junitxml pytest.xml
+        --ignore src/alembic
+        --ignore swagger-codegen
+        -W ignore::DeprecationWarning
         tests
       PRIMARY_PYTHON_VERSION: '3.12'
       PRIMARY_PLATFORM: 'ubuntu-latest'
