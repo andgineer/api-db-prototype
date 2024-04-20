@@ -3,6 +3,7 @@
 All transport-specific code please put here.
 
 """
+
 import inspect
 from typing import Any, Callable, Dict, List, Optional, ParamSpec, Tuple, TypeVar
 
@@ -35,9 +36,9 @@ def after_request(response: Response) -> Response:
     if settings.config.web_enableCrossOriginRequests:
         response.headers["Access-Control-Allow-Origin"] = "*"
         response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS, DELETE, PUT"
-        response.headers[
-            "Access-Control-Allow-Headers"
-        ] = "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization"
+        response.headers["Access-Control-Allow-Headers"] = (
+            "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization"
+        )
         response.headers["Access-Control-Expose-Headers"] = "Content-Length,Content-Range"
     return response
 

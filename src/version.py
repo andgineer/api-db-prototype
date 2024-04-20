@@ -2,6 +2,7 @@
 
 See add_commit_date_git_hook.sh and hook_install.sh
 """
+
 from typing import Optional
 
 

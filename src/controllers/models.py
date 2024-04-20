@@ -36,9 +36,9 @@ class UserGroup(enum.Enum):
 class APIBaseError(Exception):
     """Error."""
 
-    status: Optional[
-        int
-    ] = None  # non-abstract descendants should replace that with specific HTTP error
+    status: Optional[int] = (
+        None  # non-abstract descendants should replace that with specific HTTP error
+    )
 
 
 class APIError(APIBaseError):

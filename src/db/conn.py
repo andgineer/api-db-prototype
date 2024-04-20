@@ -1,4 +1,5 @@
 """Encapsulate SQLAlchemy engine, session and db management logic."""
+
 from typing import Optional
 
 from sqlalchemy import Engine, create_engine

@@ -19,6 +19,7 @@ This is necessary to add new attributes to the object.
 >>> conf.var
 'value'
 """
+
 import collections.abc
 import os.path
 from typing import Any, Dict, Optional

@@ -2,6 +2,7 @@
 
 Checked with https://jwt.io/#debugger-io
 """
+
 import datetime
 from datetime import timezone
 from typing import Any, Dict, Optional

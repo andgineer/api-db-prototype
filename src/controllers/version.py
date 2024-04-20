@@ -1,4 +1,5 @@
 """Version controller."""
+
 from controllers.models import HttpCode
 from version import version
 

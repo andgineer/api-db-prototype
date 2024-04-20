@@ -1,4 +1,5 @@
 """Common code to keep api handler DRY."""
+
 import functools
 import inspect
 import re

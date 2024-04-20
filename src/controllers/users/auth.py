@@ -1,4 +1,5 @@
 """Authenticates a user and returns a JWT token."""
+
 from typing import Any, Dict
 
 import db.conn

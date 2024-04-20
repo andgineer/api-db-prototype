@@ -1,4 +1,5 @@
 """Auth controller."""
+
 from typing import Any, Dict
 
 import settings

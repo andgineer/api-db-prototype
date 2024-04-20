@@ -8,6 +8,7 @@ Before first use you have to initialize it:
     import journaling
     journaling.setup('my_log_config.yaml')
 """
+
 import logging
 import logging.config
 import os
@@ -23,9 +24,9 @@ PROFILER_MAXMS = 1000  # max time in ms to log profiler results
 hostname: Optional[str] = None  # host name for the machine we are running on
 user: Optional[str] = None  # user email for the token used to call api request (if any)
 log = logging.getLogger("")  # convenient way to get logger
-request_start_time: Optional[
-    int
-] = None  # time_ns before starting request handler, set in controllers/request#api_result handler
+request_start_time: Optional[int] = (
+    None  # time_ns before starting request handler, set in controllers/request#api_result handler
+)
 
 
 def uwsgi_info() -> Dict[str, Any]:
