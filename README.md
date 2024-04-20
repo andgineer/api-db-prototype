@@ -6,22 +6,22 @@
 |----------------------------------------------------- | -------: | -------: | ------: | --------: |
 | src/app.py                                           |       21 |        7 |     67% |15-19, 27-28, 32 |
 | src/cloud\_services.py                               |       58 |       23 |     60% |15, 26-27, 60-65, 73-74, 79-80, 85-86, 91-101, 113, 136-137 |
-| src/config.py                                        |       29 |        3 |     90% |49, 61, 69 |
+| src/config.py                                        |       29 |        3 |     90% |50, 62, 70 |
 | src/controllers/\_\_init\_\_.py                      |        0 |        0 |    100% |           |
 | src/controllers/auth.py                              |       20 |        0 |    100% |           |
-| src/controllers/helper.py                            |       80 |       11 |     86% |     41-53 |
+| src/controllers/helper.py                            |       80 |       11 |     86% |     42-54 |
 | src/controllers/models.py                            |      114 |       10 |     91% |79, 81, 108-109, 135-136, 152, 158-162 |
-| src/controllers/users/auth.py                        |       25 |        2 |     92% |     27-28 |
+| src/controllers/users/auth.py                        |       25 |        2 |     92% |     28-29 |
 | src/controllers/users/create.py                      |       22 |        0 |    100% |           |
 | src/controllers/users/delete.py                      |       19 |        1 |     95% |        19 |
 | src/controllers/users/get.py                         |       16 |        2 |     88% |    19, 22 |
 | src/controllers/users/list.py                        |       42 |        7 |     83% |35, 40, 42, 48-51 |
 | src/controllers/users/update.py                      |       24 |        2 |     92% |    21, 26 |
-| src/controllers/version.py                           |        7 |        4 |     43% |      8-11 |
+| src/controllers/version.py                           |        7 |        4 |     43% |      9-12 |
 | src/db/conn.py                                       |       53 |        0 |    100% |           |
 | src/db/models.py                                     |       68 |        6 |     91% |31, 77, 111, 130, 137, 154 |
 | src/flask\_server/\_\_init\_\_.py                    |        0 |        0 |    100% |           |
-| src/journaling.py                                    |       52 |        4 |     92% | 36, 97-99 |
+| src/journaling.py                                    |       52 |        4 |     92% |37, 98-100 |
 | src/jwt\_token.py                                    |       49 |        0 |    100% |           |
 | src/openapi\_server/api\_app.py                      |        3 |        0 |    100% |           |
 | src/openapi\_server/apikey\_fake.py                  |        2 |        0 |    100% |           |
@@ -41,9 +41,9 @@
 | src/openapi\_server/typing\_utils.py                 |       15 |        7 |     53% |      4-16 |
 | src/openapi\_server/util.py                          |       59 |       10 |     83% |21, 47, 49, 58, 70, 75-76, 90, 95-96 |
 | src/password\_hash.py                                |        5 |        0 |    100% |           |
-| src/pretty\_ns.py                                    |       34 |        7 |     79% |46, 51, 81-84, 88-90 |
+| src/pretty\_ns.py                                    |       34 |        7 |     79% |47, 52, 82-85, 89-91 |
 | src/settings.py                                      |      123 |       17 |     86% |93, 98, 110, 178-181, 186, 194-200, 205, 214 |
-| src/version.py                                       |        8 |        1 |     88% |        17 |
+| src/version.py                                       |        8 |        1 |     88% |        18 |
 |                                            **TOTAL** | **1259** |  **202** | **84%** |           |
 
 
