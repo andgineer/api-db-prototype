@@ -3,6 +3,7 @@
 a2wsgi==1.10.4
     # via connexion
 alembic==1.13.1
+    # via -r requirements.in
 aniso8601==9.0.1
     # via flask-restx
 anyio==4.3.0
@@ -20,6 +21,7 @@ attrs==23.2.0
 blinker==1.8.2
     # via flask
 boto3==1.34.99
+    # via -r requirements.in
 botocore==1.34.99
     # via
     #   boto3
@@ -35,15 +37,22 @@ charset-normalizer==3.3.2
     # via requests
 click==8.1.7
     # via flask
-connexion==3.0.6
+connexion[flask,swagger-ui]==3.0.6
+    # via -r requirements.in
 cryptography==42.0.7
-flask==3.0.3
+    # via -r requirements.in
+flask[async]==3.0.3
     # via
+    #   -r requirements.in
     #   connexion
     #   flask-restx
     #   flask-swagger-ui
 flask-restx==1.3.0
+    # via -r requirements.in
 flask-swagger-ui==4.11.1
+    # via -r requirements.in
+greenlet==3.0.3
+    # via sqlalchemy
 h11==0.14.0
     # via httpcore
 httpcore==1.0.5
@@ -84,10 +93,13 @@ markupsafe==2.1.5
     #   mako
     #   werkzeug
 passlib==1.7.4
+    # via -r requirements.in
 passwords==0.2.0
+    # via -r requirements.in
 pycparser==2.22
     # via cffi
 pyjwt==2.8.0
+    # via -r requirements.in
 python-dateutil==2.9.0.post0
     # via botocore
 python-multipart==0.0.9
@@ -100,15 +112,18 @@ referencing==0.35.1
     # via
     #   jsonschema
     #   jsonschema-specifications
-requests==2.31.0
+requests==2.32.0
     # via connexion
 rpds-py==0.18.1
     # via
     #   jsonschema
     #   referencing
 s3transfer==0.10.1
-    # via boto3
+    # via
+    #   -r requirements.in
+    #   boto3
 schematics==2.1.1
+    # via -r requirements.in
 six==1.16.0
     # via python-dateutil
 sniffio==1.3.1
@@ -116,9 +131,13 @@ sniffio==1.3.1
     #   anyio
     #   httpx
 sqlalchemy==2.0.30
-    # via alembic
+    # via
+    #   -r requirements.in
+    #   alembic
 starlette==0.37.2
-    # via connexion
+    # via
+    #   -r requirements.in
+    #   connexion
 swagger-ui-bundle==1.1.0
     # via connexion
 typing-extensions==4.11.0
@@ -128,10 +147,12 @@ typing-extensions==4.11.0
     #   sqlalchemy
 urllib3==2.2.1
     # via
+    #   -r requirements.in
     #   botocore
     #   requests
 werkzeug==3.0.3
     # via
+    #   -r requirements.in
     #   connexion
     #   flask
     #   flask-restx
