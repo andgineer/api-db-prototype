@@ -15,7 +15,7 @@
 | src/controllers/users/create.py                      |       22 |        0 |    100% |           |
 | src/controllers/users/delete.py                      |       19 |        1 |     95% |        19 |
 | src/controllers/users/get.py                         |       16 |        2 |     88% |    19, 22 |
-| src/controllers/users/list.py                        |       42 |        7 |     83% |35, 40, 42, 48-51 |
+| src/controllers/users/list.py                        |       43 |        7 |     84% |36, 41, 43, 49-52 |
 | src/controllers/users/update.py                      |       24 |        2 |     92% |    21, 26 |
 | src/controllers/version.py                           |        7 |        4 |     43% |      9-12 |
 | src/db/conn.py                                       |       53 |        0 |    100% |           |
@@ -44,7 +44,7 @@
 | src/pretty\_ns.py                                    |       34 |        7 |     79% |47, 52, 82-85, 89-91 |
 | src/settings.py                                      |      123 |       17 |     86% |93, 98, 110, 178-181, 186, 194-200, 205, 214 |
 | src/version.py                                       |        8 |        1 |     88% |        18 |
-|                                            **TOTAL** | **1259** |  **202** | **84%** |           |
+|                                            **TOTAL** | **1260** |  **202** | **84%** |           |
 
 
 ## Setup coverage badge
