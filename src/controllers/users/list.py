@@ -31,6 +31,7 @@ def users_list(
         return "Only admin can get list of users", HttpCode.unauthorized
     pager = Paging({"page": page, "per_page": per_page})
     pager.validate()
+    sort_dir = "asc"
     if order_by.strip() == "":
         order_by = DEFAULT_ORDER_BY
     if order_by[0] == "-":
