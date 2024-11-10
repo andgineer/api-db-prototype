@@ -2,7 +2,7 @@
 #    uv pip compile requirements.prod.in --output-file=requirements.prod.txt
 a2wsgi==1.10.7
     # via -r requirements.txt
-alembic==1.13.3
+alembic==1.14.0
     # via -r requirements.txt
 aniso8601==9.0.1
     # via
@@ -22,13 +22,13 @@ attrs==24.2.0
     #   -r requirements.txt
     #   jsonschema
     #   referencing
-blinker==1.8.2
+blinker==1.9.0
     # via
     #   -r requirements.txt
     #   flask
-boto3==1.35.43
+boto3==1.35.57
     # via -r requirements.txt
-botocore==1.35.43
+botocore==1.35.57
     # via
     #   -r requirements.txt
     #   boto3
@@ -54,7 +54,7 @@ click==8.1.7
     #   uvicorn
 connexion==3.1.0
     # via -r requirements.txt
-cryptography==43.0.1
+cryptography==43.0.3
     # via -r requirements.txt
 flask==3.0.3
     # via
@@ -120,11 +120,11 @@ jsonschema-specifications==2024.10.1
     # via
     #   -r requirements.txt
     #   jsonschema
-mako==1.3.5
+mako==1.3.6
     # via
     #   -r requirements.txt
     #   alembic
-markupsafe==3.0.1
+markupsafe==3.0.2
     # via
     #   -r requirements.txt
     #   jinja2
@@ -132,7 +132,7 @@ markupsafe==3.0.1
     #   werkzeug
 nose==1.3.7
     # via inotify
-packaging==24.1
+packaging==24.2
     # via gunicorn
 passlib==1.7.4
     # via -r requirements.txt
@@ -148,7 +148,7 @@ python-dateutil==2.9.0.post0
     # via
     #   -r requirements.txt
     #   botocore
-python-multipart==0.0.12
+python-multipart==0.0.17
     # via
     #   -r requirements.txt
     #   connexion
@@ -169,7 +169,7 @@ requests==2.32.3
     # via
     #   -r requirements.txt
     #   connexion
-rpds-py==0.20.0
+rpds-py==0.21.0
     # via
     #   -r requirements.txt
     #   jsonschema
@@ -180,7 +180,7 @@ s3transfer==0.10.3
     #   boto3
 schematics==2.1.1
     # via -r requirements.txt
-setuptools==75.2.0
+setuptools==75.3.0
     # via -r requirements.prod.in
 six==1.16.0
     # via
@@ -195,7 +195,7 @@ sqlalchemy==2.0.36
     # via
     #   -r requirements.txt
     #   alembic
-starlette==0.41.0
+starlette==0.41.2
     # via
     #   -r requirements.txt
     #   connexion
@@ -214,7 +214,7 @@ urllib3==2.2.3
     #   requests
 uvicorn==0.32.0
     # via -r requirements.prod.in
-werkzeug==3.0.4
+werkzeug==3.1.3
     # via
     #   -r requirements.txt
     #   connexion
