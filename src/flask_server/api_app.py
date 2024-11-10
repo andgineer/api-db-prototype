@@ -57,7 +57,7 @@ def options_handler() -> Response:
     response.headers["Content-Type"] = "text/plain; charset=utf-8"
     response.status_code = 204
     if settings.config.web_enableCrossOriginRequests:
-        response.headers["Access-Control-Max-Age"] = 1728000  # type: ignore
+        response.headers["Access-Control-Max-Age"] = 1728000
     return response
 
 
