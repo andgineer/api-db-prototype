@@ -111,7 +111,7 @@ def get_queue_message() -> Optional[Dict[str, Any]]:
     )
     if "Messages" not in messages or len(messages["Messages"]) == 0:
         return None
-    log.debug(f'Got SQS messages: {messages["Messages"]}')
+    log.debug(f"Got SQS messages: {messages['Messages']}")
     return messages["Messages"][0]  # type: ignore
 
 

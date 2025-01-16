@@ -60,5 +60,5 @@ def users_list(
     result = []
     for user in users:
         result.append(controllers.models.UserShort().from_orm(user).as_dict)
-    log.debug(f'List of users: {[user["email"] for user in result]}')
+    log.debug(f"List of users: {[user['email'] for user in result]}")
     return {"data": result, "total": total}

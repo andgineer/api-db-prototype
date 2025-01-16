@@ -44,7 +44,7 @@ password '{settings.config.default_admin_password}' - please change her password
         session.commit()
     else:
         log.debug(
-            f'In db found users with admin roles: {", ".join([user.email for user in users])}'
+            f"In db found users with admin roles: {', '.join([user.email for user in users])}"
         )
 
 

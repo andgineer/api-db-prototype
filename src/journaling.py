@@ -90,7 +90,7 @@ def setup(log_config: Optional[str] = LOG_CONFIG, default_level: int = logging.D
 
     if config is not None:
         log.info(
-            f'Logging settings were loaded from {log_config}\nHandlers: {config["root"]["handlers"]}'
+            f"Logging settings were loaded from {log_config}\nHandlers: {config['root']['handlers']}"
         )
 
 

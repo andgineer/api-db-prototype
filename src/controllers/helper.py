@@ -38,7 +38,7 @@ def transaction(handler: Callable[Param, Result]) -> Callable[Param, Result]:
                 error_messsage = str(e.errors[field]).replace("Rogue", "Unknown")
                 messages.append(f"{field} - {error_messsage}")
             log.error(f"Model validation error: {e}")
-            return f'Wrong request parameters: {", ".join(messages)}', HttpCode.wrong_request  # type: ignore
+            return f"Wrong request parameters: {', '.join(messages)}", HttpCode.wrong_request  # type: ignore
         except TypeError as e:
             db.conn.session.rollback()
             missing_args = re.match(
@@ -97,7 +97,7 @@ def token_to_auth_user(handler: Callable[Param, Result]) -> Callable[Param, Resu
     def token_to_auth_user_wrapper(*args, **kwargs) -> Result:  # type: ignore
         if "auth_token" in kwargs:
             if kwargs["auth_token"] is not None:
-                log.debug(f'Add auth_user to {handler.__name__}\n{kwargs["auth_token"]}')
+                log.debug(f"Add auth_user to {handler.__name__}\n{kwargs['auth_token']}")
                 auth_user = AuthUser(kwargs["auth_token"])
                 args = (auth_user,) + args
                 journaling.user = auth_user.email
