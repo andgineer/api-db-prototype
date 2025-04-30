@@ -5,11 +5,11 @@
 | Name                                                 |    Stmts |     Miss |   Cover |   Missing |
 |----------------------------------------------------- | -------: | -------: | ------: | --------: |
 | src/app.py                                           |       21 |        7 |     67% |15-19, 27-28, 32 |
-| src/cloud\_services.py                               |       58 |       23 |     60% |15, 26-27, 60-65, 73-74, 79-80, 85-86, 91-101, 113, 136-137 |
+| src/cloud\_services.py                               |       58 |       23 |     60% |15, 26-27, 63-68, 76-77, 82-83, 88-89, 94-104, 116, 142-143 |
 | src/config.py                                        |       29 |        3 |     90% |50, 62, 70 |
 | src/controllers/\_\_init\_\_.py                      |        0 |        0 |    100% |           |
 | src/controllers/auth.py                              |       20 |        0 |    100% |           |
-| src/controllers/helper.py                            |       80 |       11 |     86% |     42-54 |
+| src/controllers/helper.py                            |       80 |       11 |     86% |     42-55 |
 | src/controllers/models.py                            |      114 |       10 |     91% |79, 81, 108-109, 135-136, 152, 158-162 |
 | src/controllers/users/auth.py                        |       25 |        2 |     92% |     28-29 |
 | src/controllers/users/create.py                      |       22 |        0 |    100% |           |
@@ -19,7 +19,7 @@
 | src/controllers/users/update.py                      |       24 |        2 |     92% |    21, 26 |
 | src/controllers/version.py                           |        7 |        4 |     43% |      9-12 |
 | src/db/conn.py                                       |       53 |        0 |    100% |           |
-| src/db/models.py                                     |       68 |        6 |     91% |31, 77, 111, 130, 137, 154 |
+| src/db/models.py                                     |       68 |        6 |     91% |31, 80, 117, 136, 143, 160 |
 | src/flask\_server/\_\_init\_\_.py                    |        0 |        0 |    100% |           |
 | src/journaling.py                                    |       52 |        4 |     92% |37, 98-100 |
 | src/jwt\_token.py                                    |       49 |        0 |    100% |           |

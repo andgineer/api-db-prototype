@@ -65,7 +65,7 @@
             <a id="nextFileLink" class="nav" href="z_145eef247bfb46b6_jwt_token_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.6.4">coverage.py v7.6.4</a>,
-            created at 2025-04-02 10:59 +0000
+            created at 2025-04-30 03:56 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -153,7 +153,7 @@
     <p class="run"><span class="n"><a id="t71" href="#t71">71</a></span><span class="t">    <span class="key">if</span> <span class="nam">log_config</span> <span class="key">is</span> <span class="key">None</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t72" href="#t72">72</a></span><span class="t">        <span class="nam">log_config</span> <span class="op">=</span> <span class="nam">LOG_CONFIG</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t73" href="#t73">73</a></span><span class="t">    <span class="key">if</span> <span class="nam">os</span><span class="op">.</span><span class="nam">path</span><span class="op">.</span><span class="nam">exists</span><span class="op">(</span><span class="nam">log_config</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t74" href="#t74">74</a></span><span class="t">        <span class="key">with</span> <span class="nam">open</span><span class="op">(</span><span class="nam">log_config</span><span class="op">,</span> <span class="str">"r"</span><span class="op">,</span> <span class="nam">encoding</span><span class="op">=</span><span class="str">"utf8"</span><span class="op">)</span> <span class="key">as</span> <span class="nam">f</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t74" href="#t74">74</a></span><span class="t">        <span class="key">with</span> <span class="nam">open</span><span class="op">(</span><span class="nam">log_config</span><span class="op">,</span> <span class="nam">encoding</span><span class="op">=</span><span class="str">"utf8"</span><span class="op">)</span> <span class="key">as</span> <span class="nam">f</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t75" href="#t75">75</a></span><span class="t">            <span class="nam">config</span> <span class="op">=</span> <span class="nam">yaml</span><span class="op">.</span><span class="nam">safe_load</span><span class="op">(</span><span class="nam">f</span><span class="op">.</span><span class="nam">read</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t76" href="#t76">76</a></span><span class="t">            <span class="nam">logging</span><span class="op">.</span><span class="nam">config</span><span class="op">.</span><span class="nam">dictConfig</span><span class="op">(</span><span class="nam">config</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t77" href="#t77">77</a></span><span class="t">    <span class="key">else</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
@@ -165,14 +165,14 @@
     <p class="run"><span class="n"><a id="t83" href="#t83">83</a></span><span class="t">    <span class="nam">handler</span> <span class="op">=</span> <span class="nam">logging</span><span class="op">.</span><span class="nam">StreamHandler</span><span class="op">(</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t84" href="#t84">84</a></span><span class="t">    <span class="nam">handler</span><span class="op">.</span><span class="nam">setFormatter</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t85" href="#t85">85</a></span><span class="t">        <span class="nam">CustomFormatter</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t86" href="#t86">86</a></span><span class="t">            <span class="str">"[%(asctime)s] &lt;%(filename)s:%(lineno)d> {host=%(host)s} %(levelname)s - %(message)s"</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t87" href="#t87">87</a></span><span class="t">        <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t86" href="#t86">86</a></span><span class="t">            <span class="str">"[%(asctime)s] &lt;%(filename)s:%(lineno)d> {host=%(host)s} %(levelname)s - %(message)s"</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t87" href="#t87">87</a></span><span class="t">        <span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t88" href="#t88">88</a></span><span class="t">    <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t89" href="#t89">89</a></span><span class="t">    <span class="nam">log</span><span class="op">.</span><span class="nam">addHandler</span><span class="op">(</span><span class="nam">handler</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t90" href="#t90">90</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t91" href="#t91">91</a></span><span class="t">    <span class="key">if</span> <span class="nam">config</span> <span class="key">is</span> <span class="key">not</span> <span class="key">None</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t92" href="#t92">92</a></span><span class="t">        <span class="nam">log</span><span class="op">.</span><span class="nam">info</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t93" href="#t93">93</a></span><span class="t">            <span class="fst">f"</span><span class="fst">Logging settings were loaded from </span><span class="op">{</span><span class="nam">log_config</span><span class="op">}</span><span class="fst">\nHandlers: </span><span class="op">{</span><span class="nam">config</span><span class="op">[</span><span class="str">'root'</span><span class="op">]</span><span class="op">[</span><span class="str">'handlers'</span><span class="op">]</span><span class="op">}</span><span class="fst">"</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t93" href="#t93">93</a></span><span class="t">            <span class="fst">f"</span><span class="fst">Logging settings were loaded from </span><span class="op">{</span><span class="nam">log_config</span><span class="op">}</span><span class="fst">\nHandlers: </span><span class="op">{</span><span class="nam">config</span><span class="op">[</span><span class="str">'root'</span><span class="op">]</span><span class="op">[</span><span class="str">'handlers'</span><span class="op">]</span><span class="op">}</span><span class="fst">"</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t94" href="#t94">94</a></span><span class="t">        <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t95" href="#t95">95</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t96" href="#t96">96</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
@@ -189,7 +189,7 @@
             <a class="nav" href="z_145eef247bfb46b6_jwt_token_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.6.4">coverage.py v7.6.4</a>,
-            created at 2025-04-02 10:59 +0000
+            created at 2025-04-30 03:56 +0000
         </p>
     </div>
 </footer>
