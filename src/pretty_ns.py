@@ -20,8 +20,8 @@ True
 
 """
 
-from typing import Any, Callable, Union
 import time
+from typing import Any, Callable, Union
 
 time_ns: Callable[[], int]  # for Python3.7+ this is function from system library time
 # for earlier Python versions this is emulation of the Python3.7 time_ns

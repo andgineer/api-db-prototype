@@ -31,7 +31,8 @@ class JwtCrypto:
         """Facilitate lazy loading so we can set key's files beforehand."""
         assert settings.config
         assert hasattr(settings.config, "jwt_public_key_file") and isinstance(
-            settings.config.jwt_public_key_file, str
+            settings.config.jwt_public_key_file,
+            str,
         )
         if not self._public_key:
             log.debug(f"Loading public key from {settings.config.jwt_public_key_file}")
@@ -45,7 +46,8 @@ class JwtCrypto:
         """Facilitate lazy loading so we can set key's files beforehand."""
         assert settings.config
         assert hasattr(settings.config, "jwt_public_key_file") and isinstance(
-            settings.config.jwt_secret_key_file, str
+            settings.config.jwt_secret_key_file,
+            str,
         )
         if not self._private_key:
             log.debug(f"Loading private key from {settings.config.jwt_secret_key_file}")

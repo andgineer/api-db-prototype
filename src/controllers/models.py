@@ -156,7 +156,7 @@ class EnumType(BaseType):  # type: ignore
                 if member.lower() == value.lower():
                     return self.enum.__members__[member]
             raise ValueError(
-                self.messages["find"].format(choices=self.enum.__members__, value=value)
+                self.messages["find"].format(choices=self.enum.__members__, value=value),
             )
         except (ValueError, TypeError) as e:
             raise ConversionError(self.messages["convert"].format(value)) from e

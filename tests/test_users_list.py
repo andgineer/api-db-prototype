@@ -68,6 +68,4 @@ def test_users_list_empty_params(user, admin_token):
     """
     api.create_user(admin_token, user)
     assert len(api.users_list(admin_token)) == 1 + DEFAULT_USERS
-    api.users_list(
-        admin_token, page="-1", expected_statuses=[501]
-    )
+    api.users_list(admin_token, page="-1", expected_statuses=[501])

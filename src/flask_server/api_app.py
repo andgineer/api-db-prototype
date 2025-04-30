@@ -69,7 +69,7 @@ def auth_token() -> Optional[Dict[str, Any]]:
         # Try to use it without 'Bearer' prefix - such as from Swagger UI tools
         if len(auth_header) < JWT_MIN_LENGTH:
             raise APPNoTokenError(
-                f'Expected in Authorization HTTP header: "Bearer <token>", but got\n{auth_header}'
+                f'Expected in Authorization HTTP header: "Bearer <token>", but got\n{auth_header}',
             )
     else:
         auth_header = auth_header.split()[1]
@@ -107,17 +107,16 @@ def api(  # type: ignore
                 for param in bparams:
                     if isinstance(body_obj, dict) and param in body_obj:
                         val = body_obj[param]
+                    elif len(bparams) == 1:
+                        val = body_obj
                     else:
-                        if len(bparams) == 1:
-                            val = body_obj
-                        else:
-                            log.debug(
-                                f"No parameter {param} in request:\n{request.data!r} ({body_obj})"
-                            )
-                            return (
-                                f"No parameter {param} in request:\n{request.data!r}",
-                                HttpCode.wrong_request,
-                            )
+                        log.debug(
+                            f"No parameter {param} in request:\n{request.data!r} ({body_obj})",
+                        )
+                        return (
+                            f"No parameter {param} in request:\n{request.data!r}",
+                            HttpCode.wrong_request,
+                        )
                     kwargs[param] = val
             if request.args:
                 for param in request.args:
@@ -162,7 +161,10 @@ app.add_url_rule(
     methods=["POST"],
 )
 app.add_url_rule(
-    f"{API_ROOT_URL}/users/<string:user_id>", "delete_user", api(delete_user), methods=["DELETE"]
+    f"{API_ROOT_URL}/users/<string:user_id>",
+    "delete_user",
+    api(delete_user),
+    methods=["DELETE"],
 )
 app.add_url_rule(
     f"{API_ROOT_URL}/users",
@@ -178,7 +180,10 @@ app.add_url_rule(
 )
 app.add_url_rule(f"{API_ROOT_URL}/users", "users_list", api(users_list), methods=["GET"])
 app.add_url_rule(
-    f"{API_ROOT_URL}/users/<string:user_id>", "get_user", api(get_user), methods=["GET"]
+    f"{API_ROOT_URL}/users/<string:user_id>",
+    "get_user",
+    api(get_user),
+    methods=["GET"],
 )
 app.add_url_rule(f"{API_ROOT_URL}/version", "get_version", get_version, methods=["GET"])
 
@@ -189,7 +194,7 @@ app.register_blueprint(blueprint)
 @app.route("/swagger.yaml")  # type: ignore
 def serve_openapi_spec() -> Tuple[str, int, Dict[str, Any]]:
     """Generate Swagger UI base on Swagger spec."""
-    with open("openapi_server/openapi/openapi.yaml", "r", encoding="utf8") as file:
+    with open("openapi_server/openapi/openapi.yaml", encoding="utf8") as file:
         content = file.read()
     return content, 200, {"Content-Type": "text/yaml"}
 

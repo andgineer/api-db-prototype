@@ -33,7 +33,7 @@ def get_token(
     log.debug(f"Issuing JWT for {email}")
     payload = {
         JWT_EXPIRATION: token.datetime2jwt(
-            settings.config.now() + settings.config.token_expiration_delta
+            settings.config.now() + settings.config.token_expiration_delta,
         ),
         JWT_CREATED: token.datetime2jwt(settings.config.now()),
         JWT_EMAIL: user.email,

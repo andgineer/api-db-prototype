@@ -41,7 +41,7 @@ def users_list(
         order_by = order_by[1:]
     if order_by.lower() not in order_by_options:
         raise APIError(
-            f'Wrong order by option "{order_by}". Possible options for order by: {", ".join(list(order_by_options.keys()))}'
+            f'Wrong order by option "{order_by}". Possible options for order by: {", ".join(list(order_by_options.keys()))}',
         )
     sort_by = order_by_options[order_by.lower()]
     order_by = getattr(getattr(sort_by["model"], sort_by["field"]), sort_dir)()

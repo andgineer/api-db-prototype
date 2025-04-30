@@ -69,7 +69,10 @@ class Project(Base):  # type: ignore
     # all users that can see that project - author and who you add to it manually
     # author of the project added automatically
     collaborators = relationship(
-        "User", secondary=projects_collaborators, back_populates="projects", lazy="dynamic"
+        "User",
+        secondary=projects_collaborators,
+        back_populates="projects",
+        lazy="dynamic",
     )
 
     def __repr__(self) -> str:
@@ -102,7 +105,10 @@ class User(Base):  # type: ignore
     # all projects that this user can see - his own and where he added to collaborators
     own_projects = relationship("Project", back_populates="author", lazy="dynamic")
     projects = relationship(
-        "Project", back_populates="collaborators", secondary=projects_collaborators, lazy="dynamic"
+        "Project",
+        back_populates="collaborators",
+        secondary=projects_collaborators,
+        lazy="dynamic",
     )
 
     @property
@@ -153,5 +159,5 @@ def project_author_set_listener(
     if old_author not in [NEVER_SET, NO_VALUE]:
         old_author.projects.remove(project)
     log.debug(
-        f'{author.email}\'s own project "{project.name}" added also to her full list of projects'
+        f'{author.email}\'s own project "{project.name}" added also to her full list of projects',
     )

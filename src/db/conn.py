@@ -24,7 +24,7 @@ def create_admin_user() -> None:
     assert settings.config
     # if session.info.get('has_flushed', False):
     users = db.models.User.query().filter(
-        db.models.User.group == controllers.models.UserGroup.ADMIN
+        db.models.User.group == controllers.models.UserGroup.ADMIN,
     )
     if not users.count():
         log.debug(  # pylint: disable=logging-not-lazy
@@ -33,7 +33,7 @@ def create_admin_user() -> None:
 Creating default admin user <{settings.config.default_admin_email}> with
 password '{settings.config.default_admin_password}' - please change her password
 """
-            + "!" * 25
+            + "!" * 25,
         )
         admin_user = db.models.User(
             email=settings.config.default_admin_email,
@@ -44,7 +44,7 @@ password '{settings.config.default_admin_password}' - please change her password
         session.commit()
     else:
         log.debug(
-            f"In db found users with admin roles: {', '.join([user.email for user in users])}"
+            f"In db found users with admin roles: {', '.join([user.email for user in users])}",
         )
 
 

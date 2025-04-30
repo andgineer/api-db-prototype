@@ -67,4 +67,4 @@ def load(config: Dict[str, Any], obj: Optional[Any] = None, _prefix: Optional[st
 
 def load_yaml(file_name: str, obj: Optional[Any] = None) -> Dict[str, Any]:
     """Load config from yaml file."""
-    return load(yaml.safe_load(open(file_name, "r", encoding="utf8")), obj)  # type: ignore
+    return load(yaml.safe_load(open(file_name, encoding="utf8")), obj)  # type: ignore

@@ -28,6 +28,7 @@ def test_user_crud(random_user, admin_token):
     api.delete_user(admin_token, new_user_id)
     assert len(api.users_list(admin_token)) == DEFAULT_USERS
 
+
 @given(random_user=UserStrategy)
 @settings(
     max_examples=10, deadline=None, suppress_health_check=[HealthCheck.function_scoped_fixture]
@@ -41,8 +42,12 @@ def test_user_crud_update(random_user, admin_token):
     del update_user_data["password"]
     api.update_user(admin_token, update_user_data, new_user_id)
     updated_user = api.get_user(admin_token, new_user_id)
-    assert updated_user["name"] == update_user_data["name"], f"Updated user [{update_user_data}] name does not match retrieved user [{updated_user}]"
-    assert updated_user["email"] == random_user["email"], f"Updated user [{random_user}] change un-updated field email [{updated_user}]"
+    assert updated_user["name"] == update_user_data["name"], (
+        f"Updated user [{update_user_data}] name does not match retrieved user [{updated_user}]"
+    )
+    assert updated_user["email"] == random_user["email"], (
+        f"Updated user [{random_user}] change un-updated field email [{updated_user}]"
+    )
 
     api.delete_user(admin_token, new_user_id)
     assert len(api.users_list(admin_token)) == DEFAULT_USERS

@@ -2,8 +2,8 @@ import contextlib
 import cProfile
 import logging
 import pstats
+from collections.abc import Generator
 from io import StringIO
-from typing import Generator
 
 from src import settings
 

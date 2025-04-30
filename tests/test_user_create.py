@@ -19,9 +19,7 @@ def test_user_create_wrong_user(wrong_user, admin_token):
     """
     Tries to create user with wrong fields.
     """
-    api.create_user(
-        admin_token, wrong_user, expected_statuses=[501]
-    )
+    api.create_user(admin_token, wrong_user, expected_statuses=[501])
 
 
 def test_user_create_duplicate(user, admin_token):
@@ -36,9 +34,7 @@ def test_user_create_nopassword(nopassword_user, admin_token):
     """
     Tries to create user with no password.
     """
-    api.create_user(
-        admin_token, nopassword_user, expected_statuses=[501]
-    )
+    api.create_user(admin_token, nopassword_user, expected_statuses=[501])
 
 
 def test_user_create_by_full(user, full_token):

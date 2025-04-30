@@ -28,7 +28,10 @@ def ses() -> Any:
 
 
 def send_email(
-    recipients: List[Any], subject: str, html: Optional[str] = None, text: Optional[str] = None
+    recipients: List[Any],
+    subject: str,
+    html: Optional[str] = None,
+    text: Optional[str] = None,
 ) -> None:
     """Send email via Amazon SES."""
     try:
@@ -59,7 +62,7 @@ def send_email(
         )
     except NoCredentialsError:
         log.error(
-            "Error sending email: Amazon engine unable to locate credentials. May be we are running in dev/test environment."
+            "Error sending email: Amazon engine unable to locate credentials. May be we are running in dev/test environment.",
         )
     except ClientError as e:
         log.error(e.response["Error"]["Message"])
@@ -118,7 +121,10 @@ def get_queue_message() -> Optional[Dict[str, Any]]:
 def send_queue_message(body: str) -> None:
     """Send message to the queue."""
     response = sqs().send_message(
-        QueueUrl=queue_url(), DelaySeconds=10, MessageAttributes={}, MessageBody=body
+        QueueUrl=queue_url(),
+        DelaySeconds=10,
+        MessageAttributes={},
+        MessageBody=body,
     )
     log.debug(f'Sent SQS message "{body}",\n\nresponse: {response}')
 

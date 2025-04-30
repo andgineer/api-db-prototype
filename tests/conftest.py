@@ -32,15 +32,13 @@ def get_result_data(resp, expected_statuses=HttpCode.successes) -> dict:
         result = json.loads(resp.data)
     else:
         result = None
-    assert (
-        resp.status_code in expected_statuses
-    ), f"API request result with unxpected status {resp.status_code}: {resp.data}"
+    assert resp.status_code in expected_statuses, (
+        f"API request result with unxpected status {resp.status_code}: {resp.data}"
+    )
     return result
 
 
-@pytest.fixture(
-    scope="function", params=[ConfigTestPureFlask, ConfigTestConnexion]
-)
+@pytest.fixture(scope="function", params=[ConfigTestPureFlask, ConfigTestConnexion])
 def config(request):
     settings.config = request.param()
     api.api_url = settings.config.api_url

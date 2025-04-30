@@ -42,7 +42,8 @@ def transaction(handler: Callable[Param, Result]) -> Callable[Param, Result]:
         except TypeError as e:
             db.conn.session.rollback()
             missing_args = re.match(
-                r"(.+)missing \d+ required positional argument(s)?: (.+)", str(e)
+                r"(.+)missing \d+ required positional argument(s)?: (.+)",
+                str(e),
             )
             if missing_args:
                 return f"Missing arguments: {missing_args[3]}", HttpCode.wrong_request  # type: ignore

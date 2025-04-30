@@ -71,7 +71,7 @@ def setup(log_config: Optional[str] = LOG_CONFIG, default_level: int = logging.D
     if log_config is None:
         log_config = LOG_CONFIG
     if os.path.exists(log_config):
-        with open(log_config, "r", encoding="utf8") as f:
+        with open(log_config, encoding="utf8") as f:
             config = yaml.safe_load(f.read())
             logging.config.dictConfig(config)
     else:
@@ -83,14 +83,14 @@ def setup(log_config: Optional[str] = LOG_CONFIG, default_level: int = logging.D
     handler = logging.StreamHandler()
     handler.setFormatter(
         CustomFormatter(
-            "[%(asctime)s] <%(filename)s:%(lineno)d> {host=%(host)s} %(levelname)s - %(message)s"
-        )
+            "[%(asctime)s] <%(filename)s:%(lineno)d> {host=%(host)s} %(levelname)s - %(message)s",
+        ),
     )
     log.addHandler(handler)
 
     if config is not None:
         log.info(
-            f"Logging settings were loaded from {log_config}\nHandlers: {config['root']['handlers']}"
+            f"Logging settings were loaded from {log_config}\nHandlers: {config['root']['handlers']}",
         )
 
 
