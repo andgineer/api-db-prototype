@@ -2,7 +2,7 @@
 #    uv pip compile requirements.in --output-file=requirements.txt
 a2wsgi==1.10.10
     # via connexion
-alembic==1.16.2
+alembic==1.16.4
     # via -r requirements.in
 aniso8601==10.0.1
     # via flask-restx
@@ -10,7 +10,7 @@ anyio==4.9.0
     # via
     #   httpx
     #   starlette
-asgiref==3.8.1
+asgiref==3.9.1
     # via
     #   connexion
     #   flask
@@ -20,13 +20,13 @@ attrs==25.3.0
     #   referencing
 blinker==1.9.0
     # via flask
-boto3==1.39.1
+boto3==1.39.11
     # via -r requirements.in
-botocore==1.39.1
+botocore==1.39.11
     # via
     #   boto3
     #   s3transfer
-certifi==2025.6.15
+certifi==2025.7.14
     # via
     #   httpcore
     #   httpx
@@ -39,7 +39,7 @@ click==8.2.1
     # via flask
 connexion==3.2.0
     # via -r requirements.in
-cryptography==45.0.4
+cryptography==45.0.5
     # via -r requirements.in
 flask==3.1.1
     # via
@@ -77,7 +77,7 @@ jmespath==1.0.1
     # via
     #   boto3
     #   botocore
-jsonschema==4.24.0
+jsonschema==4.25.0
     # via
     #   connexion
     #   flask-restx
@@ -117,7 +117,7 @@ rpds-py==0.26.0
     # via
     #   jsonschema
     #   referencing
-s3transfer==0.13.0
+s3transfer==0.13.1
     # via
     #   -r requirements.in
     #   boto3
@@ -131,13 +131,13 @@ sqlalchemy==2.0.41
     # via
     #   -r requirements.in
     #   alembic
-starlette==0.47.1
+starlette==0.47.2
     # via
     #   -r requirements.in
     #   connexion
 swagger-ui-bundle==1.1.0
     # via connexion
-typing-extensions==4.14.0
+typing-extensions==4.14.1
     # via
     #   alembic
     #   anyio

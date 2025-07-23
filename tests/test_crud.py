@@ -3,8 +3,12 @@ from hypothesis import HealthCheck, given, settings
 
 import api
 from conftest import DEFAULT_USERS
+from settings import DEFAULT_ADMIN_EMAIL
 
-UserStrategy = st.builds(dict, name=st.text(), email=st.text(), password=st.text(min_size=1))
+# Email strategy that excludes the default admin email to avoid conflicts
+EmailStrategy = st.text().filter(lambda email: email != DEFAULT_ADMIN_EMAIL)
+
+UserStrategy = st.builds(dict, name=st.text(), email=EmailStrategy, password=st.text(min_size=1))
 
 
 @given(random_user=UserStrategy)
