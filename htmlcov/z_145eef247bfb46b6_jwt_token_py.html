@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Coverage for src/jwt_token.py: 100%</title>
     <link rel="icon" sizes="32x32" href="favicon_32_cb_58284776.png">
-    <link rel="stylesheet" href="style_cb_81f8c14c.css" type="text/css">
+    <link rel="stylesheet" href="style_cb_6b508a39.css" type="text/css">
     <script src="coverage_html_cb_6fb7b396.js" defer></script>
 </head>
 <body class="pyfile">
@@ -64,8 +64,8 @@
             <a id="indexLink" class="nav" href="index.html">&Hat; index</a> &nbsp; &nbsp;
             <a id="nextFileLink" class="nav" href="z_725f7b7e3a421609_api_app_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
-            <a class="nav" href="https://coverage.readthedocs.io/en/7.9.2">coverage.py v7.9.2</a>,
-            created at 2025-07-23 04:23 +0000
+            <a class="nav" href="https://coverage.readthedocs.io/en/7.10.6">coverage.py v7.10.6</a>,
+            created at 2025-09-20 04:14 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -113,9 +113,9 @@
     <p class="pln"><span class="n"><a id="t31" href="#t31">31</a></span><span class="t">        <span class="str">"""Facilitate lazy loading so we can set key's files beforehand."""</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t32" href="#t32">32</a></span><span class="t">        <span class="key">assert</span> <span class="nam">settings</span><span class="op">.</span><span class="nam">config</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t33" href="#t33">33</a></span><span class="t">        <span class="key">assert</span> <span class="nam">hasattr</span><span class="op">(</span><span class="nam">settings</span><span class="op">.</span><span class="nam">config</span><span class="op">,</span> <span class="str">"jwt_public_key_file"</span><span class="op">)</span> <span class="key">and</span> <span class="nam">isinstance</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t34" href="#t34">34</a></span><span class="t">            <span class="nam">settings</span><span class="op">.</span><span class="nam">config</span><span class="op">.</span><span class="nam">jwt_public_key_file</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t35" href="#t35">35</a></span><span class="t">            <span class="nam">str</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t36" href="#t36">36</a></span><span class="t">        <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run run2"><span class="n"><a id="t34" href="#t34">34</a></span><span class="t">            <span class="nam">settings</span><span class="op">.</span><span class="nam">config</span><span class="op">.</span><span class="nam">jwt_public_key_file</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run run2"><span class="n"><a id="t35" href="#t35">35</a></span><span class="t">            <span class="nam">str</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run run2"><span class="n"><a id="t36" href="#t36">36</a></span><span class="t">        <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t37" href="#t37">37</a></span><span class="t">        <span class="key">if</span> <span class="key">not</span> <span class="nam">self</span><span class="op">.</span><span class="nam">_public_key</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t38" href="#t38">38</a></span><span class="t">            <span class="nam">log</span><span class="op">.</span><span class="nam">debug</span><span class="op">(</span><span class="fst">f"</span><span class="fst">Loading public key from </span><span class="op">{</span><span class="nam">settings</span><span class="op">.</span><span class="nam">config</span><span class="op">.</span><span class="nam">jwt_public_key_file</span><span class="op">}</span><span class="fst">"</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t39" href="#t39">39</a></span><span class="t">            <span class="nam">cert_str</span> <span class="op">=</span> <span class="nam">open</span><span class="op">(</span><span class="nam">settings</span><span class="op">.</span><span class="nam">config</span><span class="op">.</span><span class="nam">jwt_public_key_file</span><span class="op">,</span> <span class="str">"rb"</span><span class="op">)</span><span class="op">.</span><span class="nam">read</span><span class="op">(</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
@@ -128,9 +128,9 @@
     <p class="pln"><span class="n"><a id="t46" href="#t46">46</a></span><span class="t">        <span class="str">"""Facilitate lazy loading so we can set key's files beforehand."""</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t47" href="#t47">47</a></span><span class="t">        <span class="key">assert</span> <span class="nam">settings</span><span class="op">.</span><span class="nam">config</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t48" href="#t48">48</a></span><span class="t">        <span class="key">assert</span> <span class="nam">hasattr</span><span class="op">(</span><span class="nam">settings</span><span class="op">.</span><span class="nam">config</span><span class="op">,</span> <span class="str">"jwt_public_key_file"</span><span class="op">)</span> <span class="key">and</span> <span class="nam">isinstance</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t49" href="#t49">49</a></span><span class="t">            <span class="nam">settings</span><span class="op">.</span><span class="nam">config</span><span class="op">.</span><span class="nam">jwt_secret_key_file</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t50" href="#t50">50</a></span><span class="t">            <span class="nam">str</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t51" href="#t51">51</a></span><span class="t">        <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run run2"><span class="n"><a id="t49" href="#t49">49</a></span><span class="t">            <span class="nam">settings</span><span class="op">.</span><span class="nam">config</span><span class="op">.</span><span class="nam">jwt_secret_key_file</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run run2"><span class="n"><a id="t50" href="#t50">50</a></span><span class="t">            <span class="nam">str</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run run2"><span class="n"><a id="t51" href="#t51">51</a></span><span class="t">        <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t52" href="#t52">52</a></span><span class="t">        <span class="key">if</span> <span class="key">not</span> <span class="nam">self</span><span class="op">.</span><span class="nam">_private_key</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t53" href="#t53">53</a></span><span class="t">            <span class="nam">log</span><span class="op">.</span><span class="nam">debug</span><span class="op">(</span><span class="fst">f"</span><span class="fst">Loading private key from </span><span class="op">{</span><span class="nam">settings</span><span class="op">.</span><span class="nam">config</span><span class="op">.</span><span class="nam">jwt_secret_key_file</span><span class="op">}</span><span class="fst">"</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t54" href="#t54">54</a></span><span class="t">            <span class="nam">self</span><span class="op">.</span><span class="nam">_private_key</span> <span class="op">=</span> <span class="nam">open</span><span class="op">(</span><span class="nam">settings</span><span class="op">.</span><span class="nam">config</span><span class="op">.</span><span class="nam">jwt_secret_key_file</span><span class="op">,</span> <span class="str">"rb"</span><span class="op">)</span><span class="op">.</span><span class="nam">read</span><span class="op">(</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
@@ -144,10 +144,10 @@
     <p class="pln"><span class="n"><a id="t62" href="#t62">62</a></span><span class="t">        <span class="str">"""Decode jwt string into payload."""</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t63" href="#t63">63</a></span><span class="t">        <span class="key">try</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t64" href="#t64">64</a></span><span class="t">            <span class="nam">decoded</span> <span class="op">=</span> <span class="nam">jwt</span><span class="op">.</span><span class="nam">decode</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t65" href="#t65">65</a></span><span class="t">                <span class="nam">encoded</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t66" href="#t66">66</a></span><span class="t">                <span class="nam">self</span><span class="op">.</span><span class="nam">public_key</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t67" href="#t67">67</a></span><span class="t">                <span class="nam">algorithms</span><span class="op">=</span><span class="op">[</span><span class="str">"RS256"</span><span class="op">]</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t68" href="#t68">68</a></span><span class="t">            <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run run2"><span class="n"><a id="t65" href="#t65">65</a></span><span class="t">                <span class="nam">encoded</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run run2"><span class="n"><a id="t66" href="#t66">66</a></span><span class="t">                <span class="nam">self</span><span class="op">.</span><span class="nam">public_key</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run run2"><span class="n"><a id="t67" href="#t67">67</a></span><span class="t">                <span class="nam">algorithms</span><span class="op">=</span><span class="op">[</span><span class="str">"RS256"</span><span class="op">]</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run run2"><span class="n"><a id="t68" href="#t68">68</a></span><span class="t">            <span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t69" href="#t69">69</a></span><span class="t">        <span class="key">except</span> <span class="nam">PyJWTError</span> <span class="key">as</span> <span class="nam">e</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t70" href="#t70">70</a></span><span class="t">            <span class="nam">decoded</span> <span class="op">=</span> <span class="key">None</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t71" href="#t71">71</a></span><span class="t">            <span class="nam">log</span><span class="op">.</span><span class="nam">debug</span><span class="op">(</span><span class="fst">f'</span><span class="fst">Decode error for jwt "</span><span class="op">{</span><span class="nam">encoded</span><span class="op">}</span><span class="fst">": </span><span class="op">{</span><span class="nam">e</span><span class="op">}</span><span class="fst">'</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
@@ -173,8 +173,8 @@
             <a class="nav" href="index.html">&Hat; index</a> &nbsp; &nbsp;
             <a class="nav" href="z_725f7b7e3a421609_api_app_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
-            <a class="nav" href="https://coverage.readthedocs.io/en/7.9.2">coverage.py v7.9.2</a>,
-            created at 2025-07-23 04:23 +0000
+            <a class="nav" href="https://coverage.readthedocs.io/en/7.10.6">coverage.py v7.10.6</a>,
+            created at 2025-09-20 04:14 +0000
         </p>
     </div>
 </footer>

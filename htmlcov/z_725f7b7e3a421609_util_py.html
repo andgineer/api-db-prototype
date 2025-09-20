@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Coverage for src/openapi_server/util.py: 83%</title>
     <link rel="icon" sizes="32x32" href="favicon_32_cb_58284776.png">
-    <link rel="stylesheet" href="style_cb_81f8c14c.css" type="text/css">
+    <link rel="stylesheet" href="style_cb_6b508a39.css" type="text/css">
     <script src="coverage_html_cb_6fb7b396.js" defer></script>
 </head>
 <body class="pyfile">
@@ -64,8 +64,8 @@
             <a id="indexLink" class="nav" href="index.html">&Hat; index</a> &nbsp; &nbsp;
             <a id="nextFileLink" class="nav" href="z_145eef247bfb46b6_password_hash_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
-            <a class="nav" href="https://coverage.readthedocs.io/en/7.9.2">coverage.py v7.9.2</a>,
-            created at 2025-07-23 04:23 +0000
+            <a class="nav" href="https://coverage.readthedocs.io/en/7.10.6">coverage.py v7.10.6</a>,
+            created at 2025-09-20 04:14 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -193,8 +193,8 @@
     <p class="pln"><span class="n"><a id="t111" href="#t111">111</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t112" href="#t112">112</a></span><span class="t">    <span class="key">for</span> <span class="nam">attr</span><span class="op">,</span> <span class="nam">attr_type</span> <span class="key">in</span> <span class="nam">instance</span><span class="op">.</span><span class="nam">openapi_types</span><span class="op">.</span><span class="nam">items</span><span class="op">(</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t113" href="#t113">113</a></span><span class="t">        <span class="key">if</span> <span class="nam">data</span> <span class="key">is</span> <span class="key">not</span> <span class="key">None</span> <span class="xx">\</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t114" href="#t114">114</a></span><span class="t">                <span class="key">and</span> <span class="nam">instance</span><span class="op">.</span><span class="nam">attribute_map</span><span class="op">[</span><span class="nam">attr</span><span class="op">]</span> <span class="key">in</span> <span class="nam">data</span> <span class="xx">\</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t115" href="#t115">115</a></span><span class="t">                <span class="key">and</span> <span class="nam">isinstance</span><span class="op">(</span><span class="nam">data</span><span class="op">,</span> <span class="op">(</span><span class="nam">list</span><span class="op">,</span> <span class="nam">dict</span><span class="op">)</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run run2"><span class="n"><a id="t114" href="#t114">114</a></span><span class="t">                <span class="key">and</span> <span class="nam">instance</span><span class="op">.</span><span class="nam">attribute_map</span><span class="op">[</span><span class="nam">attr</span><span class="op">]</span> <span class="key">in</span> <span class="nam">data</span> <span class="xx">\</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run run2"><span class="n"><a id="t115" href="#t115">115</a></span><span class="t">                <span class="key">and</span> <span class="nam">isinstance</span><span class="op">(</span><span class="nam">data</span><span class="op">,</span> <span class="op">(</span><span class="nam">list</span><span class="op">,</span> <span class="nam">dict</span><span class="op">)</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t116" href="#t116">116</a></span><span class="t">            <span class="nam">value</span> <span class="op">=</span> <span class="nam">data</span><span class="op">[</span><span class="nam">instance</span><span class="op">.</span><span class="nam">attribute_map</span><span class="op">[</span><span class="nam">attr</span><span class="op">]</span><span class="op">]</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t117" href="#t117">117</a></span><span class="t">            <span class="nam">setattr</span><span class="op">(</span><span class="nam">instance</span><span class="op">,</span> <span class="nam">attr</span><span class="op">,</span> <span class="nam">_deserialize</span><span class="op">(</span><span class="nam">value</span><span class="op">,</span> <span class="nam">attr_type</span><span class="op">)</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t118" href="#t118">118</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
@@ -212,7 +212,7 @@
     <p class="pln"><span class="n"><a id="t130" href="#t130">130</a></span><span class="t"><span class="str">    :rtype: list</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t131" href="#t131">131</a></span><span class="t"><span class="str">    """</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t132" href="#t132">132</a></span><span class="t">    <span class="key">return</span> <span class="op">[</span><span class="nam">_deserialize</span><span class="op">(</span><span class="nam">sub_data</span><span class="op">,</span> <span class="nam">boxed_type</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t133" href="#t133">133</a></span><span class="t">            <span class="key">for</span> <span class="nam">sub_data</span> <span class="key">in</span> <span class="nam">data</span><span class="op">]</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run run2"><span class="n"><a id="t133" href="#t133">133</a></span><span class="t">            <span class="key">for</span> <span class="nam">sub_data</span> <span class="key">in</span> <span class="nam">data</span><span class="op">]</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t134" href="#t134">134</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t135" href="#t135">135</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t136" href="#t136">136</a></span><span class="t"><span class="key">def</span> <span class="nam">_deserialize_dict</span><span class="op">(</span><span class="nam">data</span><span class="op">,</span> <span class="nam">boxed_type</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
@@ -226,7 +226,7 @@
     <p class="pln"><span class="n"><a id="t144" href="#t144">144</a></span><span class="t"><span class="str">    :rtype: dict</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t145" href="#t145">145</a></span><span class="t"><span class="str">    """</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t146" href="#t146">146</a></span><span class="t">    <span class="key">return</span> <span class="op">{</span><span class="nam">k</span><span class="op">:</span> <span class="nam">_deserialize</span><span class="op">(</span><span class="nam">v</span><span class="op">,</span> <span class="nam">boxed_type</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t147" href="#t147">147</a></span><span class="t">            <span class="key">for</span> <span class="nam">k</span><span class="op">,</span> <span class="nam">v</span> <span class="key">in</span> <span class="nam">data</span><span class="op">.</span><span class="nam">items</span><span class="op">(</span><span class="op">)</span> <span class="op">}</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run run2"><span class="n"><a id="t147" href="#t147">147</a></span><span class="t">            <span class="key">for</span> <span class="nam">k</span><span class="op">,</span> <span class="nam">v</span> <span class="key">in</span> <span class="nam">data</span><span class="op">.</span><span class="nam">items</span><span class="op">(</span><span class="op">)</span> <span class="op">}</span>&nbsp;</span><span class="r"></span></p>
 </main>
 <footer>
     <div class="content">
@@ -235,8 +235,8 @@
             <a class="nav" href="index.html">&Hat; index</a> &nbsp; &nbsp;
             <a class="nav" href="z_145eef247bfb46b6_password_hash_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
-            <a class="nav" href="https://coverage.readthedocs.io/en/7.9.2">coverage.py v7.9.2</a>,
-            created at 2025-07-23 04:23 +0000
+            <a class="nav" href="https://coverage.readthedocs.io/en/7.10.6">coverage.py v7.10.6</a>,
+            created at 2025-09-20 04:14 +0000
         </p>
     </div>
 </footer>
