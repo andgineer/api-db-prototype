@@ -3,10 +3,8 @@
 See add_commit_date_git_hook.sh and hook_install.sh
 """
 
-from typing import Optional
 
-
-def version() -> Optional[str]:
+def version() -> str | None:
     """Return app version."""
     try:
         return open("build_timestamp", encoding="utf8").read().strip()

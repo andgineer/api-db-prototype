@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any
 
 import six
 from connexion.frameworks.flask import FlaskJSONProvider
@@ -11,7 +11,7 @@ class JSONEncoder(FlaskJSONProvider):  # type: ignore
 
     include_nulls = False
 
-    def default(self, o: Any) -> Dict[str, Any]:
+    def default(self, o: Any) -> dict[str, Any]:
         """Convert object to dict."""
         if not isinstance(o, Model):
             return FlaskJSONProvider.default(self, o)  # type: ignore

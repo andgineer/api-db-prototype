@@ -1,6 +1,6 @@
 """Auth controller."""
 
-from typing import Any, Dict
+from typing import Any
 
 import settings
 from controllers.models import APIError, UserGroup
@@ -16,7 +16,7 @@ class AuthUser:
     email: str
     group: str
 
-    def __init__(self, token_payload: Dict[str, Any]) -> None:
+    def __init__(self, token_payload: dict[str, Any]) -> None:
         """Init the authenticated user from decoded JWT payload.
 
         Checks expiration.

@@ -1,4 +1,4 @@
-from typing import Any, Dict, Union
+from typing import Any
 
 import controllers.models
 import db.conn
@@ -13,7 +13,7 @@ from controllers.models import HttpCode
 @transaction
 @token_to_auth_user
 # CI gets types from controllers.model but locally thinks it's untyped, so this `Any` hack to suppress error on return
-def get_user(auth_user: AuthUser, user_id: str) -> Union[Dict[str, Any], Any]:
+def get_user(auth_user: AuthUser, user_id: str) -> dict[str, Any] | Any:
     """Get specific user details."""
     if not auth_user.is_admin:
         return "Only admin can get info about user", HttpCode.unauthorized

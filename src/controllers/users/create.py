@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any
 
 import db.conn
 import db.models
@@ -12,7 +12,7 @@ from journaling import log
 @api_result
 @transaction
 @token_to_auth_user
-def create_user(auth_user: AuthUser, new_user: Dict[str, Any]) -> Dict[str, Any]:
+def create_user(auth_user: AuthUser, new_user: dict[str, Any]) -> dict[str, Any]:
     """Create user from dict that contains fields for NewUser.
 
     Returns {"id": <new user id>}.

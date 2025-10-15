@@ -5,7 +5,7 @@ Checked with https://jwt.io/#debugger-io
 
 import datetime
 from datetime import timezone
-from typing import Any, Dict, Optional
+from typing import Any
 
 import jwt
 from cryptography.hazmat.backends import default_backend
@@ -23,8 +23,8 @@ JWT_MIN_LENGTH = 50
 class JwtCrypto:
     """JWT encoder/decoder."""
 
-    _public_key: Optional[bytes] = None
-    _private_key: Optional[bytes] = None
+    _public_key: bytes | None = None
+    _private_key: bytes | None = None
 
     @property
     def public_key(self) -> bytes:
@@ -54,11 +54,11 @@ class JwtCrypto:
             self._private_key = open(settings.config.jwt_secret_key_file, "rb").read()
         return self._private_key
 
-    def encode(self, payload: Dict[str, Any]) -> str:
+    def encode(self, payload: dict[str, Any]) -> str:
         """Encode payload into jwt string."""
         return jwt.encode(payload, self.private_key, algorithm="RS256")
 
-    def decode(self, encoded: str) -> Optional[Dict[str, Any]]:
+    def decode(self, encoded: str) -> dict[str, Any] | None:
         """Decode jwt string into payload."""
         try:
             decoded = jwt.decode(

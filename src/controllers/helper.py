@@ -3,7 +3,8 @@
 import functools
 import inspect
 import re
-from typing import Any, Callable, ParamSpec, TypeVar, cast
+from collections.abc import Callable
+from typing import Any, ParamSpec, TypeVar, cast
 
 import schematics.exceptions
 

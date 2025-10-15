@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any
 
 import controllers.models
 import db.conn
@@ -12,7 +12,7 @@ from journaling import log
 @api_result
 @transaction
 @token_to_auth_user
-def update_user(auth_user: AuthUser, user_id: str, update_user: Dict[str, Any]) -> Dict[str, Any]:
+def update_user(auth_user: AuthUser, user_id: str, update_user: dict[str, Any]) -> dict[str, Any]:
     """Update user."""
     update_user_obj = controllers.models.UpdateUser(update_user)
     update_user_obj.validate()

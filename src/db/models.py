@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any
 
 from sqlalchemy import Column, DateTime, Enum, ForeignKey, Integer, String, Table, event, func
 from sqlalchemy.orm import attributes, declarative_base, relationship
@@ -138,7 +138,7 @@ class User(Base):  # type: ignore
         return user  # type: ignore
 
     @property
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self) -> dict[str, Any]:
         """Return dict representation of the object."""
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 

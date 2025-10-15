@@ -5,7 +5,7 @@ import tempfile
 import urllib.parse
 from abc import abstractmethod
 from datetime import timezone
-from typing import Any, Optional
+from typing import Any
 from unittest.mock import MagicMock
 
 import journaling
@@ -34,8 +34,8 @@ class ConfigBase:
     """Base class for config."""
 
     debug_mode = False
-    jwt_secret_key_file: Optional[str] = None
-    jwt_public_key_file: Optional[str] = None
+    jwt_secret_key_file: str | None = None
+    jwt_public_key_file: str | None = None
 
     token_expiration_delta = datetime.timedelta(hours=TOKEN_EXPIRATION_HOURS)
 
@@ -45,18 +45,18 @@ class ConfigBase:
     web_enableCrossOriginRequests = False
 
     _port: str = str(DEFAULT_PORT)
-    _db_uri: Optional[str] = None
+    _db_uri: str | None = None
 
     db_autometa = True  # refresh DB metadata at start
     db_sqltrace = False
     profiler_cprofile = True  # activates profiling.py#analyze() context manager
 
-    api_host: Optional[str] = None
+    api_host: str | None = None
     api_root = ""
 
     aws_region = "us-east-1"
 
-    def __init__(self, log_config: Optional[str] = None):
+    def __init__(self, log_config: str | None = None):
         """Init config."""
         journaling.setup(log_config)
 
@@ -214,5 +214,5 @@ class ConfigTestWrong(ConfigBase):
         return flask_app
 
 
-config: Optional[ConfigBase] = None  # Convenient config injection
+config: ConfigBase | None = None  # Convenient config injection
 # app is responsible to populate this var with config object

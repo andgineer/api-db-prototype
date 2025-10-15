@@ -1,21 +1,19 @@
 """Encapsulate SQLAlchemy engine, session and db management logic."""
 
-from typing import Optional
-
+import alembic.command
+import alembic.config
 from sqlalchemy import Engine, create_engine
 from sqlalchemy.engine import reflection
 from sqlalchemy.orm import Session, scoped_session, sessionmaker
 
-import alembic.command
-import alembic.config
 import controllers.models
 import db.models
 import settings
 from db.models import Base
 from journaling import log
 
-session: Optional[Session] = None  # todo we mixed Session and Session() in code
-engine: Optional[Engine] = None
+session: Session | None = None  # todo we mixed Session and Session() in code
+engine: Engine | None = None
 
 
 def create_admin_user() -> None:

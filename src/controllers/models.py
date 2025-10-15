@@ -1,6 +1,6 @@
 import enum
 import random
-from typing import Any, Dict, Optional, Tuple, Type, Union
+from typing import Any, Union
 
 from schematics.exceptions import ConversionError
 from schematics.models import Model
@@ -9,7 +9,7 @@ from schematics.types import BaseType, IntType, ListType, StringType
 PAGE_DEFAULT = 1
 PER_PAGE_DEFAULT = 30
 
-ApiResult = Union[Dict[str, Any], Tuple[str, int]]
+ApiResult = Union[dict[str, Any], tuple[str, int]]
 
 
 class HttpCode:
@@ -36,7 +36,7 @@ class UserGroup(enum.Enum):
 class APIBaseError(Exception):
     """Error."""
 
-    status: Optional[int] = (
+    status: int | None = (
         None  # non-abstract descendants should replace that with specific HTTP error
     )
 
@@ -73,7 +73,7 @@ class Paging(Model):  # type: ignore
     page = IntType(min_value=1, default=PAGE_DEFAULT)
     per_page = IntType(min_value=1, default=PER_PAGE_DEFAULT)
 
-    def __init__(self, raw_data: Dict[str, Any], **kwargs: Any) -> None:
+    def __init__(self, raw_data: dict[str, Any], **kwargs: Any) -> None:
         """Init."""
         if "page" in raw_data and not str(raw_data["page"]).strip():
             del raw_data["page"]
@@ -86,29 +86,29 @@ class APIModel(Model):  # type: ignore
     """Model for API responses."""
 
     @property
-    def as_dict(self) -> Dict[str, Any]:
+    def as_dict(self) -> dict[str, Any]:
         """Export with conversion of all fields into safe for json string."""
         return self.to_primitive()  # type: ignore
 
     @property
-    def to_orm(self) -> Dict[str, Any]:
+    def to_orm(self) -> dict[str, Any]:
         """Export for ORM (SQLAlchemy).
 
         Dictionary without convertion of dates
         """
-        result: Dict[str, Any] = self.to_native()
+        result: dict[str, Any] = self.to_native()
 
         empty_fields = {field for field in result if result[field] is None}
         for field in empty_fields:
             del result[field]
         return result
 
-    def from_dict(self, data: Dict[str, Any]) -> "APIModel":
+    def from_dict(self, data: dict[str, Any]) -> "APIModel":
         """Import from dict."""
         super().__init__({param: data[param] for param in self.keys()})
         return self
 
-    def from_orm(self, data: Dict[str, Any]) -> "APIModel":
+    def from_orm(self, data: dict[str, Any]) -> "APIModel":
         """Import from ORM (SQLAlchemy)."""
         super().__init__({param: getattr(data, param) for param in self.keys()})
         return self
@@ -125,7 +125,7 @@ class EnumType(BaseType):  # type: ignore
         "find": "Couldnt find {value} in {choices}",
     }
 
-    def __init__(self, enum: Optional[Type[enum.Enum]] = None, **kwargs: Any) -> None:
+    def __init__(self, enum: type[enum.Enum] | None = None, **kwargs: Any) -> None:
         """Init."""
         self.enum = enum
         super().__init__(**kwargs)
@@ -137,7 +137,7 @@ class EnumType(BaseType):  # type: ignore
 
     def to_native(
         self,
-        value: Union[enum.Enum, str],
+        value: enum.Enum | str,
         context: Any = None,  # pylint: disable=unused-argument
     ) -> enum.Enum:
         """Convert to native.
@@ -165,7 +165,7 @@ class EnumType(BaseType):  # type: ignore
         self,
         value: enum.Enum,
         context: Any = None,  # pylint: disable=unused-argument
-    ) -> Union[str, int]:
+    ) -> str | int:
         """Convert to primitive."""
         return value.value  # type: ignore
 

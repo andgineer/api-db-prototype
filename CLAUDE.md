@@ -52,11 +52,12 @@ The project uses pre-commit hooks with:
 - **MyPy**: Type checking (excludes tests)
 - Comprehensive rule set covering security, complexity, imports, naming conventions
 
-Run linting manually:
+Run linting:
 ```bash
-source ./activate.sh && ruff check --fix src/  # Fix issues automatically
-source ./activate.sh && mypy src/              # Type checking
+source ./activate.sh && pre-commit run --all-files  # Run all linting and formatting checks
 ```
+
+**IMPORTANT**: Always use `pre-commit run --all-files` for code quality checks. Never run ruff or mypy directly.
 
 ## Architecture Overview
 

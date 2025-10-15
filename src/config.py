@@ -22,14 +22,14 @@ This is necessary to add new attributes to the object.
 
 import collections.abc
 import os.path
-from typing import Any, Dict, Optional
+from typing import Any
 
 import yaml
 
-last_loaded: Optional[Dict[str, Any]] = None  # contains dict with last loaded params
+last_loaded: dict[str, Any] | None = None  # contains dict with last loaded params
 
 
-def load(config: Dict[str, Any], obj: Optional[Any] = None, _prefix: Optional[str] = None) -> Any:
+def load(config: dict[str, Any], obj: Any | None = None, _prefix: str | None = None) -> Any:
     """Load config from dict.
 
     :param _prefix: internal usage for recursion
@@ -65,6 +65,6 @@ def load(config: Dict[str, Any], obj: Optional[Any] = None, _prefix: Optional[st
     return obj
 
 
-def load_yaml(file_name: str, obj: Optional[Any] = None) -> Dict[str, Any]:
+def load_yaml(file_name: str, obj: Any | None = None) -> dict[str, Any]:
     """Load config from yaml file."""
     return load(yaml.safe_load(open(file_name, encoding="utf8")), obj)  # type: ignore

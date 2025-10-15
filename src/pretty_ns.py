@@ -21,13 +21,14 @@ True
 """
 
 import time
-from typing import Any, Callable, Union
+from collections.abc import Callable
+from typing import Any
 
 time_ns: Callable[[], int]  # for Python3.7+ this is function from system library time
 # for earlier Python versions this is emulation of the Python3.7 time_ns
 
 
-def pretty_ns(elapsed_ns: Union[int, float]) -> str:
+def pretty_ns(elapsed_ns: int | float) -> str:
     """Represent time in human lovable form."""
     dividers = {
         "us": 1,

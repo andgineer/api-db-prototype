@@ -5,7 +5,8 @@ All transport-specific code please put here.
 """
 
 import inspect
-from typing import Any, Callable, Dict, List, Optional, ParamSpec, Tuple, TypeVar
+from collections.abc import Callable
+from typing import Any, ParamSpec, TypeVar
 
 from flask import Blueprint, Flask, Response, request
 from flask_swagger_ui import get_swaggerui_blueprint
@@ -61,7 +62,7 @@ def options_handler() -> Response:
     return response
 
 
-def auth_token() -> Optional[Dict[str, Any]]:
+def auth_token() -> dict[str, Any] | None:
     """Get auth token from headers and pass it to handler."""
     if not (auth_header := request.headers.get("Authorization")):
         return None
@@ -82,8 +83,8 @@ RetType = TypeVar("RetType")
 
 def api(  # type: ignore
     handler: Callable[Param, RetType],
-    bparams: Optional[List[str]] = None,
-    raw: Optional[bool] = False,
+    bparams: list[str] | None = None,
+    raw: bool | None = False,
 ):
     """Prepare handler to be used as API endpoint.
 
@@ -192,7 +193,7 @@ app.register_blueprint(blueprint)
 
 # Route for serving the OpenAPI specification file
 @app.route("/swagger.yaml")  # type: ignore
-def serve_openapi_spec() -> Tuple[str, int, Dict[str, Any]]:
+def serve_openapi_spec() -> tuple[str, int, dict[str, Any]]:
     """Generate Swagger UI base on Swagger spec."""
     with open("openapi_server/openapi/openapi.yaml", encoding="utf8") as file:
         content = file.read()

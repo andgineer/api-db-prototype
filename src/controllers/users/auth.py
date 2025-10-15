@@ -1,6 +1,6 @@
 """Authenticates a user and returns a JWT token."""
 
-from typing import Any, Dict
+from typing import Any
 
 import db.conn
 import db.models
@@ -20,7 +20,7 @@ def get_token(
     email: str,
     password: str,
     auth_token: Any = None,  # pylint: disable=unused-argument
-) -> Dict[str, Any]:  # todo: remove auth_token
+) -> dict[str, Any]:  # todo: remove auth_token
     """Return {"token": <JWT for the email/password>}."""
     assert settings.config
     user = db.models.User.by_email(email)

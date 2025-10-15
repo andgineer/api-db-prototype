@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 import boto3
 from botocore.exceptions import ClientError, NoCredentialsError
@@ -28,14 +28,14 @@ def ses() -> Any:
 
 
 def send_email(
-    recipients: List[Any],
+    recipients: list[Any],
     subject: str,
-    html: Optional[str] = None,
-    text: Optional[str] = None,
+    html: str | None = None,
+    text: str | None = None,
 ) -> None:
     """Send email via Amazon SES."""
     try:
-        message: Dict[str, Dict[str, Any]] = {
+        message: dict[str, dict[str, Any]] = {
             "Body": {},
             "Subject": {
                 "Charset": CHARSET,
@@ -89,7 +89,7 @@ def queue() -> Any:
     return sqs().get_queue_by_name(QueueName=settings.config.aws_queue)  # type: ignore
 
 
-def queue_messages_list() -> list[Dict[str, Any]]:
+def queue_messages_list() -> list[dict[str, Any]]:
     """List of messages in the queue."""
     result = []
     while True:
@@ -104,7 +104,7 @@ def queue_messages_list() -> list[Dict[str, Any]]:
     return result
 
 
-def get_queue_message() -> Optional[Dict[str, Any]]:
+def get_queue_message() -> dict[str, Any] | None:
     """Get one message from the queue."""
     messages = sqs().receive_message(
         QueueUrl=queue_url(),
@@ -129,7 +129,7 @@ def send_queue_message(body: str) -> None:
     log.debug(f'Sent SQS message "{body}",\n\nresponse: {response}')
 
 
-def delete_queue_message(message: Dict[str, Any]) -> None:
+def delete_queue_message(message: dict[str, Any]) -> None:
     """Delete message from the queue."""
     log.debug(f"Delete message {message}")
     sqs().delete_message(
