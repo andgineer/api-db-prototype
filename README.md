@@ -9,16 +9,16 @@
 | src/config.py                                        |       29 |        3 |     90% |50, 62, 70 |
 | src/controllers/\_\_init\_\_.py                      |        0 |        0 |    100% |           |
 | src/controllers/auth.py                              |       20 |        0 |    100% |           |
-| src/controllers/helper.py                            |       80 |       11 |     86% |     42-55 |
+| src/controllers/helper.py                            |       81 |       11 |     86% |     43-56 |
 | src/controllers/models.py                            |      114 |       10 |     91% |79, 81, 108-109, 135-136, 152, 158-162 |
 | src/controllers/users/auth.py                        |       25 |        2 |     92% |     28-29 |
 | src/controllers/users/create.py                      |       22 |        0 |    100% |           |
 | src/controllers/users/delete.py                      |       19 |        1 |     95% |        19 |
 | src/controllers/users/get.py                         |       16 |        2 |     88% |    19, 22 |
-| src/controllers/users/list.py                        |       43 |        7 |     84% |36, 41, 43, 49-52 |
+| src/controllers/users/list.py                        |       42 |        7 |     83% |34, 39, 41, 47-50 |
 | src/controllers/users/update.py                      |       24 |        2 |     92% |    21, 26 |
 | src/controllers/version.py                           |        7 |        4 |     43% |      9-12 |
-| src/db/conn.py                                       |       53 |        0 |    100% |           |
+| src/db/conn.py                                       |       52 |        0 |    100% |           |
 | src/db/models.py                                     |       68 |        6 |     91% |31, 80, 117, 136, 143, 160 |
 | src/flask\_server/\_\_init\_\_.py                    |        0 |        0 |    100% |           |
 | src/journaling.py                                    |       52 |        4 |     92% |37, 98-100 |
@@ -41,10 +41,10 @@
 | src/openapi\_server/typing\_utils.py                 |       15 |        7 |     53% |      4-16 |
 | src/openapi\_server/util.py                          |       59 |       10 |     83% |21, 47, 49, 58, 70, 75-76, 90, 95-96 |
 | src/password\_hash.py                                |        5 |        0 |    100% |           |
-| src/pretty\_ns.py                                    |       34 |        7 |     79% |47, 52, 82-85, 89-91 |
+| src/pretty\_ns.py                                    |       35 |        7 |     80% |48, 53, 83-86, 90-92 |
 | src/settings.py                                      |      123 |       17 |     86% |93, 98, 110, 178-181, 186, 194-200, 205, 214 |
-| src/version.py                                       |        8 |        1 |     88% |        18 |
-|                                            **TOTAL** | **1260** |  **202** | **84%** |           |
+| src/version.py                                       |        7 |        1 |     86% |        16 |
+|                                            **TOTAL** | **1259** |  **202** | **84%** |           |
 
 
 ## Setup coverage badge
