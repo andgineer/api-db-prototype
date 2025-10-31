@@ -8,7 +8,7 @@
 | src/cloud\_services.py                               |       58 |       23 |     60% |15, 26-27, 63-68, 76-77, 82-83, 88-89, 94-104, 116, 142-143 |
 | src/config.py                                        |       29 |        3 |     90% |50, 62, 70 |
 | src/controllers/\_\_init\_\_.py                      |        0 |        0 |    100% |           |
-| src/controllers/auth.py                              |       20 |        0 |    100% |           |
+| src/controllers/auth.py                              |       18 |        0 |    100% |           |
 | src/controllers/helper.py                            |       81 |       11 |     86% |     43-56 |
 | src/controllers/models.py                            |      114 |       10 |     91% |79, 81, 108-109, 135-136, 152, 158-162 |
 | src/controllers/users/auth.py                        |       25 |        2 |     92% |     28-29 |
@@ -44,7 +44,7 @@
 | src/pretty\_ns.py                                    |       35 |        7 |     80% |48, 53, 83-86, 90-92 |
 | src/settings.py                                      |      123 |       17 |     86% |93, 98, 110, 178-181, 186, 194-200, 205, 214 |
 | src/version.py                                       |        7 |        1 |     86% |        16 |
-|                                            **TOTAL** | **1259** |  **202** | **84%** |           |
+|                                            **TOTAL** | **1257** |  **202** | **84%** |           |
 
 
 ## Setup coverage badge
