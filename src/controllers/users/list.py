@@ -1,3 +1,5 @@
+from typing import TypedDict
+
 import controllers.models
 import db.conn
 import db.models
@@ -5,6 +7,14 @@ from controllers.auth import AuthUser
 from controllers.helper import api_result, token_to_auth_user, transaction
 from controllers.models import PAGE_DEFAULT, PER_PAGE_DEFAULT, APIError, HttpCode, Paging
 from journaling import log
+
+
+class OrderByOption(TypedDict):
+    """Type for order by options."""
+
+    field: str
+    model: type[db.models.User]
+
 
 DEFAULT_ORDER_BY = "-createdDatetime"
 
@@ -21,7 +31,7 @@ def users_list(
     order_by: str = DEFAULT_ORDER_BY,
 ) -> controllers.models.ApiResult:
     """Users list."""
-    order_by_options = {
+    order_by_options: dict[str, OrderByOption] = {
         "createddatetime": {"field": "createdDatetime", "model": db.models.User},
         "email": {"field": "email", "model": db.models.User},
     }
@@ -43,7 +53,7 @@ def users_list(
         )
     sort_by = order_by_options[order_by.lower()]
     order_by = getattr(
-        getattr(sort_by["model"], sort_by["field"]),  # pyrefly: ignore[no-matching-overload]
+        getattr(sort_by["model"], sort_by["field"]),
         sort_dir,
     )()
     if email:

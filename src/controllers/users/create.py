@@ -25,7 +25,7 @@ def create_user(auth_user: AuthUser, new_user: dict[str, Any]) -> dict[str, Any]
     if db.models.User.by_email(new_user_obj.email, check=False):
         return f'User with email="{new_user["email"]}" already exists', HttpCode.logic_error  # type: ignore
     db_user = db.models.User(**new_user_obj.to_orm)
-    db.conn.session.add(db_user)  # pyrefly: ignore[missing-attribute]
-    db.conn.session.commit()  # pyrefly: ignore[missing-attribute]
+    db.conn.get_session().add(db_user)
+    db.conn.get_session().commit()
     log.debug(f"Created user: [{db_user}]")
     return {"id": db_user.id}

@@ -29,11 +29,11 @@ def transaction(handler: Callable[Param, Result]) -> Callable[Param, Result]:
         try:
             return handler(*args, **kwargs)
         except APIBaseError as e:
-            db.conn.session.rollback()  # pyrefly: ignore[missing-attribute]
+            db.conn.get_session().rollback()
             log.error(f"{e}")
             return f"API error {e}", e.status  # type: ignore
         except schematics.exceptions.BaseError as e:
-            db.conn.session.rollback()  # pyrefly: ignore[missing-attribute]
+            db.conn.get_session().rollback()
             messages = []
             for field in e.errors:
                 error_messsage = str(e.errors[field]).replace("Rogue", "Unknown")
@@ -41,7 +41,7 @@ def transaction(handler: Callable[Param, Result]) -> Callable[Param, Result]:
             log.error(f"Model validation error: {e}")
             return f"Wrong request parameters: {', '.join(messages)}", HttpCode.wrong_request  # type: ignore
         except TypeError as e:
-            db.conn.session.rollback()  # pyrefly: ignore[missing-attribute]
+            db.conn.get_session().rollback()
             missing_args = re.match(
                 r"(.+)missing \d+ required positional argument(s)?: (.+)",
                 str(e),
@@ -51,11 +51,11 @@ def transaction(handler: Callable[Param, Result]) -> Callable[Param, Result]:
             log.error(f"{e}", exc_info=True)
             return "Server internal error", HttpCode.unhandled_exception  # type: ignore
         except Exception as e:
-            db.conn.session.rollback()  # pyrefly: ignore[missing-attribute]
+            db.conn.get_session().rollback()
             log.error(f"{e}", exc_info=True)
             return "Server internal error", HttpCode.unhandled_exception  # type: ignore
         finally:
-            db.conn.session.close()  # pyrefly: ignore[missing-attribute]
+            db.conn.get_session().close()
 
     return transaction_wrapper
 

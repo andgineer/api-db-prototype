@@ -1,6 +1,7 @@
 from typing import Any
 
 from sqlalchemy import Column, DateTime, Enum, ForeignKey, Integer, String, Table, event, func
+from sqlalchemy import inspect as sqlalchemy_inspect
 from sqlalchemy.orm import attributes, declarative_base, relationship
 from sqlalchemy.orm.base import NEVER_SET, NO_VALUE
 from sqlalchemy.orm.query import Query
@@ -17,7 +18,7 @@ class ORMClass:
     @classmethod
     def query(cls) -> Query[Any]:
         """Return query for this class."""
-        return db.conn.session.query(cls)  # type: ignore  # mypy bug
+        return db.conn.get_session().query(cls)
 
     @classmethod
     def by_id(cls, id: str, check: bool = True) -> Any:
@@ -133,8 +134,7 @@ class User(Base):  # type: ignore
         user = (
             User.query()
             .filter(
-                func.lower(db.models.User.email)  # pyrefly: ignore[implicit-import]
-                == email.lower(),
+                func.lower(User.email) == email.lower(),
             )
             .first()
         )
@@ -147,10 +147,8 @@ class User(Base):  # type: ignore
     @property
     def as_dict(self) -> dict[str, Any]:
         """Return dict representation of the object."""
-        return {
-            c.name: getattr(self, c.name)
-            for c in self.__table__.columns  # pyrefly: ignore[missing-attribute]
-        }
+        mapper = sqlalchemy_inspect(self).mapper
+        return {c.key: getattr(self, c.key) for c in mapper.column_attrs}
 
     def __repr__(self) -> str:
         """Return string representation of the object."""

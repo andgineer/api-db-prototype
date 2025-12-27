@@ -16,6 +16,12 @@ session: Session | None = None  # todo we mixed Session and Session() in code
 engine: Engine | None = None
 
 
+def get_session() -> Session:
+    """Get the session, asserting it has been initialized."""
+    assert session is not None, "Session not initialized. Call make_session() first."
+    return session
+
+
 def create_admin_user() -> None:
     """Create default admin if no users with admin right are in DB."""
     assert session is not None, "First init session with make_session()"
