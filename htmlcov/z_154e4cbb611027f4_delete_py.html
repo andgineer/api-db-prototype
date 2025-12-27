@@ -65,7 +65,7 @@
             <a id="nextFileLink" class="nav" href="z_154e4cbb611027f4_get_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.13.0">coverage.py v7.13.0</a>,
-            created at 2025-12-27 06:31 +0000
+            created at 2025-12-27 06:38 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -101,8 +101,8 @@
     <p class="mis show_mis"><span class="n"><a id="t19" href="#t19">19</a></span><span class="t">        <span class="key">return</span> <span class="str">"Only admin can delete users"</span><span class="op">,</span> <span class="nam">HttpCode</span><span class="op">.</span><span class="nam">unauthorized</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t20" href="#t20">20</a></span><span class="t">    <span class="key">if</span> <span class="nam">user_to_delete</span> <span class="op">:=</span> <span class="nam">db</span><span class="op">.</span><span class="nam">models</span><span class="op">.</span><span class="nam">User</span><span class="op">.</span><span class="nam">by_id</span><span class="op">(</span><span class="nam">user_id</span><span class="op">,</span> <span class="nam">check</span><span class="op">=</span><span class="key">False</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t21" href="#t21">21</a></span><span class="t">        <span class="nam">log</span><span class="op">.</span><span class="nam">debug</span><span class="op">(</span><span class="fst">f"</span><span class="fst">Deletion of user with id=</span><span class="op">{</span><span class="nam">user_id</span><span class="op">}</span><span class="fst">"</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t22" href="#t22">22</a></span><span class="t">        <span class="nam">db</span><span class="op">.</span><span class="nam">conn</span><span class="op">.</span><span class="nam">session</span><span class="op">.</span><span class="nam">delete</span><span class="op">(</span><span class="nam">user_to_delete</span><span class="op">)</span>  <span class="com"># pyrefly: ignore[missing-attribute]</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t23" href="#t23">23</a></span><span class="t">        <span class="nam">db</span><span class="op">.</span><span class="nam">conn</span><span class="op">.</span><span class="nam">session</span><span class="op">.</span><span class="nam">commit</span><span class="op">(</span><span class="op">)</span>  <span class="com"># pyrefly: ignore[missing-attribute]</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t22" href="#t22">22</a></span><span class="t">        <span class="nam">db</span><span class="op">.</span><span class="nam">conn</span><span class="op">.</span><span class="nam">get_session</span><span class="op">(</span><span class="op">)</span><span class="op">.</span><span class="nam">delete</span><span class="op">(</span><span class="nam">user_to_delete</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t23" href="#t23">23</a></span><span class="t">        <span class="nam">db</span><span class="op">.</span><span class="nam">conn</span><span class="op">.</span><span class="nam">get_session</span><span class="op">(</span><span class="op">)</span><span class="op">.</span><span class="nam">commit</span><span class="op">(</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t24" href="#t24">24</a></span><span class="t">        <span class="key">return</span> <span class="op">{</span><span class="op">}</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t25" href="#t25">25</a></span><span class="t">    <span class="nam">log</span><span class="op">.</span><span class="nam">debug</span><span class="op">(</span><span class="fst">f"</span><span class="fst">No user with id=</span><span class="op">{</span><span class="nam">user_id</span><span class="op">}</span><span class="fst">"</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t26" href="#t26">26</a></span><span class="t">    <span class="key">return</span> <span class="fst">f"</span><span class="fst">No user with id=</span><span class="op">{</span><span class="nam">user_id</span><span class="op">}</span><span class="fst">"</span><span class="op">,</span> <span class="nam">HttpCode</span><span class="op">.</span><span class="nam">logic_error</span>&nbsp;</span><span class="r"></span></p>
@@ -115,7 +115,7 @@
             <a class="nav" href="z_154e4cbb611027f4_get_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.13.0">coverage.py v7.13.0</a>,
-            created at 2025-12-27 06:31 +0000
+            created at 2025-12-27 06:38 +0000
         </p>
     </div>
 </footer>

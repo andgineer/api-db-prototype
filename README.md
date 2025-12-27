@@ -15,11 +15,11 @@
 | src/controllers/users/create.py                      |       22 |        0 |    100% |           |
 | src/controllers/users/delete.py                      |       19 |        1 |     95% |        19 |
 | src/controllers/users/get.py                         |       16 |        2 |     88% |    19, 22 |
-| src/controllers/users/list.py                        |       42 |        7 |     83% |34, 39, 41, 50-53 |
+| src/controllers/users/list.py                        |       44 |        7 |     84% |44, 49, 51, 60-63 |
 | src/controllers/users/update.py                      |       24 |        2 |     92% |    21, 26 |
 | src/controllers/version.py                           |        7 |        4 |     43% |      9-12 |
-| src/db/conn.py                                       |       52 |        0 |    100% |           |
-| src/db/models.py                                     |       68 |        6 |     91% |31, 80, 117, 143, 150, 170 |
+| src/db/conn.py                                       |       55 |        0 |    100% |           |
+| src/db/models.py                                     |       70 |        7 |     90% |32, 81, 118, 143, 150-151, 168 |
 | src/flask\_server/\_\_init\_\_.py                    |        0 |        0 |    100% |           |
 | src/journaling.py                                    |       52 |        4 |     92% |37, 98-100 |
 | src/jwt\_token.py                                    |       49 |        0 |    100% |           |
@@ -44,7 +44,7 @@
 | src/pretty\_ns.py                                    |       35 |        7 |     80% |48, 53, 83-86, 90-92 |
 | src/settings.py                                      |      123 |       17 |     86% |93, 98, 110, 178-181, 186, 194-200, 205, 214 |
 | src/version.py                                       |        7 |        1 |     86% |        16 |
-| **TOTAL**                                            | **1257** |  **202** | **84%** |           |
+| **TOTAL**                                            | **1264** |  **203** | **84%** |           |
 
 
 ## Setup coverage badge

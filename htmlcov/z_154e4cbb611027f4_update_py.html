@@ -65,7 +65,7 @@
             <a id="nextFileLink" class="nav" href="z_0261cd8f181aa2ca_version_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.13.0">coverage.py v7.13.0</a>,
-            created at 2025-12-27 06:31 +0000
+            created at 2025-12-27 06:38 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -112,7 +112,7 @@
     <p class="run"><span class="n"><a id="t30" href="#t30">30</a></span><span class="t">    <span class="nam">update_user_db</span> <span class="op">=</span> <span class="nam">update_user_obj</span><span class="op">.</span><span class="nam">to_orm</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t31" href="#t31">31</a></span><span class="t">    <span class="key">for</span> <span class="nam">field</span> <span class="key">in</span> <span class="nam">update_user_db</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t32" href="#t32">32</a></span><span class="t">        <span class="nam">setattr</span><span class="op">(</span><span class="nam">user</span><span class="op">,</span> <span class="nam">field</span><span class="op">,</span> <span class="nam">update_user_db</span><span class="op">[</span><span class="nam">field</span><span class="op">]</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t33" href="#t33">33</a></span><span class="t">    <span class="nam">db</span><span class="op">.</span><span class="nam">conn</span><span class="op">.</span><span class="nam">session</span><span class="op">.</span><span class="nam">commit</span><span class="op">(</span><span class="op">)</span>  <span class="com"># pyrefly: ignore[missing-attribute]</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t33" href="#t33">33</a></span><span class="t">    <span class="nam">db</span><span class="op">.</span><span class="nam">conn</span><span class="op">.</span><span class="nam">get_session</span><span class="op">(</span><span class="op">)</span><span class="op">.</span><span class="nam">commit</span><span class="op">(</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t34" href="#t34">34</a></span><span class="t">    <span class="nam">log</span><span class="op">.</span><span class="nam">info</span><span class="op">(</span><span class="fst">f"</span><span class="fst">Updated user [</span><span class="op">{</span><span class="nam">user</span><span class="op">}</span><span class="fst">]</span><span class="fst">"</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t35" href="#t35">35</a></span><span class="t">    <span class="key">return</span> <span class="nam">update_user_obj</span><span class="op">.</span><span class="nam">as_dict</span>&nbsp;</span><span class="r"></span></p>
 </main>
@@ -124,7 +124,7 @@
             <a class="nav" href="z_0261cd8f181aa2ca_version_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.13.0">coverage.py v7.13.0</a>,
-            created at 2025-12-27 06:31 +0000
+            created at 2025-12-27 06:38 +0000
         </p>
     </div>
 </footer>
