@@ -10,16 +10,16 @@
 | src/controllers/\_\_init\_\_.py                      |        0 |        0 |    100% |           |
 | src/controllers/auth.py                              |       18 |        0 |    100% |           |
 | src/controllers/helper.py                            |       81 |       11 |     86% |     43-56 |
-| src/controllers/models.py                            |      114 |       10 |     91% |79, 81, 108-109, 135-136, 152, 158-162 |
+| src/controllers/models.py                            |      114 |       10 |     91% |84, 86, 113-114, 140-141, 157, 165-172 |
 | src/controllers/users/auth.py                        |       25 |        2 |     92% |     28-29 |
 | src/controllers/users/create.py                      |       22 |        0 |    100% |           |
 | src/controllers/users/delete.py                      |       19 |        1 |     95% |        19 |
 | src/controllers/users/get.py                         |       16 |        2 |     88% |    19, 22 |
-| src/controllers/users/list.py                        |       42 |        7 |     83% |34, 39, 41, 47-50 |
+| src/controllers/users/list.py                        |       42 |        7 |     83% |34, 39, 41, 50-53 |
 | src/controllers/users/update.py                      |       24 |        2 |     92% |    21, 26 |
 | src/controllers/version.py                           |        7 |        4 |     43% |      9-12 |
 | src/db/conn.py                                       |       52 |        0 |    100% |           |
-| src/db/models.py                                     |       68 |        6 |     91% |31, 80, 117, 136, 143, 160 |
+| src/db/models.py                                     |       68 |        6 |     91% |31, 80, 117, 143, 150, 170 |
 | src/flask\_server/\_\_init\_\_.py                    |        0 |        0 |    100% |           |
 | src/journaling.py                                    |       52 |        4 |     92% |37, 98-100 |
 | src/jwt\_token.py                                    |       49 |        0 |    100% |           |
@@ -44,7 +44,7 @@
 | src/pretty\_ns.py                                    |       35 |        7 |     80% |48, 53, 83-86, 90-92 |
 | src/settings.py                                      |      123 |       17 |     86% |93, 98, 110, 178-181, 186, 194-200, 205, 214 |
 | src/version.py                                       |        7 |        1 |     86% |        16 |
-|                                            **TOTAL** | **1257** |  **202** | **84%** |           |
+| **TOTAL**                                            | **1257** |  **202** | **84%** |           |
 
 
 ## Setup coverage badge
