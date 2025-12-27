@@ -4,7 +4,12 @@ from typing import Any, Union
 
 from schematics.exceptions import ConversionError
 from schematics.models import Model
-from schematics.types import BaseType, IntType, ListType, StringType
+from schematics.types import (
+    BaseType,  # pyrefly: ignore[missing-module-attribute]
+    IntType,  # pyrefly: ignore[missing-module-attribute]
+    ListType,  # pyrefly: ignore[missing-module-attribute]
+    StringType,  # pyrefly: ignore[missing-module-attribute]
+)
 
 PAGE_DEFAULT = 1
 PER_PAGE_DEFAULT = 30
@@ -149,17 +154,24 @@ class EnumType(BaseType):  # type: ignore
         if isinstance(value, self.enum):
             return value
         if not isinstance(value, str):
-            raise ConversionError(self.messages["convert"].format(value))
+            raise ConversionError(
+                self.messages["convert"].format(value),  # pyrefly: ignore[missing-attribute]
+            )
         assert self.enum is not None
         try:
             for member in self.enum.__members__:
                 if member.lower() == value.lower():
                     return self.enum.__members__[member]
             raise ValueError(
-                self.messages["find"].format(choices=self.enum.__members__, value=value),
+                self.messages["find"].format(  # pyrefly: ignore[missing-attribute]
+                    choices=self.enum.__members__,
+                    value=value,
+                ),
             )
         except (ValueError, TypeError) as e:
-            raise ConversionError(self.messages["convert"].format(value)) from e
+            raise ConversionError(
+                self.messages["convert"].format(value),  # pyrefly: ignore[missing-attribute]
+            ) from e
 
     def to_primitive(
         self,

@@ -21,7 +21,7 @@ repos:
       - id: trailing-whitespace
         exclude_types: [ python ]
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.14.3
+    rev: v0.14.10
     hooks:
       - id: ruff
         exclude: ^tests/
@@ -65,19 +65,21 @@ repos:
         args: [
           --line-length=100
         ]
-  - repo: local
+  - repo: https://github.com/facebook/pyrefly-pre-commit
+    rev: 0.46.1
     hooks:
-      - id: mypy
-        name: mypy
-        entry: mypy
-        args: [
-          "--install-types",
-          "--non-interactive",
-          "--ignore-missing-imports",
-          "--namespace-packages",
-          "--explicit-package-bases"
-        ]
-        require_serial: true
+      - id: pyrefly-check
+        name: pyrefly check
         language: system
-        types: [ python ]
-        exclude: ^tests/
+        args: [
+          "--ignore=missing-source-for-stubs",
+          "--project-excludes=tests",
+          "--project-excludes=src/openapi_server/models",
+          "--project-excludes=src/openapi_server/controllers",
+          "--project-excludes=src/openapi_server/util.py",
+          "--project-excludes=src/openapi_server/__main__.py",
+          "--project-excludes=src/openapi_server/typing_utils.py",
+          "--project-excludes=src/openapi_server/apikey_fake.py",
+          "--project-excludes=src/alembic",
+          "--project-excludes=src/profiling.py"
+        ]

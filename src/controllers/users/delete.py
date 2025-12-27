@@ -19,8 +19,8 @@ def delete_user(auth_user: AuthUser, user_id: str) -> ApiResult:
         return "Only admin can delete users", HttpCode.unauthorized
     if user_to_delete := db.models.User.by_id(user_id, check=False):
         log.debug(f"Deletion of user with id={user_id}")
-        db.conn.session.delete(user_to_delete)
-        db.conn.session.commit()
+        db.conn.session.delete(user_to_delete)  # pyrefly: ignore[missing-attribute]
+        db.conn.session.commit()  # pyrefly: ignore[missing-attribute]
         return {}
     log.debug(f"No user with id={user_id}")
     return f"No user with id={user_id}", HttpCode.logic_error

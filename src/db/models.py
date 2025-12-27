@@ -130,7 +130,14 @@ class User(Base):  # type: ignore
 
         If `check` then raise exception if not found.
         """
-        user = User.query().filter(func.lower(db.models.User.email) == email.lower()).first()
+        user = (
+            User.query()
+            .filter(
+                func.lower(db.models.User.email)  # pyrefly: ignore[implicit-import]
+                == email.lower(),
+            )
+            .first()
+        )
         if not user:
             if check:
                 raise APIError(f'There is no user with email "{email}"')
@@ -140,7 +147,10 @@ class User(Base):  # type: ignore
     @property
     def as_dict(self) -> dict[str, Any]:
         """Return dict representation of the object."""
-        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+        return {
+            c.name: getattr(self, c.name)
+            for c in self.__table__.columns  # pyrefly: ignore[missing-attribute]
+        }
 
     def __repr__(self) -> str:
         """Return string representation of the object."""

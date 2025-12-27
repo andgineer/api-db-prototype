@@ -29,19 +29,19 @@ def transaction(handler: Callable[Param, Result]) -> Callable[Param, Result]:
         try:
             return handler(*args, **kwargs)
         except APIBaseError as e:
-            db.conn.session.rollback()
+            db.conn.session.rollback()  # pyrefly: ignore[missing-attribute]
             log.error(f"{e}")
             return f"API error {e}", e.status  # type: ignore
         except schematics.exceptions.BaseError as e:
-            db.conn.session.rollback()
+            db.conn.session.rollback()  # pyrefly: ignore[missing-attribute]
             messages = []
             for field in e.errors:
                 error_messsage = str(e.errors[field]).replace("Rogue", "Unknown")
-                messages.append(f"{field} - {error_messsage}")
+                messages.append(f"{field} - {error_messsage}")  # pyrefly: ignore[bad-argument-type]
             log.error(f"Model validation error: {e}")
             return f"Wrong request parameters: {', '.join(messages)}", HttpCode.wrong_request  # type: ignore
         except TypeError as e:
-            db.conn.session.rollback()
+            db.conn.session.rollback()  # pyrefly: ignore[missing-attribute]
             missing_args = re.match(
                 r"(.+)missing \d+ required positional argument(s)?: (.+)",
                 str(e),
@@ -51,11 +51,11 @@ def transaction(handler: Callable[Param, Result]) -> Callable[Param, Result]:
             log.error(f"{e}", exc_info=True)
             return "Server internal error", HttpCode.unhandled_exception  # type: ignore
         except Exception as e:
-            db.conn.session.rollback()
+            db.conn.session.rollback()  # pyrefly: ignore[missing-attribute]
             log.error(f"{e}", exc_info=True)
             return "Server internal error", HttpCode.unhandled_exception  # type: ignore
         finally:
-            db.conn.session.close()
+            db.conn.session.close()  # pyrefly: ignore[missing-attribute]
 
     return transaction_wrapper
 
@@ -108,10 +108,10 @@ def token_to_auth_user(handler: Callable[Param, Result]) -> Callable[Param, Resu
                 return "No or wrong user token in request", HttpCode.no_token  # type: ignore
             del kwargs["auth_token"]
         try:
-            return handler(*args, **kwargs)
+            return handler(*args, **kwargs)  # pyrefly: ignore[invalid-param-spec]
         finally:
             journaling.user = None
 
     # suppress "Callable[[VarArg(Any), KwArg(Any)], Any]" has no attribute "__signature__"
     token_to_auth_user_wrapper.__signature__ = inspect.signature(handler)  # type: ignore[attr-defined]
-    return token_to_auth_user_wrapper
+    return token_to_auth_user_wrapper  # pyrefly: ignore[bad-return]

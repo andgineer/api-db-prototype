@@ -42,7 +42,10 @@ def users_list(
             f'Wrong order by option "{order_by}". Possible options for order by: {", ".join(list(order_by_options.keys()))}',
         )
     sort_by = order_by_options[order_by.lower()]
-    order_by = getattr(getattr(sort_by["model"], sort_by["field"]), sort_dir)()
+    order_by = getattr(
+        getattr(sort_by["model"], sort_by["field"]),  # pyrefly: ignore[no-matching-overload]
+        sort_dir,
+    )()
     if email:
         users = [db.models.User.by_email(email, check=False)]
         if users[0] is None:

@@ -74,7 +74,7 @@ def auth_token() -> dict[str, Any] | None:
             )
     else:
         auth_header = auth_header.split()[1]
-    return token.decode(auth_header)
+    return token.decode(auth_header)  # pyrefly: ignore[unbound-name]
 
 
 Param = ParamSpec("Param")
@@ -164,7 +164,7 @@ app.add_url_rule(
 app.add_url_rule(
     f"{API_ROOT_URL}/users/<string:user_id>",
     "delete_user",
-    api(delete_user),
+    api(delete_user),  # pyrefly: ignore[bad-argument-type]
     methods=["DELETE"],
 )
 app.add_url_rule(
@@ -179,7 +179,12 @@ app.add_url_rule(
     api(update_user, bparams=["update_user"]),
     methods=["PUT"],
 )
-app.add_url_rule(f"{API_ROOT_URL}/users", "users_list", api(users_list), methods=["GET"])
+app.add_url_rule(
+    f"{API_ROOT_URL}/users",
+    "users_list",
+    api(users_list),  # pyrefly: ignore[bad-argument-type]
+    methods=["GET"],
+)
 app.add_url_rule(
     f"{API_ROOT_URL}/users/<string:user_id>",
     "get_user",

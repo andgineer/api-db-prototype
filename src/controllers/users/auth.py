@@ -27,7 +27,7 @@ def get_token(
     if not user:
         log.debug(f"No user with email={email}")
         raise APILogicError(f"No user with email={email}")
-    if not password_hash.verify(password, user.password_hash):
+    if not password_hash.verify(password, user.password_hash):  # pyrefly: ignore[bad-argument-type]
         log.debug(f"Invalid email/password for user {email}")
         raise APIUnauthError(f"Invalid email/password for user {email}")
     log.debug(f"Issuing JWT for {email}")

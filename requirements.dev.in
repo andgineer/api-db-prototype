@@ -13,6 +13,5 @@ pip-tools
 urllib3
 
 # linter
-mypy
-pylint
+pyrefly
 pre-commit

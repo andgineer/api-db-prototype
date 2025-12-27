@@ -30,6 +30,6 @@ def update_user(auth_user: AuthUser, user_id: str, update_user: dict[str, Any]) 
     update_user_db = update_user_obj.to_orm
     for field in update_user_db:
         setattr(user, field, update_user_db[field])
-    db.conn.session.commit()
+    db.conn.session.commit()  # pyrefly: ignore[missing-attribute]
     log.info(f"Updated user [{user}]")
     return update_user_obj.as_dict
