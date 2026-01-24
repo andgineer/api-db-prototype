@@ -2,13 +2,13 @@
 #    uv pip compile requirements.prod.in --output-file=requirements.prod.txt
 a2wsgi==1.10.10
     # via -r requirements.txt
-alembic==1.17.2
+alembic==1.18.1
     # via -r requirements.txt
 aniso8601==10.0.1
     # via
     #   -r requirements.txt
     #   flask-restx
-anyio==4.12.0
+anyio==4.12.1
     # via
     #   -r requirements.txt
     #   httpx
@@ -26,16 +26,16 @@ blinker==1.9.0
     # via
     #   -r requirements.txt
     #   flask
-boto3==1.42.17
+boto3==1.42.34
     # via -r requirements.txt
-botocore==1.42.17
+botocore==1.42.34
     # via
     #   -r requirements.txt
     #   boto3
     #   s3transfer
-build==1.3.0
+build==1.4.0
     # via inotify
-certifi==2025.11.12
+certifi==2026.1.4
     # via
     #   -r requirements.txt
     #   httpcore
@@ -67,7 +67,7 @@ flask-restx==1.3.2
     # via -r requirements.txt
 flask-swagger-ui==5.21.0
     # via -r requirements.txt
-gunicorn==23.0.0
+gunicorn==24.1.1
     # via -r requirements.prod.in
 h11==0.16.0
     # via
@@ -108,12 +108,12 @@ jinja2==3.1.6
     #   connexion
     #   flask
     #   swagger-ui-bundle
-jmespath==1.0.1
+jmespath==1.1.0
     # via
     #   -r requirements.txt
     #   boto3
     #   botocore
-jsonschema==4.25.1
+jsonschema==4.26.0
     # via
     #   -r requirements.txt
     #   connexion
@@ -133,7 +133,7 @@ markupsafe==3.0.3
     #   jinja2
     #   mako
     #   werkzeug
-packaging==25.0
+packaging==26.0
     # via
     #   build
     #   gunicorn
@@ -141,7 +141,7 @@ passlib==1.7.4
     # via -r requirements.txt
 passwords==0.2.0
     # via -r requirements.txt
-pycparser==2.23
+pycparser==3.0
     # via
     #   -r requirements.txt
     #   cffi
@@ -182,17 +182,17 @@ s3transfer==0.16.0
     #   boto3
 schematics==2.1.1
     # via -r requirements.txt
-setuptools==80.9.0
+setuptools==80.10.1
     # via -r requirements.prod.in
 six==1.17.0
     # via
     #   -r requirements.txt
     #   python-dateutil
-sqlalchemy==2.0.45
+sqlalchemy==2.0.46
     # via
     #   -r requirements.txt
     #   alembic
-starlette==0.50.0
+starlette==0.52.1
     # via
     #   -r requirements.txt
     #   connexion
@@ -207,14 +207,14 @@ typing-extensions==4.15.0
     #   referencing
     #   sqlalchemy
     #   starlette
-urllib3==2.6.2
+urllib3==2.6.3
     # via
     #   -r requirements.txt
     #   botocore
     #   requests
 uvicorn==0.40.0
     # via -r requirements.prod.in
-werkzeug==3.1.4
+werkzeug==3.1.5
     # via
     #   -r requirements.txt
     #   connexion

@@ -87,4 +87,3 @@ class LoadTest(object):
         # log.info("Tearing down LoadTest")
         # It's mandatory to explicitly stop worker process in teardown
         os._exit(0)
-        return 0

@@ -2,13 +2,13 @@
 #    uv pip compile requirements.dev.in --output-file=requirements.dev.txt
 a2wsgi==1.10.10
     # via -r requirements.txt
-alembic==1.17.2
+alembic==1.18.1
     # via -r requirements.txt
 aniso8601==10.0.1
     # via
     #   -r requirements.txt
     #   flask-restx
-anyio==4.12.0
+anyio==4.12.1
     # via
     #   -r requirements.txt
     #   httpx
@@ -26,16 +26,16 @@ blinker==1.9.0
     # via
     #   -r requirements.txt
     #   flask
-boto3==1.42.17
+boto3==1.42.34
     # via -r requirements.txt
-botocore==1.42.17
+botocore==1.42.34
     # via
     #   -r requirements.txt
     #   boto3
     #   s3transfer
-build==1.3.0
+build==1.4.0
     # via pip-tools
-certifi==2025.11.12
+certifi==2026.1.4
     # via
     #   -r requirements.txt
     #   httpcore
@@ -58,7 +58,7 @@ click==8.3.1
     #   pip-tools
 connexion==3.3.0
     # via -r requirements.txt
-coverage==7.13.0
+coverage==7.13.1
     # via
     #   -r requirements.dev.in
     #   pytest-cov
@@ -66,7 +66,7 @@ cryptography==46.0.3
     # via -r requirements.txt
 distlib==0.4.0
     # via virtualenv
-filelock==3.20.1
+filelock==3.20.3
     # via virtualenv
 flask==3.1.2
     # via
@@ -92,9 +92,9 @@ httpx==0.28.1
     # via
     #   -r requirements.txt
     #   connexion
-hypothesis==6.148.8
+hypothesis==6.150.3
     # via -r requirements.dev.in
-identify==2.6.15
+identify==2.6.16
     # via pre-commit
 idna==3.11
     # via
@@ -122,12 +122,12 @@ jinja2==3.1.6
     #   connexion
     #   flask
     #   swagger-ui-bundle
-jmespath==1.0.1
+jmespath==1.1.0
     # via
     #   -r requirements.txt
     #   boto3
     #   botocore
-jsonschema==4.25.1
+jsonschema==4.26.0
     # via
     #   -r requirements.txt
     #   connexion
@@ -149,10 +149,11 @@ markupsafe==3.0.3
     #   werkzeug
 nodeenv==1.10.0
     # via pre-commit
-packaging==25.0
+packaging==26.0
     # via
     #   build
     #   pytest
+    #   wheel
 passlib==1.7.4
     # via -r requirements.txt
 passwords==0.2.0
@@ -169,7 +170,7 @@ pluggy==1.6.0
     #   pytest-cov
 pre-commit==4.5.1
     # via -r requirements.dev.in
-pycparser==2.23
+pycparser==3.0
     # via
     #   -r requirements.txt
     #   cffi
@@ -181,7 +182,7 @@ pyproject-hooks==1.2.0
     # via
     #   build
     #   pip-tools
-pyrefly==0.46.1
+pyrefly==0.49.0
     # via -r requirements.dev.in
 pytest==9.0.2
     # via
@@ -223,7 +224,7 @@ s3transfer==0.16.0
     #   boto3
 schematics==2.1.1
     # via -r requirements.txt
-setuptools==80.9.0
+setuptools==80.10.1
     # via pip-tools
 six==1.17.0
     # via
@@ -231,11 +232,11 @@ six==1.17.0
     #   python-dateutil
 sortedcontainers==2.4.0
     # via hypothesis
-sqlalchemy==2.0.45
+sqlalchemy==2.0.46
     # via
     #   -r requirements.txt
     #   alembic
-starlette==0.50.0
+starlette==0.52.1
     # via
     #   -r requirements.txt
     #   connexion
@@ -250,19 +251,19 @@ typing-extensions==4.15.0
     #   referencing
     #   sqlalchemy
     #   starlette
-urllib3==2.6.2
+urllib3==2.6.3
     # via
     #   -r requirements.dev.in
     #   -r requirements.txt
     #   botocore
     #   requests
-virtualenv==20.35.4
+virtualenv==20.36.1
     # via pre-commit
-werkzeug==3.1.4
+werkzeug==3.1.5
     # via
     #   -r requirements.txt
     #   connexion
     #   flask
     #   flask-restx
-wheel==0.45.1
+wheel==0.46.3
     # via pip-tools

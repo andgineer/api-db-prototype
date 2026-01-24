@@ -2,11 +2,11 @@
 #    uv pip compile requirements.in --output-file=requirements.txt
 a2wsgi==1.10.10
     # via connexion
-alembic==1.17.2
+alembic==1.18.1
     # via -r requirements.in
 aniso8601==10.0.1
     # via flask-restx
-anyio==4.12.0
+anyio==4.12.1
     # via
     #   httpx
     #   starlette
@@ -20,13 +20,13 @@ attrs==25.4.0
     #   referencing
 blinker==1.9.0
     # via flask
-boto3==1.42.17
+boto3==1.42.34
     # via -r requirements.in
-botocore==1.42.17
+botocore==1.42.34
     # via
     #   boto3
     #   s3transfer
-certifi==2025.11.12
+certifi==2026.1.4
     # via
     #   httpcore
     #   httpx
@@ -73,11 +73,11 @@ jinja2==3.1.6
     #   connexion
     #   flask
     #   swagger-ui-bundle
-jmespath==1.0.1
+jmespath==1.1.0
     # via
     #   boto3
     #   botocore
-jsonschema==4.25.1
+jsonschema==4.26.0
     # via
     #   connexion
     #   flask-restx
@@ -95,7 +95,7 @@ passlib==1.7.4
     # via -r requirements.in
 passwords==0.2.0
     # via -r requirements.in
-pycparser==2.23
+pycparser==3.0
     # via cffi
 pyjwt==2.10.1
     # via -r requirements.in
@@ -124,11 +124,11 @@ schematics==2.1.1
     # via -r requirements.in
 six==1.17.0
     # via python-dateutil
-sqlalchemy==2.0.45
+sqlalchemy==2.0.46
     # via
     #   -r requirements.in
     #   alembic
-starlette==0.50.0
+starlette==0.52.1
     # via
     #   -r requirements.in
     #   connexion
@@ -142,12 +142,12 @@ typing-extensions==4.15.0
     #   referencing
     #   sqlalchemy
     #   starlette
-urllib3==2.6.2
+urllib3==2.6.3
     # via
     #   -r requirements.in
     #   botocore
     #   requests
-werkzeug==3.1.4
+werkzeug==3.1.5
     # via
     #   -r requirements.in
     #   connexion
