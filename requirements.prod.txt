@@ -2,7 +2,7 @@
 #    uv pip compile requirements.prod.in --output-file=requirements.prod.txt
 a2wsgi==1.10.10
     # via -r requirements.txt
-alembic==1.18.1
+alembic==1.18.4
     # via -r requirements.txt
 aniso8601==10.0.1
     # via
@@ -13,7 +13,7 @@ anyio==4.12.1
     #   -r requirements.txt
     #   httpx
     #   starlette
-asgiref==3.11.0
+asgiref==3.11.1
     # via
     #   -r requirements.txt
     #   connexion
@@ -26,9 +26,9 @@ blinker==1.9.0
     # via
     #   -r requirements.txt
     #   flask
-boto3==1.42.35
+boto3==1.42.46
     # via -r requirements.txt
-botocore==1.42.35
+botocore==1.42.46
     # via
     #   -r requirements.txt
     #   boto3
@@ -56,7 +56,7 @@ click==8.3.1
     #   uvicorn
 connexion==3.3.0
     # via -r requirements.txt
-cryptography==46.0.3
+cryptography==46.0.5
     # via -r requirements.txt
 flask==3.1.2
     # via
@@ -67,7 +67,7 @@ flask-restx==1.3.2
     # via -r requirements.txt
 flask-swagger-ui==5.21.0
     # via -r requirements.txt
-gunicorn==24.1.1
+gunicorn==25.0.3
     # via -r requirements.prod.in
 h11==0.16.0
     # via
@@ -145,7 +145,7 @@ pycparser==3.0
     # via
     #   -r requirements.txt
     #   cffi
-pyjwt==2.10.1
+pyjwt==2.11.0
     # via -r requirements.txt
 pyproject-hooks==1.2.0
     # via build
@@ -182,7 +182,7 @@ s3transfer==0.16.0
     #   boto3
 schematics==2.1.1
     # via -r requirements.txt
-setuptools==80.10.2
+setuptools==82.0.0
     # via -r requirements.prod.in
 six==1.17.0
     # via

@@ -2,7 +2,7 @@
 #    uv pip compile requirements.in --output-file=requirements.txt
 a2wsgi==1.10.10
     # via connexion
-alembic==1.18.1
+alembic==1.18.4
     # via -r requirements.in
 aniso8601==10.0.1
     # via flask-restx
@@ -10,7 +10,7 @@ anyio==4.12.1
     # via
     #   httpx
     #   starlette
-asgiref==3.11.0
+asgiref==3.11.1
     # via
     #   connexion
     #   flask
@@ -20,9 +20,9 @@ attrs==25.4.0
     #   referencing
 blinker==1.9.0
     # via flask
-boto3==1.42.35
+boto3==1.42.46
     # via -r requirements.in
-botocore==1.42.35
+botocore==1.42.46
     # via
     #   boto3
     #   s3transfer
@@ -39,7 +39,7 @@ click==8.3.1
     # via flask
 connexion==3.3.0
     # via -r requirements.in
-cryptography==46.0.3
+cryptography==46.0.5
     # via -r requirements.in
 flask==3.1.2
     # via
@@ -97,7 +97,7 @@ passwords==0.2.0
     # via -r requirements.in
 pycparser==3.0
     # via cffi
-pyjwt==2.10.1
+pyjwt==2.11.0
     # via -r requirements.in
 python-dateutil==2.9.0.post0
     # via botocore
