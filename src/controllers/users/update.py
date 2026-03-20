@@ -22,7 +22,7 @@ def update_user(auth_user: AuthUser, user_id: str, update_user: dict[str, Any]) 
             f"Only user himself or admin can update user <{user.email}> properties, not <{auth_user.email}>.",
             controllers.models.HttpCode.unauthorized,
         )
-    if update_user_obj.email.lower() != user.email.lower():
+    if str(update_user_obj.email).lower() != user.email.lower():
         return (  # type: ignore
             f"You cannot change user email (current <{user.email}>, new <{update_user_obj.email}>)",
             controllers.models.HttpCode.logic_error,

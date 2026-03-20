@@ -1,6 +1,6 @@
 """Password hashing and verification."""
 
-from passlib.hash import pbkdf2_sha256
+from passlib.hash import pbkdf2_sha256  # type: ignore[attr-defined]
 
 
 def hash(password: str) -> str:

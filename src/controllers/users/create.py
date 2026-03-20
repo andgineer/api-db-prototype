@@ -22,7 +22,7 @@ def create_user(auth_user: AuthUser, new_user: dict[str, Any]) -> dict[str, Any]
         return "Only admin can create users", HttpCode.unauthorized  # type: ignore
     new_user_obj = NewUser(new_user)
     new_user_obj.validate()
-    if db.models.User.by_email(new_user_obj.email, check=False):
+    if db.models.User.by_email(str(new_user_obj.email), check=False):
         return f'User with email="{new_user["email"]}" already exists', HttpCode.logic_error  # type: ignore
     db_user = db.models.User(**new_user_obj.to_orm)
     db.conn.get_session().add(db_user)

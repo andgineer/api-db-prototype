@@ -135,7 +135,7 @@ class EnumType(BaseType):  # type: ignore
         self.enum = enum
         super().__init__(**kwargs)
 
-    def _mock(self, context: Any = None) -> str:  # pylint: disable=unused-argument
+    def _mock(self, context: Any = None) -> str:  # pylint: disable=unused-argument  # type: ignore[override]
         """Return random enum value."""
         assert self.enum is not None
         return random.choice(list(self.enum.__members__))
