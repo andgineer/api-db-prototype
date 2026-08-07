@@ -12,7 +12,7 @@ def db_date():
     """
     Date in DB ORM format
     """
-    return datetime.datetime.now()
+    return datetime.datetime.now(timezone.utc)
 
 
 @pytest.fixture(scope="session")

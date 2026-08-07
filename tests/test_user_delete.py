@@ -13,7 +13,7 @@ from journaling import log
 def test_delete_fail(user_id, admin_token):
     """Delete user in empty DB."""
     data = api.users_list(admin_token)
-    log.debug(f"empty db users {str(data)}")
+    log.debug(f"empty db users {data!s}")
     existing_user_ids = {user["id"] for user in data}
     log.debug(f"existed id {existing_user_ids}")
     non_existing_user_id = max((int(id) for id in existing_user_ids), default=user_id) + 1

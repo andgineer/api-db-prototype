@@ -1,6 +1,6 @@
 import doctest
-from pathlib import Path
 import importlib.util
+from pathlib import Path
 
 import pytest
 
@@ -11,7 +11,6 @@ def api_client(request, config):
 
     We run doctests just inside the module and do not need any environment.
     """
-    pass
 
 
 def process_file(py_file):
@@ -20,7 +19,7 @@ def process_file(py_file):
         file_content = file.read()
     parser = doctest.DocTestParser()
     if not parser.get_doctest(file_content, {}, py_file.stem, py_file, 0).examples:
-        return None
+        return
     print(f"Testing docstrings in {py_file}")
     spec = importlib.util.spec_from_file_location(py_file.stem, py_file)
     module = importlib.util.module_from_spec(spec)

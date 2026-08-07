@@ -1,6 +1,7 @@
 import os
-import pytest
 from unittest import mock
+
+import pytest
 
 import app
 import settings

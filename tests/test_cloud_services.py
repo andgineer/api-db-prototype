@@ -1,7 +1,9 @@
-import pytest
 from unittest.mock import patch
-from cloud_services import send_email, get_queue_message, send_queue_message, delete_queue_message
+
+import pytest
+
 import settings
+from cloud_services import delete_queue_message, get_queue_message, send_email, send_queue_message
 
 
 @pytest.fixture(autouse=True)

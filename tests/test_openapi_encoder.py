@@ -1,11 +1,13 @@
 import datetime
-from openapi_server.models.base_model import Model
+from typing import ClassVar
+
 from openapi_server.encoder import JSONEncoder  # use actual import for your JSONEncoder
+from openapi_server.models.base_model import Model
 
 
 class MockModel(Model):
-    openapi_types = {"attr1": "type1", "attr2": "type2"}
-    attribute_map = {"attr1": "attribute1", "attr2": "attribute2"}
+    openapi_types: ClassVar = {"attr1": "type1", "attr2": "type2"}
+    attribute_map: ClassVar = {"attr1": "attribute1", "attr2": "attribute2"}
 
     def __init__(self, attr1, attr2):
         self.attr1 = attr1
@@ -16,7 +18,7 @@ def test_JSONEncoder(config):
     encoder = JSONEncoder(config.app)
 
     # Test with non-Model instance
-    non_model_obj = datetime.datetime.now()
+    non_model_obj = datetime.datetime.now(datetime.timezone.utc)
     assert isinstance(
         encoder.default(non_model_obj), str
     )  # datetime is converted to a string by FlaskJSONEncoder
