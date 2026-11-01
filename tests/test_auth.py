@@ -1,5 +1,4 @@
 import datetime
-from datetime import timezone
 from unittest.mock import patch
 
 import api
@@ -28,6 +27,6 @@ def test_expired_token(mock_now, admin_token):
     Mock time so jwt should be expired.
     """
     mock_now.return_value = (
-        datetime.datetime.now(timezone.utc) + settings.config.token_expiration_delta
+        datetime.datetime.now(datetime.UTC) + settings.config.token_expiration_delta
     )
     api.users_list(admin_token, expected_statuses=[501])

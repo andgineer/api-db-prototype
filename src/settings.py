@@ -4,7 +4,6 @@ import os
 import tempfile
 import urllib.parse
 from abc import abstractmethod
-from datetime import timezone
 from typing import Any
 from unittest.mock import MagicMock
 
@@ -103,7 +102,7 @@ class ConfigBase:
 
         And for ease of mocking in expiration tests.
         """
-        return datetime.datetime.now(timezone.utc)
+        return datetime.datetime.now(datetime.UTC)
 
     def from_date_str(self, date_str: str) -> datetime.datetime:
         """Convert date string into datetime."""
@@ -117,7 +116,7 @@ class ConfigBase:
     @staticmethod
     def rfc3339_to_date(date_str: str) -> datetime.datetime:
         """'yyyy-mm-dd' (UTC) to datetime."""
-        return datetime.datetime.strptime(date_str, "%Y-%m-%d").replace(tzinfo=timezone.utc)
+        return datetime.datetime.strptime(date_str, "%Y-%m-%d").replace(tzinfo=datetime.UTC)
 
 
 class ConfigTest(ConfigBase):

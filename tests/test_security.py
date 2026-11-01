@@ -1,5 +1,4 @@
 import datetime
-from datetime import timezone
 from string import ascii_letters, digits
 
 from hypothesis import HealthCheck, given, settings
@@ -30,5 +29,5 @@ def test_password_hash(password):
 
 
 def test_jwt_time():
-    t = datetime.datetime.now(timezone.utc).replace(microsecond=0)
+    t = datetime.datetime.now(datetime.UTC).replace(microsecond=0)
     assert token.jwt2datetime(token.datetime2jwt(t)) == t

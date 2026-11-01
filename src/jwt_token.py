@@ -4,7 +4,6 @@ Checked with https://jwt.io/#debugger-io
 """
 
 import datetime
-from datetime import timezone
 from typing import Any
 
 import jwt
@@ -79,7 +78,7 @@ class JwtCrypto:
     @staticmethod
     def jwt2datetime(jwt_time: str) -> datetime.datetime:
         """Convert POSIX time into utc datetime."""
-        return datetime.datetime.fromtimestamp(int(jwt_time), tz=timezone.utc)
+        return datetime.datetime.fromtimestamp(int(jwt_time), tz=datetime.UTC)
 
 
 token = JwtCrypto()

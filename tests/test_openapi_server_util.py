@@ -36,7 +36,7 @@ def test_deserialize():
     # Test for date and datetime
     assert _deserialize("2023-07-20", datetime.date) == datetime.date(2023, 7, 20)
     assert _deserialize("2023-07-20T13:45:00+00:00", datetime.datetime) == datetime.datetime(
-        2023, 7, 20, 13, 45, tzinfo=datetime.timezone.utc
+        2023, 7, 20, 13, 45, tzinfo=datetime.UTC
     )
 
     # Test for list

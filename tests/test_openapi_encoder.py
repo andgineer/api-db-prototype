@@ -18,7 +18,7 @@ def test_JSONEncoder(config):
     encoder = JSONEncoder(config.app)
 
     # Test with non-Model instance
-    non_model_obj = datetime.datetime.now(datetime.timezone.utc)
+    non_model_obj = datetime.datetime.now(datetime.UTC)
     assert isinstance(
         encoder.default(non_model_obj), str
     )  # datetime is converted to a string by FlaskJSONEncoder

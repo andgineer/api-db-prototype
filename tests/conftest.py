@@ -2,7 +2,7 @@ import os
 
 os.environ["SERVER_ENV"] = "testing"  # set testing env before importing app
 import json
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from unittest.mock import patch
 
 import pytest
@@ -222,7 +222,7 @@ def admin_token(api_client):
 @patch("settings.config.now")
 def admin_token_for_life(mock_now, api_client):
     """JWT for admin valid for long time."""
-    mock_now.return_value = datetime.now(timezone.utc) + timedelta(days=7)
+    mock_now.return_value = datetime.now(UTC) + timedelta(days=7)
     return api.get_token(email="admin@", password="admin")
 
 

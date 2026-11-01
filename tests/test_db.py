@@ -1,5 +1,4 @@
 import datetime
-from datetime import timezone
 
 import pytest
 
@@ -12,7 +11,7 @@ def db_date():
     """
     Date in DB ORM format
     """
-    return datetime.datetime.now(timezone.utc)
+    return datetime.datetime.now(datetime.UTC)
 
 
 @pytest.fixture(scope="session")
@@ -40,7 +39,7 @@ def test_wrong_config(wrong_session):
 
 
 def test_rfc3339():
-    time = datetime.datetime.now(timezone.utc)
+    time = datetime.datetime.now(datetime.UTC)
     date = time.replace(hour=0, minute=0, second=0, microsecond=0)
     assert settings.config.rfc3339_to_date(settings.config.date_to_rfc3339(time)) == date
 
