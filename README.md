@@ -22,7 +22,7 @@
 | src/db/models.py                                     |       70 |        7 |     90% |32, 81, 118, 143, 150-151, 168 |
 | src/flask\_server/\_\_init\_\_.py                    |        0 |        0 |    100% |           |
 | src/journaling.py                                    |       52 |        4 |     92% |37, 98-100 |
-| src/jwt\_token.py                                    |       49 |        0 |    100% |           |
+| src/jwt\_token.py                                    |       48 |        0 |    100% |           |
 | src/openapi\_server/api\_app.py                      |        3 |        0 |    100% |           |
 | src/openapi\_server/apikey\_fake.py                  |        2 |        0 |    100% |           |
 | src/openapi\_server/controllers/users\_controller.py |       39 |        0 |    100% |           |
@@ -42,9 +42,9 @@
 | src/openapi\_server/util.py                          |       59 |       10 |     83% |21, 47, 49, 58, 70, 75-76, 90, 95-96 |
 | src/password\_hash.py                                |        5 |        0 |    100% |           |
 | src/pretty\_ns.py                                    |       35 |        7 |     80% |48, 53, 83-86, 90-92 |
-| src/settings.py                                      |      123 |       17 |     86% |93, 98, 110, 178-181, 186, 194-200, 205, 214 |
+| src/settings.py                                      |      122 |       17 |     86% |92, 97, 109, 177-180, 185, 193-199, 204, 213 |
 | src/version.py                                       |        7 |        1 |     86% |        16 |
-| **TOTAL**                                            | **1264** |  **203** | **84%** |           |
+| **TOTAL**                                            | **1262** |  **203** | **84%** |           |
 
 
 ## Setup coverage badge
